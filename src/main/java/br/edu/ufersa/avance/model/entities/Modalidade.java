@@ -1,10 +1,13 @@
 package br.edu.ufersa.avance.model.entities;
 
+import br.edu.ufersa.avance.enums.TipoModalidade;
+
 public class Modalidade {
     //Atributos
     private long id;
     private Professor professor;
     private String nome;
+    private TipoModalidade tipo;
     private double valor;
     private int vagas;
     private int idadeMin;
@@ -13,6 +16,7 @@ public class Modalidade {
     public long getId() {return id;}
     public Professor getProfessor() { return professor; }
     public String getNome() { return nome; }
+    public TipoModalidade getTipo() { return tipo; }
     public double getValor() { return valor; }
     public int getVagas() { return vagas; }
     public int getIdadeMin() { return idadeMin; }
@@ -25,6 +29,10 @@ public class Modalidade {
     public void setNome(String nome) {
         if (nome != null && !nome.isEmpty()) this.nome = nome;
         else throw new IllegalArgumentException("O nome não pode estar vazio!");
+    }
+    public void setTipo(TipoModalidade tipo) {
+        if (tipo != null) this.tipo = tipo;
+        else throw new IllegalArgumentException("O tipo não pode estar vazio!");
     }
     public void setValor(double valor) {
         if (valor >= 0.0) this.valor = valor;
@@ -41,9 +49,10 @@ public class Modalidade {
 
     //Construtores
     public Modalidade(){}
-    public Modalidade(Professor professor, String nome, double valor, int vagas, int idadeMin){
+    public Modalidade(Professor professor, String nome, TipoModalidade tipo, double valor, int vagas, int idadeMin){
         setProfessor(professor);
         setNome(nome);
+        setTipo(tipo);
         setValor(valor);
         setVagas(vagas);
         setIdadeMin(idadeMin);

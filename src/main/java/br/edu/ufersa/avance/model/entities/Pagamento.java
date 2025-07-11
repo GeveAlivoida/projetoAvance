@@ -1,4 +1,58 @@
 package br.edu.ufersa.avance.model.entities;
 
+import br.edu.ufersa.avance.enums.StatusPagamento;
+
+import java.time.LocalDate;
+import java.time.Year;
+import java.time.YearMonth;
+
 public class Pagamento {
+    //Atributos
+    private long id;
+    private Pessoa pagador;
+    private LocalDate dataPagamento;
+    private LocalDate dataVencimento;
+    private YearMonth mesRef;
+    private StatusPagamento status;
+
+    //Getters
+    public long getId() { return id; }
+    public Pessoa getPagador() { return pagador; }
+    public LocalDate getDataPagamento() { return dataPagamento; }
+    public LocalDate getDataVencimento() { return dataVencimento; }
+    public YearMonth getMesRef() { return mesRef; }
+    public StatusPagamento getStatus() { return status; }
+
+    //Setters
+    public void setPagador(Pessoa pagador) {
+        if (pagador != null) this.pagador = pagador;
+        else throw new IllegalArgumentException("A pessoa a pagar não pode ser vazia!");
+    }
+    public void setDataPagamento(LocalDate dataPagamento) {
+        if (dataPagamento != null) this.dataPagamento = dataPagamento;
+        else throw new IllegalArgumentException("A data de pagamento não pode estar vazia!");
+    }
+    public void setDataVencimento(LocalDate dataVencimento) {
+        if (dataVencimento != null) this.dataVencimento = dataVencimento;
+        else throw new IllegalArgumentException("A data de vencimento não pode estar vazia!");
+    }
+    public void setMesRef(YearMonth mesRef) {
+        if(mesRef != null) this.mesRef = mesRef;
+        else throw new IllegalArgumentException("O mês de referência não pode estar vazio!");
+    }
+    public void setStatus(StatusPagamento status) {
+        if (status != null) this.status = status;
+        else throw new IllegalArgumentException("O status do pagamento não pode estar vazio!");
+    }
+
+    //Construtores
+    public Pagamento(){}
+    public Pagamento(Pessoa pagador, LocalDate dataPagamento, LocalDate dataVencimento, YearMonth mesRef,
+                     StatusPagamento status){
+        setPagador(pagador);
+        setDataPagamento(dataPagamento);
+        setDataVencimento(dataVencimento);
+        setMesRef(mesRef);
+        setStatus(status);
+    }
 }

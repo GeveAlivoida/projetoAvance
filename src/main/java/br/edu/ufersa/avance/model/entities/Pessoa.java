@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 public abstract class Pessoa {
     //Atributos
+    private long id;
     private String cpf;
     private String nome;
     private String email;
@@ -11,6 +12,7 @@ public abstract class Pessoa {
     private LocalDate nascimento;
 
     //Getters
+    public long getId() { return id; }
     public String getCpf() { return cpf; }
     public String getNome() { return nome; }
     public String getEmail() { return email; }

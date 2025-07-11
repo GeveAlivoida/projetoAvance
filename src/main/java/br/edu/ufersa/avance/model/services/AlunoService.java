@@ -1,4 +1,10 @@
 package br.edu.ufersa.avance.model.services;
 
-public interface AlunoService {
+import br.edu.ufersa.avance.model.entities.Aluno;
+import br.edu.ufersa.avance.model.entities.Responsavel;
+
+import java.util.List;
+
+public interface AlunoService extends PessoaService<Aluno> {
+    public List<Aluno> buscarPorResponsavel(Responsavel responsavel);
 }

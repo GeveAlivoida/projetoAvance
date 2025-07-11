@@ -1,4 +1,13 @@
 package br.edu.ufersa.avance.model.services;
 
-public interface ModalidadeService {
+import br.edu.ufersa.avance.enums.TipoModalidade;
+import br.edu.ufersa.avance.model.entities.Modalidade;
+import br.edu.ufersa.avance.model.entities.Professor;
+
+import java.util.List;
+
+public interface ModalidadeService extends GeralService<Modalidade> {
+    public Modalidade buscarPorProfessor(Professor professor);
+    public List<Modalidade> buscarPorTipo(TipoModalidade tipo);
+    public List<Modalidade> buscarAbertas();
 }

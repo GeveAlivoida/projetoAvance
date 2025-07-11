@@ -13,4 +13,6 @@ module br.edu.ufersa.avance.projetoavance {
 
     opens br.edu.ufersa.avance to javafx.fxml;
     exports br.edu.ufersa.avance;
+    exports br.edu.ufersa.avance.controller;
+    opens br.edu.ufersa.avance.controller to javafx.fxml;
 }

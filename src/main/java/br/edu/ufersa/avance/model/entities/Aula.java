@@ -1,5 +1,8 @@
 package br.edu.ufersa.avance.model.entities;
 
+import br.edu.ufersa.avance.enums.StatusAula;
+import br.edu.ufersa.avance.enums.TipoModalidade;
+
 import java.time.LocalDate;
 
 public class Aula {
@@ -8,14 +11,14 @@ public class Aula {
     private Modalidade modalidade;
     private LocalDate data;
     private String local;
-    private boolean status;
+    private StatusAula status;
 
     //Getters
     public long getId() { return id; }
     public Modalidade getModalidade() { return modalidade; }
     public LocalDate getData() { return data; }
     public String getLocal() { return local; }
-    public boolean getStatus() { return status; }
+    public StatusAula getTipo() { return status; }
 
     //Setters
     public void setModalidade(Modalidade modalidade) {
@@ -30,11 +33,13 @@ public class Aula {
         if (local != null) this.local = local;
         else throw new IllegalArgumentException("O local da aula não pode estar vazio!");
     }
-    public void setStatus(boolean status) { this.status = status; }
+    public void setStatus(StatusAula status) {
+        if (status != null) this.status = status;
+        else throw new IllegalArgumentException("O tipo da aula não pode estar vazio!");}
 
     //Construtores
     public Aula(){}
-    public Aula(Modalidade modalidade, LocalDate data, String local, boolean status){
+    public Aula(Modalidade modalidade, LocalDate data, String local, StatusAula status){
         setModalidade(modalidade);
         setData(data);
         setLocal(local);
