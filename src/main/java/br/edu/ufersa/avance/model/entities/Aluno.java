@@ -1,7 +1,11 @@
 package br.edu.ufersa.avance.model.entities;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
+@Entity
+@Table(name="Aluno")
 public class Aluno extends Pessoa {
     //Atributos
     private Responsavel responsavel;

@@ -1,7 +1,6 @@
 package br.edu.ufersa.avance.model.entities;
 
-import br.edu.ufersa.avance.enums.StatusAula;
-import br.edu.ufersa.avance.enums.TipoModalidade;
+import br.edu.ufersa.avance.model.enums.StatusAula;
 
 import java.time.LocalDate;
 

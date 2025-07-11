@@ -1,4 +1,4 @@
-package br.edu.ufersa.avance.enums;
+package br.edu.ufersa.avance.model.enums;
 
 public enum StatusPagamento {
     PENDENTE,

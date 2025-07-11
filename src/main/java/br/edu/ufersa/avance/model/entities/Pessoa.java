@@ -1,15 +1,18 @@
 package br.edu.ufersa.avance.model.entities;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
 public abstract class Pessoa {
     //Atributos
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String cpf;
-    private String nome;
-    private String email;
-    private String telefone;
-    private LocalDate nascimento;
+    @Column(nullable = false, length = 15) private String cpf;
+    @Column(nullable = false, length = 50) private String nome;
+    @Column(nullable = false) private String email;
+    @Column(nullable = false, length = 20) private String telefone;
+    @Column(nullable = false, length = 15) private LocalDate nascimento;
 
     //Getters
     public long getId() { return id; }

@@ -1,6 +1,6 @@
 package br.edu.ufersa.avance.model.entities;
 
-import br.edu.ufersa.avance.enums.StatusProfessor;
+import br.edu.ufersa.avance.model.enums.StatusProfessor;
 
 import java.time.LocalDate;
 

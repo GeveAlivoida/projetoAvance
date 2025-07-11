@@ -1,9 +1,8 @@
 package br.edu.ufersa.avance.model.entities;
 
-import br.edu.ufersa.avance.enums.StatusPagamento;
+import br.edu.ufersa.avance.model.enums.StatusPagamento;
 
 import java.time.LocalDate;
-import java.time.Year;
 import java.time.YearMonth;
 
 public class Pagamento {

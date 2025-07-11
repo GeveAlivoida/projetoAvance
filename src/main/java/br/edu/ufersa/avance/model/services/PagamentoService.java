@@ -1,6 +1,6 @@
 package br.edu.ufersa.avance.model.services;
 
-import br.edu.ufersa.avance.enums.StatusPagamento;
+import br.edu.ufersa.avance.model.enums.StatusPagamento;
 import br.edu.ufersa.avance.model.entities.Pagamento;
 
 import java.time.LocalDate;

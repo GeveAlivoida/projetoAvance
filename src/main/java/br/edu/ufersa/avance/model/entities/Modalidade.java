@@ -1,6 +1,6 @@
 package br.edu.ufersa.avance.model.entities;
 
-import br.edu.ufersa.avance.enums.TipoModalidade;
+import br.edu.ufersa.avance.model.enums.TipoModalidade;
 
 public class Modalidade {
     //Atributos

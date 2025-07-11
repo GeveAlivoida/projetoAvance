@@ -1,6 +1,6 @@
 package br.edu.ufersa.avance.model.services;
 
-import br.edu.ufersa.avance.enums.TipoModalidade;
+import br.edu.ufersa.avance.model.enums.TipoModalidade;
 import br.edu.ufersa.avance.model.entities.Modalidade;
 import br.edu.ufersa.avance.model.entities.Professor;
 
