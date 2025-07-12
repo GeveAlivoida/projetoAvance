@@ -2,10 +2,10 @@ package br.edu.ufersa.avance.model.dao;
 
 import java.util.List;
 
-public interface GeralDAO<Entity> {
-    public List<Entity> buscarTodos();
-    public Entity buscarPorId(Entity entity);
-    public void criar(Entity entity);
-    public void atualizar(Entity entity);
-    public void deletar(Entity entity);
+public interface GeralDAO<T> {
+    public List<T> buscarTodos();
+    public T buscarPorId(Long id);
+    public void salvar(T entity);
+    public void atualizar(T entity);
+    public void deletar(T entity);
 }

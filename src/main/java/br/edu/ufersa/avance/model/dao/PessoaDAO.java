@@ -2,8 +2,11 @@ package br.edu.ufersa.avance.model.dao;
 
 import br.edu.ufersa.avance.model.entities.Pessoa;
 
-public interface PessoaDAO<Entity extends Pessoa> extends GeralDAO<Entity> {
-    Entity buscarPorCpf(Entity entity);
-    Entity buscarPorEmail(Entity entity);
-    Entity buscarPorTelefone(Entity entity);
+import java.util.List;
+
+public interface PessoaDAO extends GeralDAO<Pessoa> {
+    List<Pessoa> buscarPorNome(String nome);
+    Pessoa buscarPorCpf(String cpf);
+    Pessoa buscarPorEmail(String email);
+    Pessoa buscarPorTelefone(String telefone);
 }

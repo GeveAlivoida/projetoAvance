@@ -1,13 +1,22 @@
 package br.edu.ufersa.avance.model.entities;
 
 import br.edu.ufersa.avance.model.enums.StatusProfessor;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "Professores")
 public class Professor extends Pessoa{
     //Atributos
+    @Column(nullable = false)
     private double salario;
+
+    @Column(nullable = false, length = 20)
     private String especializacao;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 8)
     private StatusProfessor status;
 
     //Getters

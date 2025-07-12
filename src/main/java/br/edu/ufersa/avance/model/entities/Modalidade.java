@@ -1,15 +1,32 @@
 package br.edu.ufersa.avance.model.entities;
 
 import br.edu.ufersa.avance.model.enums.TipoModalidade;
+import jakarta.persistence.*;
 
 public class Modalidade {
     //Atributos
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false, name = "id_professor")
     private Professor professor;
+
+    @Column(nullable = false, length = 100)
     private String nome;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 11)
     private TipoModalidade tipo;
+
+    @Column(nullable = false)
     private double valor;
+
+    @Column(nullable = false)
     private int vagas;
+
+    @Column(nullable = false, name = "idade_minima")
     private int idadeMin;
 
     //Getters

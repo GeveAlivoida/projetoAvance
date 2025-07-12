@@ -4,15 +4,29 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "Pessoas")
 public abstract class Pessoa {
     //Atributos
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(nullable = false, length = 15) private String cpf;
-    @Column(nullable = false, length = 50) private String nome;
-    @Column(nullable = false) private String email;
-    @Column(nullable = false, length = 20) private String telefone;
-    @Column(nullable = false, length = 15) private LocalDate nascimento;
+
+    @Column(nullable = false, unique = true, length = 15)
+    private String cpf;
+
+    @Column(nullable = false, length = 100)
+    private String nome;
+
+    @Column(nullable = false, unique = true, length = 100)
+    private String email;
+
+    @Column(nullable = false, length = 20)
+    private String telefone;
+
+    @Column(nullable = false, name = "data_nascimento")
+    private LocalDate nascimento;
 
     //Getters
     public long getId() { return id; }

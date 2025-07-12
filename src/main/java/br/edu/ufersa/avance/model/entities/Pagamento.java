@@ -1,17 +1,32 @@
 package br.edu.ufersa.avance.model.entities;
 
 import br.edu.ufersa.avance.model.enums.StatusPagamento;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
 
 public class Pagamento {
     //Atributos
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @ManyToOne
+    @JoinColumn(nullable = false, name = "id_pagador")
     private Pessoa pagador;
+
+    @Column(nullable = false, name = "data_pagamento")
     private LocalDate dataPagamento;
+
+    @Column(nullable = false, name = "data_vencimento")
     private LocalDate dataVencimento;
+
+    @Column(nullable = false, name = "mes_referencia")
     private YearMonth mesRef;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 10)
     private StatusPagamento status;
 
     //Getters
