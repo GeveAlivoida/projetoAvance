@@ -1,0 +1,61 @@
+package br.edu.ufersa.avance.model.services;
+
+import br.edu.ufersa.avance.model.dao.ModalidadeDAO;
+import br.edu.ufersa.avance.model.dao.ModalidadeDAOImpl;
+import br.edu.ufersa.avance.model.entities.Modalidade;
+import br.edu.ufersa.avance.model.entities.Professor;
+import br.edu.ufersa.avance.model.enums.TipoModalidade;
+
+import java.util.List;
+
+public class ModalidadeServiceImpl implements ModalidadeService {
+    private final ModalidadeDAO modalidadeDAO = new ModalidadeDAOImpl();
+
+    @Override
+    public void cadastrar(Modalidade modalidade) {
+        Modalidade modalidadeEncontrada = modalidadeDAO.buscarPorId(modalidade.getId());
+        if(modalidadeEncontrada != null)
+            throw new IllegalArgumentException("Modalidade já cadastrada!");
+        else modalidadeDAO.cadastrar(modalidade);
+    }
+
+    @Override
+    public void atualizar(Modalidade modalidade) {
+        Modalidade modalidadeEncontrada = modalidadeDAO.buscarPorId(modalidade.getId());
+        if(modalidadeEncontrada == null)
+            throw new IllegalArgumentException("Modalidade inexistente!");
+        else modalidadeDAO.cadastrar(modalidade);
+    }
+
+    @Override
+    public void excluir(Modalidade modalidade) {
+        Modalidade modalidadeEncontrada = modalidadeDAO.buscarPorId(modalidade.getId());
+        if(modalidadeEncontrada == null)
+            throw new IllegalArgumentException("Modalidade inexistente!");
+        else modalidadeDAO.excluir(modalidade);
+    }
+
+    @Override
+    public List<Modalidade> buscarTodos() { return modalidadeDAO.buscarTodos(); }
+
+    @Override
+    public Modalidade buscarPorId(Long id) {
+        if(id != null) return modalidadeDAO.buscarPorId(id);
+        else return null;
+    }
+
+    @Override
+    public Modalidade buscarPorProfessor(Professor professor) {
+        if(professor != null) return modalidadeDAO.buscarPorProfessor(professor);
+        else return null;
+    }
+
+    @Override
+    public List<Modalidade> buscarPorTipo(TipoModalidade tipo) {
+        if(tipo != null) return modalidadeDAO.buscarPorTipo(tipo);
+        else return null;
+    }
+
+    @Override
+    public List<Modalidade> buscarAbertas() { return modalidadeDAO.buscarAbertas(); }
+}

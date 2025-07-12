@@ -1,6 +1,5 @@
 package br.edu.ufersa.avance.model.dao;
 
-import br.edu.ufersa.avance.model.entities.Aluno;
 import br.edu.ufersa.avance.model.entities.Professor;
 import br.edu.ufersa.avance.model.enums.StatusProfessor;
 import jakarta.persistence.EntityManager;

@@ -2,8 +2,11 @@ package br.edu.ufersa.avance.model.services;
 
 import br.edu.ufersa.avance.model.entities.Pessoa;
 
-public interface PessoaService<Entity extends Pessoa> extends GeralService<Entity> {
-    Entity buscarPorCpf(Entity entity);
-    Entity buscarPorEmail(Entity entity);
-    Entity buscarPorTelefone(Entity entity);
+import java.util.List;
+
+public interface PessoaService extends GeralService<Pessoa> {
+    List<Pessoa> buscarPorNome(String nome);
+    Pessoa buscarPorCpf(String cpf);
+    Pessoa buscarPorEmail(String email);
+    Pessoa buscarPorTelefone(String telefone);
 }

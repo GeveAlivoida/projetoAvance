@@ -3,13 +3,56 @@ package br.edu.ufersa.avance.model.dao;
 import br.edu.ufersa.avance.model.entities.Pagamento;
 import br.edu.ufersa.avance.model.entities.Pessoa;
 import br.edu.ufersa.avance.model.enums.StatusPagamento;
+import br.edu.ufersa.avance.util.JPAUtil;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
 
-public class PagamentoDAOImpl extends GeralDAOImpl<Pagamento> implements PagamentoDAO{
+public class PagamentoDAOImpl implements PagamentoDAO{
+    protected final EntityManagerFactory emf = JPAUtil.getEntityManagerFactory();
+
+    @Override
+    public void cadastrar(Pagamento pagamento) {
+        try(EntityManager em = emf.createEntityManager()){
+            em.getTransaction().begin();
+            em.persist(pagamento);
+            em.getTransaction().commit();
+        }catch(Throwable e){
+            System.err.println("Falha ao criar EntityManager " + e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void atualizar(Pagamento pagamento) {
+        try(EntityManager em = emf.createEntityManager()){
+            EntityTransaction ts = em.getTransaction();
+            ts.begin();
+            em.merge(pagamento);
+            ts.commit();
+        }catch(Throwable e){
+            System.err.println("Falha ao criar EntityManager " + e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void excluir(Pagamento pagamento) {
+        try(EntityManager em = emf.createEntityManager()){
+            EntityTransaction ts = em.getTransaction();
+            ts.begin();
+            em.remove(em.contains(pagamento) ? pagamento : em.merge(pagamento));
+            ts.commit();
+        }catch(Throwable e){
+            System.err.println("Falha ao criar EntityManager " + e);
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public Pagamento buscarPorId(Long id) {
         try (EntityManager em = emf.createEntityManager()) {

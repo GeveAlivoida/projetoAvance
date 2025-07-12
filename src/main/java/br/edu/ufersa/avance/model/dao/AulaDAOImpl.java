@@ -3,12 +3,56 @@ package br.edu.ufersa.avance.model.dao;
 import br.edu.ufersa.avance.model.entities.Aluno;
 import br.edu.ufersa.avance.model.entities.Aula;
 import br.edu.ufersa.avance.model.entities.Modalidade;
+import br.edu.ufersa.avance.model.entities.Pessoa;
+import br.edu.ufersa.avance.util.JPAUtil;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public class AulaDAOImpl extends GeralDAOImpl<Aula> implements AulaDAO{
+public class AulaDAOImpl implements AulaDAO{
+    protected final EntityManagerFactory emf = JPAUtil.getEntityManagerFactory();
+
+    @Override
+    public void cadastrar(Aula aula) {
+        try(EntityManager em = emf.createEntityManager()){
+            em.getTransaction().begin();
+            em.persist(aula);
+            em.getTransaction().commit();
+        }catch(Throwable e){
+            System.err.println("Falha ao criar EntityManager " + e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void atualizar(Aula aula) {
+        try(EntityManager em = emf.createEntityManager()){
+            EntityTransaction ts = em.getTransaction();
+            ts.begin();
+            em.merge(aula);
+            ts.commit();
+        }catch(Throwable e){
+            System.err.println("Falha ao criar EntityManager " + e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void excluir(Aula aula) {
+        try(EntityManager em = emf.createEntityManager()){
+            EntityTransaction ts = em.getTransaction();
+            ts.begin();
+            em.remove(em.contains(aula) ? aula : em.merge(aula));
+            ts.commit();
+        }catch(Throwable e){
+            System.err.println("Falha ao criar EntityManager " + e);
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public Aula buscarPorId(Long id) {
         try (EntityManager em = emf.createEntityManager()) {

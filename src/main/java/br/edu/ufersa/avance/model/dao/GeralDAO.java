@@ -5,7 +5,7 @@ import java.util.List;
 public interface GeralDAO<T> {
     public List<T> buscarTodos();
     public T buscarPorId(Long id);
-    public void salvar(T entity);
+    public void cadastrar(T entity);
     public void atualizar(T entity);
-    public void deletar(T entity);
+    public void excluir(T entity);
 }

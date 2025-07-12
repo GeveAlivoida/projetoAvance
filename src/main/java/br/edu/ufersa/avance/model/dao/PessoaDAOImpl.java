@@ -1,11 +1,52 @@
 package br.edu.ufersa.avance.model.dao;
 
 import br.edu.ufersa.avance.model.entities.Pessoa;
+import br.edu.ufersa.avance.util.JPAUtil;
 import jakarta.persistence.*;
 
 import java.util.List;
 
-public abstract class PessoaDAOImpl extends GeralDAOImpl<Pessoa> implements PessoaDAO{
+public class PessoaDAOImpl implements PessoaDAO{
+    protected final EntityManagerFactory emf = JPAUtil.getEntityManagerFactory();
+
+    @Override
+    public void cadastrar(Pessoa pessoa) {
+        try(EntityManager em = emf.createEntityManager()){
+            em.getTransaction().begin();
+            em.persist(pessoa);
+            em.getTransaction().commit();
+        }catch(Throwable e){
+            System.err.println("Falha ao criar EntityManager " + e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void atualizar(Pessoa pessoa) {
+        try(EntityManager em = emf.createEntityManager()){
+            EntityTransaction ts = em.getTransaction();
+            ts.begin();
+            em.merge(pessoa);
+            ts.commit();
+        }catch(Throwable e){
+            System.err.println("Falha ao criar EntityManager " + e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void excluir(Pessoa pessoa) {
+        try(EntityManager em = emf.createEntityManager()){
+            EntityTransaction ts = em.getTransaction();
+            ts.begin();
+            em.remove(em.contains(pessoa) ? pessoa : em.merge(pessoa));
+            ts.commit();
+        }catch(Throwable e){
+            System.err.println("Falha ao criar EntityManager " + e);
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public Pessoa buscarPorId(Long id) {
         try (EntityManager em = emf.createEntityManager()) {
