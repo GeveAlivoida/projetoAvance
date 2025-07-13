@@ -1,10 +1,12 @@
 package br.edu.ufersa.avance.model.services;
 
-import br.edu.ufersa.avance.model.dao.AulaDAO;
-import br.edu.ufersa.avance.model.dao.AulaDAOImpl;
+import br.edu.ufersa.avance.model.dao.*;
 import br.edu.ufersa.avance.model.entities.Aluno;
 import br.edu.ufersa.avance.model.entities.Aula;
 import br.edu.ufersa.avance.model.entities.Modalidade;
+import br.edu.ufersa.avance.model.entities.Professor;
+import br.edu.ufersa.avance.model.enums.StatusAula;
+import br.edu.ufersa.avance.model.enums.StatusProfessor;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -59,8 +61,37 @@ public class AulaServiceImpl implements AulaService{
 
     @Override
     public List<Aula> buscarPorPeriodo(LocalDate dataInicio, LocalDate dataFim) {
-        if(dataInicio != null && dataFim != null && !dataInicio.isAfter(dataFim))
-            return aulaDAO.buscarPorPeriodo(dataInicio, dataFim);
+        if(dataInicio != null && dataFim != null) {
+            if(!dataInicio.isAfter(dataFim)) return aulaDAO.buscarPorPeriodo(dataInicio, dataFim);
+            else throw new IllegalArgumentException("A data de início deve ser antes da data de fim!");
+        }
         else return null;
+    }
+
+    @Override
+    public void agendarAula(Aula aula) {
+        aula.setStatus(StatusAula.AGENDADA);
+        cadastrar(aula);
+    }
+
+    @Override
+    public void cancelarAula(Aula aula) {
+        aula.setStatus(StatusAula.CANCELADA);
+        atualizar(aula);
+    }
+
+    @Override
+    public void concluirAula(Aula aula) {
+        aula.setStatus(StatusAula.CONCLUIDA);
+        atualizar(aula);
+    }
+
+    @Override
+    public void adiarAula(Aula aula, LocalDate novaData) {
+        aula.setStatus(StatusAula.ADIADA);
+        atualizar(aula);
+
+        aula.setData(novaData);
+        agendarAula(aula);
     }
 }

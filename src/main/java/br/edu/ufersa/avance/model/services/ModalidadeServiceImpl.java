@@ -2,8 +2,12 @@ package br.edu.ufersa.avance.model.services;
 
 import br.edu.ufersa.avance.model.dao.ModalidadeDAO;
 import br.edu.ufersa.avance.model.dao.ModalidadeDAOImpl;
+import br.edu.ufersa.avance.model.dao.ProfessorDAO;
+import br.edu.ufersa.avance.model.dao.ProfessorDAOImpl;
+import br.edu.ufersa.avance.model.entities.Aluno;
 import br.edu.ufersa.avance.model.entities.Modalidade;
 import br.edu.ufersa.avance.model.entities.Professor;
+import br.edu.ufersa.avance.model.enums.StatusProfessor;
 import br.edu.ufersa.avance.model.enums.TipoModalidade;
 
 import java.util.List;
@@ -58,4 +62,13 @@ public class ModalidadeServiceImpl implements ModalidadeService {
 
     @Override
     public List<Modalidade> buscarAbertas() { return modalidadeDAO.buscarAbertas(); }
+
+    @Override
+    public void matricularAluno(Modalidade modalidade, Aluno aluno) {
+        if(modalidade.temVaga()){
+            modalidade.adicionarAluno(aluno);
+            modalidadeDAO.atualizar(modalidade);
+        }
+        else throw new IllegalStateException("Todas as vagas já estão cheias!");
+    }
 }

@@ -14,7 +14,7 @@ public class Pagamento {
 
     @ManyToOne
     @JoinColumn(nullable = false, name = "id_pagador")
-    private Pessoa pagador;
+    private Aluno pagador;
 
     @Column(nullable = false, name = "data_pagamento")
     private LocalDate dataPagamento;
@@ -31,14 +31,14 @@ public class Pagamento {
 
     //Getters
     public long getId() { return id; }
-    public Pessoa getPagador() { return pagador; }
+    public Aluno getPagador() { return pagador; }
     public LocalDate getDataPagamento() { return dataPagamento; }
     public LocalDate getDataVencimento() { return dataVencimento; }
     public YearMonth getMesRef() { return mesRef; }
     public StatusPagamento getStatus() { return status; }
 
     //Setters
-    public void setPagador(Pessoa pagador) {
+    public void setPagador(Aluno pagador) {
         if (pagador != null) this.pagador = pagador;
         else throw new IllegalArgumentException("A pessoa a pagar não pode ser vazia!");
     }
@@ -61,7 +61,7 @@ public class Pagamento {
 
     //Construtores
     public Pagamento(){}
-    public Pagamento(Pessoa pagador, LocalDate dataPagamento, LocalDate dataVencimento, YearMonth mesRef,
+    public Pagamento(Aluno pagador, LocalDate dataPagamento, LocalDate dataVencimento, YearMonth mesRef,
                      StatusPagamento status){
         setPagador(pagador);
         setDataPagamento(dataPagamento);

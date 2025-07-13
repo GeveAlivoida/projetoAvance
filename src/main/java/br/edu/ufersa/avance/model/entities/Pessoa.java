@@ -3,6 +3,8 @@ package br.edu.ufersa.avance.model.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.time.Period;
+import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -66,5 +68,11 @@ public abstract class Pessoa {
         setEmail(email);
         setTelefone(telefone);
         setNascimento(nascimento);
+    }
+
+    //Métodos
+    public int calcIdade(){
+        if(this.getNascimento() == null) throw new IllegalStateException("Data de nascimento não informada!");
+        else return Period.between(this.getNascimento(), LocalDate.now()).getYears();
     }
 }

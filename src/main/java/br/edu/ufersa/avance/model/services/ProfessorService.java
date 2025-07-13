@@ -5,6 +5,7 @@ import br.edu.ufersa.avance.model.entities.Professor;
 
 import java.util.List;
 
-public interface ProfessorService extends PessoaService {
+public interface ProfessorService extends PessoaService<Professor> {
     public List<Professor> buscarPorStatus(StatusProfessor status);
+    public void alterarStatus(Professor professor, StatusProfessor status);
 }

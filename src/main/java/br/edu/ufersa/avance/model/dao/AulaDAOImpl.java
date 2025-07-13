@@ -3,7 +3,6 @@ package br.edu.ufersa.avance.model.dao;
 import br.edu.ufersa.avance.model.entities.Aluno;
 import br.edu.ufersa.avance.model.entities.Aula;
 import br.edu.ufersa.avance.model.entities.Modalidade;
-import br.edu.ufersa.avance.model.entities.Pessoa;
 import br.edu.ufersa.avance.util.JPAUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;

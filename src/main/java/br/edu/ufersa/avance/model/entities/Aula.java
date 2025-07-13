@@ -33,9 +33,6 @@ public class Aula {
     @Column(nullable = false)
     private LocalDate data;
 
-    @Column(nullable = false, length = 100)
-    private String local;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
     private StatusAula status;
@@ -43,10 +40,9 @@ public class Aula {
     //Getters
     public long getId() { return id; }
     public Modalidade getModalidade() { return modalidade; }
-    public List<Aluno> getAluno() { return alunos; }
+    public List<Aluno> getAlunos() { return alunos; }
     public Professor getProfessor() { return professor; }
     public LocalDate getData() { return data; }
-    public String getLocal() { return local; }
     public StatusAula getTipo() { return status; }
 
     //Setters
@@ -54,7 +50,7 @@ public class Aula {
         if (modalidade != null) this.modalidade = modalidade;
         else throw new IllegalArgumentException("A modalidade não pode estar vazia!");
     }
-    public void setAluno(List<Aluno> alunos) {
+    public void setAlunos(List<Aluno> alunos) {
         if (alunos != null) this.alunos = alunos;
         else throw new IllegalArgumentException("O campo alunos não pode estar vazio!");
     }
@@ -66,36 +62,35 @@ public class Aula {
         if (data != null) this.data = data;
         else throw new IllegalArgumentException("A data da aula não pode estar vazia!");
     }
-    public void setLocal(String local) {
-        if (local != null) this.local = local;
-        else throw new IllegalArgumentException("O local da aula não pode estar vazio!");
-    }
     public void setStatus(StatusAula status) {
         if (status != null) this.status = status;
         else throw new IllegalArgumentException("O tipo da aula não pode estar vazio!");}
 
     //Construtores
     public Aula(){}
-    public Aula(Modalidade modalidade, List<Aluno> alunos, Professor professor, LocalDate data, String local,
-                StatusAula status){
+    public Aula(Modalidade modalidade, List<Aluno> alunos, Professor professor, LocalDate data, StatusAula status){
         setModalidade(modalidade);
-        setAluno(alunos);
+        setAlunos(alunos);
         setProfessor(professor);
         setData(data);
-        setLocal(local);
         setStatus(status);
     }
 
     //Métodos
     public void adicionarAluno(Aluno aluno){
-        if(aluno != null) alunos.add(aluno);
+        if(aluno != null) {
+            alunos.add(aluno);
+            aluno.getAulas().add(this);
+        }
         else throw new IllegalArgumentException("O aluno não pode estar vazio!");
     }
-
     public void removerAluno(Aluno aluno){
-        if(aluno != null)
-            if (alunos.contains(aluno)) alunos.remove(aluno);
-            else throw new IllegalArgumentException("Esse aluno não está presente na lista de alunnos desta aula!");
+        if(aluno != null) {
+            if (alunos.contains(aluno)) {
+                alunos.remove(aluno);
+                aluno.getAulas().remove(this);
+            } else throw new IllegalArgumentException("Esse aluno não está presente na lista de alunos desta aula!");
+        }
         else throw new IllegalArgumentException("O aluno não pode estar vazio!");
     }
 }

@@ -3,15 +3,25 @@ package br.edu.ufersa.avance.model.entities;
 import br.edu.ufersa.avance.model.enums.TipoModalidade;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 public class Modalidade {
     //Atributos
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(nullable = false, name = "id_professor")
     private Professor professor;
+
+    @ManyToMany
+    @JoinTable(
+            name = "modalidade_aluno",
+            joinColumns = @JoinColumn(name = "id_modalidade"),
+            inverseJoinColumns = @JoinColumn(name = "id_aluno")
+    )
+    private List<Aluno> alunos;
 
     @Column(nullable = false, length = 100)
     private String nome;
@@ -32,6 +42,7 @@ public class Modalidade {
     //Getters
     public long getId() {return id;}
     public Professor getProfessor() { return professor; }
+    public List<Aluno> getAlunos() { return alunos; }
     public String getNome() { return nome; }
     public TipoModalidade getTipo() { return tipo; }
     public double getValor() { return valor; }
@@ -43,6 +54,7 @@ public class Modalidade {
         if (professor != null) this.professor = professor;
         else throw new IllegalArgumentException("O campo professor não pode estar vazio!");
     }
+    public void setAlunos(List<Aluno> alunos) { this.alunos = alunos; }
     public void setNome(String nome) {
         if (nome != null && !nome.isEmpty()) this.nome = nome;
         else throw new IllegalArgumentException("O nome não pode estar vazio!");
@@ -66,12 +78,33 @@ public class Modalidade {
 
     //Construtores
     public Modalidade(){}
-    public Modalidade(Professor professor, String nome, TipoModalidade tipo, double valor, int vagas, int idadeMin){
+    public Modalidade(Professor professor, List<Aluno> alunos, String nome, TipoModalidade tipo, double valor, int vagas, int idadeMin){
         setProfessor(professor);
+        setAlunos(alunos);
         setNome(nome);
         setTipo(tipo);
         setValor(valor);
         setVagas(vagas);
         setIdadeMin(idadeMin);
+    }
+
+    //Métodos
+    public boolean temVaga(){ return alunos.size() < vagas; }
+
+    public void adicionarAluno(Aluno aluno){
+        if(aluno != null) {
+            alunos.add(aluno);
+            aluno.getModalidades().add(this);
+        }
+        else throw new IllegalArgumentException("O aluno não pode estar vazio!");
+    }
+    public void removerAluno(Aluno aluno){
+        if(aluno != null) {
+            if (alunos.contains(aluno)) {
+                alunos.remove(aluno);
+                aluno.getModalidades().remove(this);
+            } else throw new IllegalArgumentException("Esse aluno não está presente na lista de alunos desta modalidade!");
+        }
+        else throw new IllegalArgumentException("O aluno não pode estar vazio!");
     }
 }

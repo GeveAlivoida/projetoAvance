@@ -11,4 +11,8 @@ public interface AulaService extends GeralService<Aula> {
     public List<Aula> buscarPorAluno(Aluno aluno);
     public List<Aula> buscarPorModalidade(Modalidade modalidade);
     public List<Aula> buscarPorPeriodo(LocalDate dataInicio, LocalDate dataFim);
+    public void agendarAula(Aula aula);
+    public void cancelarAula(Aula aula);
+    public void concluirAula(Aula aula);
+    public void adiarAula(Aula aula, LocalDate novaData);
 }
