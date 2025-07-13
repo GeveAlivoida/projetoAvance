@@ -39,10 +39,7 @@ public class UsuarioServiceImpl implements UsuarioService{
     }
 
     @Override
-    public Usuario buscarPorId(Long id) {
-        if(id != null) return usuarioDAO.buscarPorId(id);
-        else return null;
-    }
+    public Usuario buscarPorId(long id) { return usuarioDAO.buscarPorId(id); }
 
     @Override
     public Usuario buscarPorEmail(String email) {

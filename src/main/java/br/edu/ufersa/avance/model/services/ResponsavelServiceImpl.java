@@ -36,10 +36,7 @@ public class ResponsavelServiceImpl implements ResponsavelService {
 
 
     @Override
-    public Responsavel buscarPorId(Long id) {
-        if(id != null) return responsavelDAO.buscarPorId(id);
-        else return null;
-    }
+    public Responsavel buscarPorId(long id) { return responsavelDAO.buscarPorId(id); }
 
     @Override
     public List<Responsavel> buscarTodos() { return responsavelDAO.buscarTodos(); }

@@ -11,6 +11,10 @@ module br.edu.ufersa.avance.projetoavance {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires jakarta.persistence;
+    requires org.hibernate.orm.core;
+    requires java.naming;
+
+    opens br.edu.ufersa.avance.model.entities to org.hibernate.orm.core;
 
     exports br.edu.ufersa.avance.controller;
     opens br.edu.ufersa.avance.controller to javafx.fxml;

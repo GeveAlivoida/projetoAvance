@@ -3,9 +3,7 @@ package br.edu.ufersa.avance.model.dao;
 import br.edu.ufersa.avance.model.entities.Professor;
 import br.edu.ufersa.avance.model.enums.StatusProfessor;
 import br.edu.ufersa.avance.util.JPAUtil;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.*;
 
 import java.util.List;
 
@@ -51,7 +49,7 @@ public class ProfessorDAOImpl implements ProfessorDAO{
     }
 
     @Override
-    public Professor buscarPorId(Long id) {
+    public Professor buscarPorId(long id) {
         try (EntityManager em = emf.createEntityManager()) {
             return em.find(Professor.class, id);
         }catch (Throwable e){

@@ -2,12 +2,9 @@ package br.edu.ufersa.avance.model.services;
 
 import br.edu.ufersa.avance.model.dao.ModalidadeDAO;
 import br.edu.ufersa.avance.model.dao.ModalidadeDAOImpl;
-import br.edu.ufersa.avance.model.dao.ProfessorDAO;
-import br.edu.ufersa.avance.model.dao.ProfessorDAOImpl;
 import br.edu.ufersa.avance.model.entities.Aluno;
 import br.edu.ufersa.avance.model.entities.Modalidade;
 import br.edu.ufersa.avance.model.entities.Professor;
-import br.edu.ufersa.avance.model.enums.StatusProfessor;
 import br.edu.ufersa.avance.model.enums.TipoModalidade;
 
 import java.util.List;
@@ -43,10 +40,7 @@ public class ModalidadeServiceImpl implements ModalidadeService {
     public List<Modalidade> buscarTodos() { return modalidadeDAO.buscarTodos(); }
 
     @Override
-    public Modalidade buscarPorId(Long id) {
-        if(id != null) return modalidadeDAO.buscarPorId(id);
-        else return null;
-    }
+    public Modalidade buscarPorId(long id) { return modalidadeDAO.buscarPorId(id); }
 
     @Override
     public Modalidade buscarPorProfessor(Professor professor) {

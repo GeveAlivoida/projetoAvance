@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
+@Entity
+@Table(name = "Modalidades")
 public class Modalidade {
     //Atributos
     @Id

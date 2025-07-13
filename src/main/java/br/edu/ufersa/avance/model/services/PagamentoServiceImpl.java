@@ -41,10 +41,7 @@ public class PagamentoServiceImpl implements PagamentoService{
     public List<Pagamento> buscarTodos() { return pagamentoDAO.buscarTodos(); }
 
     @Override
-    public Pagamento buscarPorId(Long id) {
-        if(id != null) return pagamentoDAO.buscarPorId(id);
-        else return null;
-    }
+    public Pagamento buscarPorId(long id) { return pagamentoDAO.buscarPorId(id); }
 
     @Override
     public List<Pagamento> buscarPorPagador(Pessoa pagador) {

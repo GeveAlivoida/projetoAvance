@@ -36,10 +36,7 @@ public class ProfessorServiceImpl implements ProfessorService {
 
 
     @Override
-    public Professor buscarPorId(Long id) {
-        if(id != null) return professorDAO.buscarPorId(id);
-        else return null;
-    }
+    public Professor buscarPorId(long id) { return professorDAO.buscarPorId(id); }
 
     @Override
     public List<Professor> buscarTodos() { return professorDAO.buscarTodos(); }

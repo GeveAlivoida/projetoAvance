@@ -37,10 +37,7 @@ public class AlunoServiceImpl implements AlunoService {
 
 
     @Override
-    public Aluno buscarPorId(Long id) {
-        if(id != null) return alunoDAO.buscarPorId(id);
-        else return null;
-    }
+    public Aluno buscarPorId(long id) { return alunoDAO.buscarPorId(id); }
 
     @Override
     public List<Aluno> buscarTodos() { return alunoDAO.buscarTodos(); }

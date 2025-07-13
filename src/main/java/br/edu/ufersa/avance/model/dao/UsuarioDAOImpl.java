@@ -2,9 +2,7 @@ package br.edu.ufersa.avance.model.dao;
 
 import br.edu.ufersa.avance.model.entities.Usuario;
 import br.edu.ufersa.avance.util.JPAUtil;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.*;
 
 import java.util.List;
 
@@ -60,7 +58,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
     }
 
     @Override
-    public Usuario buscarPorId(Long id) {
+    public Usuario buscarPorId(long id) {
         try (EntityManager em = emf.createEntityManager()){
             return em.find(Usuario.class, id);
         }catch (Throwable e){

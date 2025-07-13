@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.YearMonth;
 
+@Entity
+@Table(name = "Pagamentos")
 public class Pagamento {
     //Atributos
     @Id

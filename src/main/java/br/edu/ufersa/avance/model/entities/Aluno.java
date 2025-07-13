@@ -33,6 +33,7 @@ public class Aluno extends Pessoa {
     public void setResponsavel(Responsavel responsavel) { this.responsavel = responsavel; }
     public void setModalidades(List<Modalidade> modalidades) { this.modalidades = modalidades; }
     public void setAulas(List<Aula> aulas) { this.aulas = aulas; }
+    public void setPagamentos(List<Pagamento> pagamentos) { this.pagamentos = pagamentos; }
 
     //Construtores
     public Aluno(){}

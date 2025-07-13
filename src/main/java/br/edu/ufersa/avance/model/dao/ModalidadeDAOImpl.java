@@ -1,13 +1,10 @@
 package br.edu.ufersa.avance.model.dao;
 
-import br.edu.ufersa.avance.model.entities.Aula;
 import br.edu.ufersa.avance.model.entities.Modalidade;
 import br.edu.ufersa.avance.model.entities.Professor;
 import br.edu.ufersa.avance.model.enums.TipoModalidade;
 import br.edu.ufersa.avance.util.JPAUtil;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.*;
 
 import java.util.List;
 
@@ -53,7 +50,7 @@ public class ModalidadeDAOImpl implements ModalidadeDAO{
     }
 
     @Override
-    public Modalidade buscarPorId(Long id) {
+    public Modalidade buscarPorId(long id) {
         try (EntityManager em = emf.createEntityManager()) {
             return em.find(Modalidade.class, id);
         }catch (Throwable e){

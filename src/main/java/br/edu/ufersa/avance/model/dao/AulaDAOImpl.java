@@ -4,9 +4,7 @@ import br.edu.ufersa.avance.model.entities.Aluno;
 import br.edu.ufersa.avance.model.entities.Aula;
 import br.edu.ufersa.avance.model.entities.Modalidade;
 import br.edu.ufersa.avance.util.JPAUtil;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -53,7 +51,7 @@ public class AulaDAOImpl implements AulaDAO{
     }
 
     @Override
-    public Aula buscarPorId(Long id) {
+    public Aula buscarPorId(long id) {
         try (EntityManager em = emf.createEntityManager()) {
             return em.find(Aula.class, id);
         }catch (Throwable e){

@@ -4,6 +4,7 @@ import br.edu.ufersa.avance.model.enums.StatusAula;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Entity
@@ -33,6 +34,9 @@ public class Aula {
     @Column(nullable = false)
     private LocalDate data;
 
+    @Column(nullable = false)
+    private LocalTime horario;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
     private StatusAula status;
@@ -43,6 +47,7 @@ public class Aula {
     public List<Aluno> getAlunos() { return alunos; }
     public Professor getProfessor() { return professor; }
     public LocalDate getData() { return data; }
+    public LocalTime getHorario() { return horario; }
     public StatusAula getTipo() { return status; }
 
     //Setters
@@ -62,17 +67,23 @@ public class Aula {
         if (data != null) this.data = data;
         else throw new IllegalArgumentException("A data da aula não pode estar vazia!");
     }
+    public void setHorario(LocalTime horario) {
+        if(horario != null) this.horario = horario;
+        else throw new IllegalArgumentException("O horário não pode estar vazio!");
+    }
     public void setStatus(StatusAula status) {
         if (status != null) this.status = status;
         else throw new IllegalArgumentException("O tipo da aula não pode estar vazio!");}
 
     //Construtores
     public Aula(){}
-    public Aula(Modalidade modalidade, List<Aluno> alunos, Professor professor, LocalDate data, StatusAula status){
+    public Aula(Modalidade modalidade, List<Aluno> alunos, Professor professor, LocalDate data,
+                LocalTime horario, StatusAula status){
         setModalidade(modalidade);
         setAlunos(alunos);
         setProfessor(professor);
         setData(data);
+        setHorario(horario);
         setStatus(status);
     }
 

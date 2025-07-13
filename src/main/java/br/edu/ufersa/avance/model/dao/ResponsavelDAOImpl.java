@@ -3,9 +3,7 @@ package br.edu.ufersa.avance.model.dao;
 import br.edu.ufersa.avance.model.entities.Aluno;
 import br.edu.ufersa.avance.model.entities.Responsavel;
 import br.edu.ufersa.avance.util.JPAUtil;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.*;
 
 import java.util.List;
 
@@ -51,7 +49,7 @@ public class ResponsavelDAOImpl implements ResponsavelDAO{
     }
 
     @Override
-    public Responsavel buscarPorId(Long id) {
+    public Responsavel buscarPorId(long id) {
         try (EntityManager em = emf.createEntityManager()) {
             return em.find(Responsavel.class, id);
         }catch (Throwable e){

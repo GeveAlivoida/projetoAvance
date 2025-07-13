@@ -4,9 +4,7 @@ import br.edu.ufersa.avance.model.entities.Pagamento;
 import br.edu.ufersa.avance.model.entities.Pessoa;
 import br.edu.ufersa.avance.model.enums.StatusPagamento;
 import br.edu.ufersa.avance.util.JPAUtil;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -54,7 +52,7 @@ public class PagamentoDAOImpl implements PagamentoDAO{
     }
 
     @Override
-    public Pagamento buscarPorId(Long id) {
+    public Pagamento buscarPorId(long id) {
         try (EntityManager em = emf.createEntityManager()) {
             return em.find(Pagamento.class, id);
         }catch (Throwable e){

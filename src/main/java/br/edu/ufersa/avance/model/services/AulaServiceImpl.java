@@ -4,9 +4,7 @@ import br.edu.ufersa.avance.model.dao.*;
 import br.edu.ufersa.avance.model.entities.Aluno;
 import br.edu.ufersa.avance.model.entities.Aula;
 import br.edu.ufersa.avance.model.entities.Modalidade;
-import br.edu.ufersa.avance.model.entities.Professor;
 import br.edu.ufersa.avance.model.enums.StatusAula;
-import br.edu.ufersa.avance.model.enums.StatusProfessor;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -42,10 +40,7 @@ public class AulaServiceImpl implements AulaService{
     public List<Aula> buscarTodos() { return aulaDAO.buscarTodos(); }
 
     @Override
-    public Aula buscarPorId(Long id) {
-        if(id != null) return aulaDAO.buscarPorId(id);
-        else return null;
-    }
+    public Aula buscarPorId(long id) { return aulaDAO.buscarPorId(id); }
 
     @Override
     public List<Aula> buscarPorAluno(Aluno aluno) {
