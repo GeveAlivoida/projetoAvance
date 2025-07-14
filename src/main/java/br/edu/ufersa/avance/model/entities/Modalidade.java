@@ -38,9 +38,6 @@ public class Modalidade {
     @Column(nullable = false)
     private int vagas;
 
-    @Column(nullable = false, name = "idade_minima")
-    private int idadeMin;
-
     //Getters
     public long getId() {return id;}
     public Professor getProfessor() { return professor; }
@@ -49,7 +46,6 @@ public class Modalidade {
     public TipoModalidade getTipo() { return tipo; }
     public double getValor() { return valor; }
     public int getVagas() { return vagas; }
-    public int getIdadeMin() { return idadeMin; }
 
     //Setters
     public void setProfessor(Professor professor) {
@@ -73,21 +69,17 @@ public class Modalidade {
         if (vagas >= 0) this.vagas = vagas;
         else throw new IllegalArgumentException("O número de vagas não pode ser negativo!");
     }
-    public void setIdadeMin(int idadeMin) {
-        if (idadeMin >= 0) this.idadeMin = idadeMin;
-        else throw new IllegalArgumentException("Idade não pode ser um número negativo!");
-    }
 
     //Construtores
     public Modalidade(){}
-    public Modalidade(Professor professor, List<Aluno> alunos, String nome, TipoModalidade tipo, double valor, int vagas, int idadeMin){
+    public Modalidade(Professor professor, List<Aluno> alunos, String nome, TipoModalidade tipo, double valor,
+                      int vagas){
         setProfessor(professor);
         setAlunos(alunos);
         setNome(nome);
         setTipo(tipo);
         setValor(valor);
         setVagas(vagas);
-        setIdadeMin(idadeMin);
     }
 
     //Métodos
@@ -95,8 +87,11 @@ public class Modalidade {
 
     public void adicionarAluno(Aluno aluno){
         if(aluno != null) {
-            alunos.add(aluno);
-            aluno.getModalidades().add(this);
+            if(alunos.contains(aluno)) {
+                alunos.add(aluno);
+                aluno.getModalidades().add(this);
+            }
+            else throw new IllegalArgumentException("Esse aluno já foi cadastrado nesta modalidade!");
         }
         else throw new IllegalArgumentException("O aluno não pode estar vazio!");
     }
@@ -105,7 +100,8 @@ public class Modalidade {
             if (alunos.contains(aluno)) {
                 alunos.remove(aluno);
                 aluno.getModalidades().remove(this);
-            } else throw new IllegalArgumentException("Esse aluno não está presente na lista de alunos desta modalidade!");
+            }
+            else throw new IllegalArgumentException("Esse aluno não está presente na lista de alunos desta modalidade!");
         }
         else throw new IllegalArgumentException("O aluno não pode estar vazio!");
     }

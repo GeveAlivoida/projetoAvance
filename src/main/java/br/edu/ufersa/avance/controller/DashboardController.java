@@ -1,0 +1,14 @@
+package br.edu.ufersa.avance.controller;
+
+import br.edu.ufersa.avance.view.View;
+import javafx.fxml.FXML;
+import javafx.scene.input.MouseEvent;
+
+public class DashboardController {
+    @FXML void abrirAlunos(MouseEvent event) { View.alunoCadastro(); }
+    @FXML void abrirAulas(MouseEvent event) { View.aulaCadastro(); }
+    @FXML void abrirModalidades(MouseEvent event) { View.modalidadeCadastro(); }
+    @FXML void abrirPagamentos(MouseEvent event) { View.pagamentoCadastro(); }
+    @FXML void abrirProfessores(MouseEvent event) { View.professorCadastro(); }
+    @FXML void voltarLogin(MouseEvent event) { View.telaLogin(); }
+}

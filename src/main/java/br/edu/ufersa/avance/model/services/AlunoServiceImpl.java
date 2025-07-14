@@ -6,7 +6,9 @@ import br.edu.ufersa.avance.model.entities.Aluno;
 import br.edu.ufersa.avance.model.entities.Aula;
 import br.edu.ufersa.avance.model.entities.Responsavel;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AlunoServiceImpl implements AlunoService {
     private final AlunoDAO alunoDAO = new AlunoDAOImpl();
@@ -76,5 +78,37 @@ public class AlunoServiceImpl implements AlunoService {
     public List<Aluno> buscarPorResponsavel(Responsavel responsavel) {
         if(responsavel != null) return alunoDAO.buscarPorResponsavel(responsavel);
         else return null;
+    }
+
+    @Override
+    public List<Aluno> buscarPorTodosCampos(String termo) {
+        if (termo == null || termo.isEmpty()) {
+            return buscarTodos();
+        }
+
+        List<Aluno> resultados = new ArrayList<>();
+
+        resultados.addAll(buscarPorNome(termo));
+
+        Aluno porCpf = buscarPorCpf(termo);
+        if (porCpf != null) {
+            resultados.add(porCpf);
+            return resultados;
+        }
+
+        Aluno porTelefone = buscarPorTelefone(termo);
+        if (porTelefone != null) {
+            resultados.add(porTelefone);
+            return resultados;
+        }
+
+        Aluno porEmail = buscarPorEmail(termo);
+        if (porEmail != null) {
+            resultados.add(porEmail);
+            return resultados;
+        }
+
+        //Remove duplicados
+        return resultados.stream().distinct().collect(Collectors.toList());
     }
 }

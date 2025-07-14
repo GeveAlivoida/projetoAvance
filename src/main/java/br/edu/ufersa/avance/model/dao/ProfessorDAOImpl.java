@@ -71,7 +71,7 @@ public class ProfessorDAOImpl implements ProfessorDAO{
     @Override
     public List<Professor> buscarPorNome(String nome) {
         try (EntityManager em = emf.createEntityManager()){
-            return em.createQuery("SELECT p FROM Professor p WHERE p.nome LIKE :nome", Professor.class)
+            return em.createQuery("SELECT p FROM Professor p WHERE LOWER(p.nome) LIKE LOWER(:nome)", Professor.class)
                     .setParameter("nome", "%" + nome + "%")
                     .getResultList();
         }catch (Throwable e){

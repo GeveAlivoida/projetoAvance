@@ -13,11 +13,15 @@ module br.edu.ufersa.avance.projetoavance {
     requires jakarta.persistence;
     requires org.hibernate.orm.core;
     requires java.naming;
+    requires java.desktop;
 
     opens br.edu.ufersa.avance.model.entities to org.hibernate.orm.core;
 
     exports br.edu.ufersa.avance.controller;
     opens br.edu.ufersa.avance.controller to javafx.fxml;
+
     exports br.edu.ufersa.avance.view;
     opens br.edu.ufersa.avance.view to javafx.fxml;
+    exports br.edu.ufersa.avance.controller.noimpl;
+    opens br.edu.ufersa.avance.controller.noimpl to javafx.fxml;
 }

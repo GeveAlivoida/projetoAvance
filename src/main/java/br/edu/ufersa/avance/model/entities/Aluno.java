@@ -1,5 +1,6 @@
 package br.edu.ufersa.avance.model.entities;
 
+import br.edu.ufersa.avance.exceptions.FullVacanciesException;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -48,11 +49,15 @@ public class Aluno extends Pessoa {
     //Métodos
     public void adicionarAula(Aula aula){
         if(aula != null){
-            this.aulas.add(aula);
-            aula.getAlunos().add(this);
+            if(!aulas.contains(aula)) {
+                this.aulas.add(aula);
+                aula.getAlunos().add(this);
+            }
+            else throw new IllegalArgumentException("Esse aluno já está cadastrado nessa aula!");
         }
         else throw new IllegalArgumentException("A aula não pode estar vazia!");
     }
+
     public void removerAula(Aula aula){
         if(aula != null){
             if(aulas.contains(aula)) {
@@ -63,13 +68,21 @@ public class Aluno extends Pessoa {
         }
         else throw new IllegalArgumentException("A aula não pode ser vazia!");
     }
+
     public void adicionarModalidade(Modalidade modalidade){
         if(modalidade != null){
-            this.modalidades.add(modalidade);
-            modalidade.getAlunos().add(this);
+            if(!modalidades.contains(modalidade)) {
+                if (modalidade.temVaga()) {
+                    this.modalidades.add(modalidade);
+                    modalidade.getAlunos().add(this);
+                }
+                else throw new FullVacanciesException();
+            }
+            else throw new IllegalArgumentException("Esse aluno já está matriculado nessa modalidade!");
         }
         else throw new IllegalArgumentException("A aula não pode estar vazia!");
     }
+
     public void removerModalidade(Modalidade modalidade){
         if(modalidade != null){
             if(modalidades.contains(modalidade)) {

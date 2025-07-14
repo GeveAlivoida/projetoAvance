@@ -72,6 +72,11 @@ public class ProfessorServiceImpl implements ProfessorService {
     }
 
     @Override
+    public List<Professor> buscarPorTodosCampos(String termo) {
+        return List.of();
+    }
+
+    @Override
     public void alterarStatus(Professor professor, StatusProfessor status) {
         professor.setStatus(status);
         atualizar(professor);

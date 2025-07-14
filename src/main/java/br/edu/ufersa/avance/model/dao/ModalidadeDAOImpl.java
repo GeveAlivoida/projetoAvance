@@ -1,5 +1,6 @@
 package br.edu.ufersa.avance.model.dao;
 
+import br.edu.ufersa.avance.model.entities.Aluno;
 import br.edu.ufersa.avance.model.entities.Modalidade;
 import br.edu.ufersa.avance.model.entities.Professor;
 import br.edu.ufersa.avance.model.enums.TipoModalidade;
@@ -75,6 +76,18 @@ public class ModalidadeDAOImpl implements ModalidadeDAO{
             return em.createQuery("SELECT m FROM Modalidade m WHERE m.professor = :professor", Modalidade.class)
                     .setParameter("professor", professor)
                     .getSingleResult();
+        }catch (Throwable e){
+            System.err.println("Falha ao criar EntityManager " + e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<Modalidade> buscarPorNome(String nome) {
+        try (EntityManager em = emf.createEntityManager()){
+            return em.createQuery("SELECT m FROM Modalidade m WHERE LOWER(m.nome) LIKE LOWER(:nome)", Modalidade.class)
+                    .setParameter("nome", "%" + nome + "%")
+                    .getResultList();
         }catch (Throwable e){
             System.err.println("Falha ao criar EntityManager " + e);
             throw new RuntimeException(e);

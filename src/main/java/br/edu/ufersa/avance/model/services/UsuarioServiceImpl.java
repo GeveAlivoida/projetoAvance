@@ -1,9 +1,11 @@
 package br.edu.ufersa.avance.model.services;
 
+import br.edu.ufersa.avance.exceptions.AuthenticationException;
 import br.edu.ufersa.avance.model.dao.UsuarioDAO;
 import br.edu.ufersa.avance.model.dao.UsuarioDAOImpl;
 import br.edu.ufersa.avance.model.entities.Usuario;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class UsuarioServiceImpl implements UsuarioService{
@@ -54,7 +56,16 @@ public class UsuarioServiceImpl implements UsuarioService{
     }
 
     @Override
-    public void validarUsuario(Usuario usuario) throws Exception {
-
+    public Usuario autenticar(Usuario usuario) throws AuthenticationException {
+        try {
+            Usuario usuarioEncontrado = usuarioDAO.buscarPorEmail(usuario.getEmail());
+            if (usuarioEncontrado.getSenha().equals(usuario.getSenha())) {
+                usuario.setNome(usuarioEncontrado.getNome());
+                return usuario;
+            }
+            else throw new AuthenticationException();
+        } catch (Exception e) {
+            throw new AuthenticationException();
+        }
     }
 }

@@ -72,7 +72,7 @@ public class AlunoDAOImpl implements AlunoDAO{
     @Override
     public List<Aluno> buscarPorNome(String nome) {
         try (EntityManager em = emf.createEntityManager()){
-            return em.createQuery("SELECT a FROM Aluno a WHERE a.nome LIKE :nome", Aluno.class)
+            return em.createQuery("SELECT a FROM Aluno a WHERE LOWER(a.nome) LIKE LOWER(:nome)", Aluno.class)
                     .setParameter("nome", "%" + nome + "%")
                     .getResultList();
         }catch (Throwable e){
@@ -96,7 +96,7 @@ public class AlunoDAOImpl implements AlunoDAO{
     @Override
     public Aluno buscarPorEmail(String email) {
         try (EntityManager em = emf.createEntityManager()){
-            return em.createQuery("SELECT a FROM Aluno a WHERE a.email = :email", Aluno.class)
+            return em.createQuery("SELECT a FROM Aluno a WHERE LOWER(a.email) = LOWER(:email)", Aluno.class)
                     .setParameter("email", email)
                     .getSingleResult();
         }catch (Throwable e){

@@ -78,16 +78,4 @@ public class UsuarioDAOImpl implements UsuarioDAO{
             throw new RuntimeException(e);
         }
     }
-
-    @Override
-    public Usuario buscarPorSenha(String senha) {
-        try (EntityManager em = emf.createEntityManager()){
-            return em.createQuery("SELECT u FROM Usuario u WHERE u.senha = :senha", Usuario.class)
-                    .setParameter("senha", senha)
-                    .getSingleResult();
-        }catch (Throwable e){
-            System.err.println("Falha ao criar EntityManager " + e);
-            throw new RuntimeException(e);
-        }
-    }
 }

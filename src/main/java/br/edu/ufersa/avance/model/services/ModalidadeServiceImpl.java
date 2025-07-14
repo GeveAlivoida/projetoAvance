@@ -7,7 +7,9 @@ import br.edu.ufersa.avance.model.entities.Modalidade;
 import br.edu.ufersa.avance.model.entities.Professor;
 import br.edu.ufersa.avance.model.enums.TipoModalidade;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ModalidadeServiceImpl implements ModalidadeService {
     private final ModalidadeDAO modalidadeDAO = new ModalidadeDAOImpl();
@@ -49,6 +51,12 @@ public class ModalidadeServiceImpl implements ModalidadeService {
     }
 
     @Override
+    public List<Modalidade> buscarPorNome(String nome) {
+        if(nome != null && !nome.isEmpty()) return modalidadeDAO.buscarPorNome(nome);
+        else return null;
+    }
+
+    @Override
     public List<Modalidade> buscarPorTipo(TipoModalidade tipo) {
         if(tipo != null) return modalidadeDAO.buscarPorTipo(tipo);
         else return null;
@@ -56,6 +64,37 @@ public class ModalidadeServiceImpl implements ModalidadeService {
 
     @Override
     public List<Modalidade> buscarAbertas() { return modalidadeDAO.buscarAbertas(); }
+
+    @Override
+    public List<Modalidade> buscarPorTodosCampos(String termo) {
+        final ProfessorService professorService = new ProfessorServiceImpl();
+
+        if (termo == null || termo.trim().isEmpty()) {
+            return buscarTodos();
+        }
+
+        List<Modalidade> resultados = new ArrayList<>();
+
+        resultados.addAll(buscarPorNome(termo));
+
+        try {
+            TipoModalidade tipo = TipoModalidade.valueOf(termo.toUpperCase());
+            resultados.addAll(buscarPorTipo(tipo));
+        } catch (IllegalArgumentException e) {
+            // Não é um tipo válido, continua a busca
+        }
+
+        List<Professor> professores = professorService.buscarPorNome(termo);
+        for (Professor professor : professores) {
+            Modalidade modalidade = buscarPorProfessor(professor);
+            if (modalidade != null) {
+                resultados.add(modalidade);
+            }
+        }
+
+        //Remove duplicados
+        return resultados.stream().distinct().collect(Collectors.toList());
+    }
 
     @Override
     public void matricularAluno(Modalidade modalidade, Aluno aluno) {

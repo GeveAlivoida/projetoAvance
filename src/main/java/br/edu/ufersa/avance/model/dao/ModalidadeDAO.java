@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface ModalidadeDAO extends GeralDAO<Modalidade> {
     public Modalidade buscarPorProfessor(Professor professor);
+    public List<Modalidade> buscarPorNome(String nome);
     public List<Modalidade> buscarPorTipo(TipoModalidade tipo);
     public List<Modalidade> buscarAbertas();
 }

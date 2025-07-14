@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ufersa.avance.controller.LoginController">
+   <children>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="450.0" style="-fx-background-color: #7d0f7c;">
+         <children>
+            <Pane prefHeight="30.0" prefWidth="200.0" />
+            <Label text="PROJETO AVANCE">
+               <font>
+                  <Font name="Russo One" size="37.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Label>
+            <Label prefHeight="91.0" prefWidth="93.0" text="&gt;&gt;" textFill="WHITE">
+               <font>
+                  <Font name="Russo One" size="91.0" />
+               </font>
+            </Label>
+            <Label text="CONTROLE DE ALUNOS">
+               <font>
+                  <Font name="Tahoma" size="18.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.7599999904632568" green="0.4027999937534332" blue="0.6681485772132874" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Label>
+         </children>
+      </VBox>
+      <AnchorPane prefHeight="200.0" prefWidth="450.0" style="-fx-background-color: #f6f1de;" HBox.hgrow="ALWAYS">
+         <children>
+            <Label alignment="CENTER" layoutY="156.0" text="LOGIN" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="Russo One" size="45.0" />
+               </font>
+               <effect>
+                  <Lighting specularConstant="0.58">
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                  </Lighting>
+               </effect>
+            </Label>
+            <TextField fx:id="usuarioEmail" layoutX="61.0" layoutY="250.0" prefHeight="37.0" prefWidth="330.0" promptText="Email" AnchorPane.leftAnchor="61.0" AnchorPane.rightAnchor="59.0" AnchorPane.topAnchor="250.0">
+               <font>
+                  <Font name="Tahoma" size="12.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="usuarioSenha" layoutX="61.0" layoutY="300.0" prefHeight="37.0" prefWidth="330.0" promptText="Senha" AnchorPane.leftAnchor="61.0" AnchorPane.rightAnchor="59.0">
+               <font>
+                  <Font name="Tahoma" size="12.0" />
+               </font>
+            </TextField>
+            <Button layoutX="60.0" layoutY="362.0" mnemonicParsing="false" onAction="#autenticar" prefHeight="37.0" prefWidth="322.0" text="Entrar" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0">
+               <font>
+                  <Font name="Tahoma" size="24.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Label fx:id="mensagemErro" layoutX="212.0" layoutY="425.0" text="Label" textAlignment="CENTER" visible="false">
+               <font>
+                  <Font name="Tahoma" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</HBox>

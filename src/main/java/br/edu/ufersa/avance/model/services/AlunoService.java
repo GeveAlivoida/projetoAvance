@@ -9,4 +9,5 @@ import java.util.List;
 public interface AlunoService extends PessoaService<Aluno> {
     public List<Aluno> buscarPorAula(Aula aula);
     public List<Aluno> buscarPorResponsavel(Responsavel responsavel);
+    public List<Aluno> buscarPorTodosCampos(String termo);
 }

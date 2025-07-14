@@ -71,7 +71,7 @@ public class ResponsavelDAOImpl implements ResponsavelDAO{
     @Override
     public List<Responsavel> buscarPorNome(String nome) {
         try (EntityManager em = emf.createEntityManager()){
-            return em.createQuery("SELECT r FROM Responsavel r WHERE r.nome LIKE :nome", Responsavel.class)
+            return em.createQuery("SELECT r FROM Responsavel r WHERE LOWER(r.nome) LIKE LOWER(:nome)", Responsavel.class)
                     .setParameter("nome", "%" + nome + "%")
                     .getResultList();
         }catch (Throwable e){

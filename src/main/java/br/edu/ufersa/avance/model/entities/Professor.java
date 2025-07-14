@@ -14,7 +14,7 @@ public class Professor extends Pessoa{
     private double salario;
 
     @Column(nullable = false, length = 20)
-    private String especializacao;
+    private String especialidade;
 
     @Column(nullable = false, length = 50, name = "conta_bancaria")
     private String contaBanco;
@@ -31,7 +31,7 @@ public class Professor extends Pessoa{
 
     //Getters
     public double getSalario() { return salario; }
-    public String getEspecializacao() { return especializacao; }
+    public String getEspecialidade() { return especialidade; }
     public String getContaBanco() { return contaBanco; }
     public StatusProfessor getStatus(){ return status; }
 
@@ -40,8 +40,8 @@ public class Professor extends Pessoa{
         if (salario >= 0.0) this.salario = salario;
         else throw new IllegalArgumentException("O salário não pode ser negativo!");
     }
-    public void setEspecializacao(String especializacao) {
-        if (especializacao != null && !especializacao.isEmpty()) this.especializacao = especializacao;
+    public void setEspecialidade(String especialidade) {
+        if (especialidade != null && !especialidade.isEmpty()) this.especialidade = especialidade;
         else throw new IllegalArgumentException("A especialização não pode estar vazia!");
     }
     public void setContaBanco(String contaBanco) {
@@ -56,10 +56,10 @@ public class Professor extends Pessoa{
     //Construtores
     public Professor(){}
     public Professor(String cpf, String nome, String email, String telefone, LocalDate nascimento,
-            double salario, String especializacao, String contaBanco, StatusProfessor status){
+                     double salario, String especialidade, String contaBanco, StatusProfessor status){
         super(cpf, nome, email, telefone, nascimento);
         setSalario(salario);
-        setEspecializacao(especializacao);
+        setEspecialidade(especialidade);
         setContaBanco(contaBanco);
         setStatus(status);
     }
