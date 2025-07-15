@@ -20,27 +20,37 @@ public class LoginController {
     private final UsuarioService service = new UsuarioServiceImpl();
     private Usuario usuario = new Usuario();
 
+    private void mostrarErro(String mensagem){
+        mensagemErro.setText(mensagem);
+        mensagemErro.setTextFill(Color.RED);
+        mensagemErro.setVisible(true);
+    }
+
+    private void preencherCampos(){
+        usuario.setNome("usuario");
+        usuario.setEmail(usuarioEmail.getText());
+        usuario.setSenha(usuarioSenha.getText());
+    }
+
     @FXML
     void autenticar(ActionEvent event) {
         try {
-            usuario.setNome("usuario");
-            usuario.setEmail(usuarioEmail.getText());
-            usuario.setSenha(usuarioSenha.getText());
-        } catch (IllegalArgumentException e) {
-            mensagemErro.setText(e.getMessage());
-            mensagemErro.setTextFill(Color.RED);
-            mensagemErro.setVisible(true);
-        }
+            preencherCampos();
 
-        try {
             usuario = service.autenticar(usuario);
-            JOptionPane.showMessageDialog(null,
-                    "Autenticado com sucesso, bem vindo " + usuario.getNome() + "!");
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Confirmação");
+            alert.setHeaderText("Autenticação Bem-sucedida");
+            alert.setContentText("Autenticado com sucesso, bem vindo " + usuario.getNome() + "!");
+
             View.dashboard();
-        } catch (AuthenticationException e){
-            mensagemErro.setText(e.getMessage());
-            mensagemErro.setTextFill(Color.RED);
-            mensagemErro.setVisible(true);
+        }
+        catch (IllegalArgumentException | AuthenticationException e) {
+            mostrarErro(e.getMessage());
+        }
+        catch (Exception e){
+            mostrarErro("Não foi possível fazer login: " + e.getMessage());
         }
     }
 }

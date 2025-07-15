@@ -15,11 +15,11 @@ public class Aula {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(nullable = false, name = "id_modalidade")
     private Modalidade modalidade;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinTable(
             name = "aula_aluno",
             joinColumns = @JoinColumn(name = "id_aula"),
@@ -27,7 +27,7 @@ public class Aula {
     )
     private List<Aluno> alunos;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(nullable = false, name = "id_professor")
     private Professor professor;
 
@@ -48,7 +48,7 @@ public class Aula {
     public Professor getProfessor() { return professor; }
     public LocalDate getData() { return data; }
     public LocalTime getHorario() { return horario; }
-    public StatusAula getTipo() { return status; }
+    public StatusAula getStatus() { return status; }
 
     //Setters
     public void setModalidade(Modalidade modalidade) {

@@ -12,7 +12,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
@@ -21,7 +20,6 @@ import javafx.util.StringConverter;
 import java.util.List;
 
 public class ModalidadeController {
-
     @FXML private TableView<Modalidade> modalidadeTable;
     @FXML private TableColumn<Modalidade, String> colNome;
     @FXML private TableColumn<Modalidade, String> colProfessor;
@@ -52,8 +50,39 @@ public class ModalidadeController {
         label.setVisible(true);
     }
 
+    private void preencherCampos(){
+        ProfessorService professorService = new ProfessorServiceImpl();
+
+        novaModalidade.setNome(nomeField.getText());
+        novaModalidade.setTipo(tipoField.getValue());
+        novaModalidade.setVagas(Integer.parseInt(vagasField.getText()));
+
+        Professor professor = professorService.buscarPorNome(professorField.getText().trim())
+                .stream()
+                .findFirst()
+                .orElse(null);
+        novaModalidade.setProfessor(professor);
+
+        String valorTexto = valorField.getText()
+                .replace("R$", "")
+                .trim()
+                .replace(".", "")
+                .replace(",", ".");
+        novaModalidade.setValor(Double.parseDouble(valorTexto));
+    }
+    private void limparCampos() {
+        nomeField.clear();
+        tipoField.setValue(null);
+        professorField.clear();
+        vagasField.clear();
+        valorField.clear();
+
+        novaModalidade = new Modalidade();
+    }
+
     private void configurarTabela() {
-        colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        colNome.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getNome()));
         colTipo.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getTipo().getDescricao()));
         colVagas.setCellValueFactory(cellData ->
@@ -73,7 +102,8 @@ public class ModalidadeController {
             List<Modalidade> modalidades = service.buscarTodos();
             modalidadeTable.getItems().setAll(modalidades);
             modalidadeTable.setPlaceholder(new Label("Nenhuma modalidade cadastrada"));
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             mostrarMensagem(erroTabela, "Não foi possível carregar as modalidades: " + e.getMessage(), Color.RED);
         }
     }
@@ -91,44 +121,7 @@ public class ModalidadeController {
                 valorField.setText(oldValue);
             }
         });
-    }
-    private void configurarTipo(){
-        tipoField.getItems().setAll(TipoModalidade.values());
 
-        tipoField.setCellFactory(param -> new ListCell<TipoModalidade>() {
-            @Override
-            protected void updateItem(TipoModalidade tipo, boolean empty) {
-                super.updateItem(tipo, empty);
-                if (empty || tipo == null) {
-                    setText(null);
-                } else {
-                    setText(tipo.getDescricao());
-                }
-            }
-        });
-
-        tipoField.setConverter(new StringConverter<TipoModalidade>() {
-            @Override
-            public String toString(TipoModalidade tipo) {
-                return tipo != null ? tipo.getDescricao() : "";
-            }
-
-            @Override
-            public TipoModalidade fromString(String string) {
-                if (string == null || string.isEmpty()) {
-                    return null;
-                }
-                for (TipoModalidade tipo : TipoModalidade.values()) {
-                    if (tipo.getDescricao().equalsIgnoreCase(string)) {
-                        return tipo;
-                    }
-                }
-                return null;
-            }
-        });
-    }
-
-    private void configurarFormatacaoValor(){
         // Formata quando o campo perde o foco ou ao apertar enter
         valorField.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
@@ -142,6 +135,34 @@ public class ModalidadeController {
             }
         });
     }
+    private void configurarTipo(){
+        tipoField.getItems().setAll(TipoModalidade.values());
+
+        tipoField.setCellFactory(param -> new ListCell<TipoModalidade>() {
+            @Override
+            protected void updateItem(TipoModalidade tipo, boolean empty) {
+                super.updateItem(tipo, empty);
+                setText(empty || tipo == null ? null : tipo.getDescricao());
+            }
+        });
+
+        tipoField.setConverter(new StringConverter<TipoModalidade>() {
+            @Override
+            public String toString(TipoModalidade tipo) {
+                return tipo != null ? tipo.getDescricao() : "";
+            }
+
+            @Override
+            public TipoModalidade fromString(String string) {
+                if (string == null || string.isEmpty()) return null;
+                for (TipoModalidade tipo : TipoModalidade.values()) {
+                    if (tipo.getDescricao().equalsIgnoreCase(string)) return tipo;
+                }
+                return null;
+            }
+        });
+    }
+
     private void formatarValor(){
         try {
             String texto = valorField.getText().replace("R$", "").trim().replace(".", "").replace(",", ".");
@@ -187,23 +208,11 @@ public class ModalidadeController {
         }
     }
 
-    private void limparCampos() {
-        nomeField.clear();
-        tipoField.setValue(null);
-        professorField.clear();
-        vagasField.clear();
-        valorField.clear();
-
-        novaModalidade = new Modalidade();
-    }
-
     @FXML
     void initialize(){
         configurarTipo();
         configurarVagas();
         configurarValor();
-
-        configurarFormatacaoValor();
 
         configurarTabela();
         configurarCampoPesquisa();
@@ -211,26 +220,8 @@ public class ModalidadeController {
 
     @FXML
     void cadastrarModalidade(ActionEvent event) {
-        ProfessorService professorService = new ProfessorServiceImpl();
-
         try {
-            novaModalidade.setNome(nomeField.getText());
-            novaModalidade.setTipo(tipoField.getValue());
-            novaModalidade.setVagas(Integer.parseInt(vagasField.getText()));
-            novaModalidade.setTipo(tipoField.getValue());
-
-            Professor professor = professorService.buscarPorNome(professorField.getText().trim())
-                    .stream()
-                    .findFirst()
-                    .orElse(null);
-            novaModalidade.setProfessor(professor);
-
-            String valorTexto = valorField.getText().
-                    replace("R$", "").
-                    trim().
-                    replace(".", "").
-                    replace(",", ".");
-            novaModalidade.setValor(Double.parseDouble(valorTexto));
+            preencherCampos();
 
             if (!modoEdicao) {
                 service.cadastrar(novaModalidade);
@@ -239,17 +230,20 @@ public class ModalidadeController {
                 service.atualizar(novaModalidade);
                 botaoCadastro.setText("Cadastrar");
                 modoEdicao = false;
+                mostrarMensagem(erroCadastro, "Modalidade editada com sucesso!", Color.GREEN);
             }
 
             limparCampos();
             atualizarTabela();
-
-        } catch (NumberFormatException e) {
-            mostrarMensagem(erroCadastro, "Vagas e Valor devem ser números válidos", Color.WHITE);
-        } catch (IllegalArgumentException e) {
-            mostrarMensagem(erroCadastro, e.getMessage(), Color.WHITE);
-        } catch (Exception e) {
-            mostrarMensagem(erroCadastro, "Erro ao salvar modalidade: " + e.getMessage(), Color.WHITE);
+        }
+        catch (NumberFormatException e) {
+            mostrarMensagem(erroCadastro, "Vagas e Valor devem ser números válidos", Color.YELLOW);
+        }
+        catch (IllegalArgumentException e) {
+            mostrarMensagem(erroCadastro, e.getMessage(), Color.YELLOW);
+        }
+        catch (Exception e) {
+            mostrarMensagem(erroCadastro, "Erro ao salvar modalidade: " + e.getMessage(), Color.YELLOW);
         }
     }
 
@@ -258,7 +252,7 @@ public class ModalidadeController {
         Modalidade selecionada = modalidadeTable.getSelectionModel().getSelectedItem();
 
         if (selecionada == null)
-            mostrarMensagem(erroTabela, "Selecione uma modalidade para remover", Color.RED);
+            mostrarMensagem(erroTabela, "Selecione uma modalidade para excluir!", Color.RED);
         else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirmação");
@@ -271,7 +265,8 @@ public class ModalidadeController {
                         service.excluir(selecionada);
                         mostrarMensagem(erroTabela, "Modalidade removida com sucesso!", Color.GREEN);
                         atualizarTabela();
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e) {
                         mostrarMensagem(erroTabela, "Erro ao excluir modalidade: " + e.getMessage(), Color.RED);
                     }
                 }
@@ -288,16 +283,19 @@ public class ModalidadeController {
         else {
             try {
                 modoEdicao = true;
+                novaModalidade = selecionada;
 
                 nomeField.setText(selecionada.getNome());
                 tipoField.setValue(selecionada.getTipo());
                 vagasField.setText(String.valueOf(selecionada.getVagas()));
-                valorField.setText(String.valueOf(selecionada.getValor()));
+                valorField.setText(String.format("%.2f", selecionada.getValor())
+                        .replace(".", "X").replace(",", ".")
+                        .replace("X", ","));
                 professorField.setText(selecionada.getProfessor().getNome());
 
-                novaModalidade = selecionada;
                 botaoCadastro.setText("Salvar");
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 mostrarMensagem(erroTabela, "Erro ao carregar modalidade: " + e.getMessage(), Color.RED);
             }
         }

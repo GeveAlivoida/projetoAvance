@@ -2,6 +2,8 @@ package br.edu.ufersa.avance.model.entities;
 
 import br.edu.ufersa.avance.exceptions.FullVacanciesException;
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -10,17 +12,22 @@ import java.util.List;
 @Table(name="Alunos")
 public class Aluno extends Pessoa {
     //Atributos
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(nullable = true, name = "id_responsavel")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     private Responsavel responsavel;
 
-    @ManyToMany(mappedBy = "alunos")
+    @ManyToMany(mappedBy = "alunos",
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private List<Modalidade> modalidades;
 
-    @ManyToMany(mappedBy = "alunos")
+    @ManyToMany(mappedBy = "alunos",
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private List<Aula> aulas;
 
-    @OneToMany(mappedBy = "pagador")
+    @OneToMany(mappedBy = "pagador",
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},
+            fetch = FetchType.LAZY)
     private List<Pagamento> pagamentos;
 
     //Getters

@@ -37,6 +37,11 @@ public class AulaServiceImpl implements AulaService{
     }
 
     @Override
+    public List<Aula> buscarPorTodosCampos(String termo) {
+        return List.of();
+    }
+
+    @Override
     public List<Aula> buscarTodos() { return aulaDAO.buscarTodos(); }
 
     @Override

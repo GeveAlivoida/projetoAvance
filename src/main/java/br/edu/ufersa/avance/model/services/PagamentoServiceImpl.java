@@ -1,13 +1,15 @@
 package br.edu.ufersa.avance.model.services;
 
+import br.edu.ufersa.avance.model.dao.AlunoDAO;
+import br.edu.ufersa.avance.model.dao.AlunoDAOImpl;
 import br.edu.ufersa.avance.model.dao.PagamentoDAO;
 import br.edu.ufersa.avance.model.dao.PagamentoDAOImpl;
+import br.edu.ufersa.avance.model.entities.Aluno;
 import br.edu.ufersa.avance.model.entities.Pagamento;
-import br.edu.ufersa.avance.model.entities.Pessoa;
 import br.edu.ufersa.avance.model.enums.StatusPagamento;
 
-import java.time.LocalDate;
 import java.time.YearMonth;
+import java.util.Collections;
 import java.util.List;
 
 public class PagamentoServiceImpl implements PagamentoService{
@@ -38,20 +40,46 @@ public class PagamentoServiceImpl implements PagamentoService{
     }
 
     @Override
+    public List<Pagamento> buscarPorTodosCampos(String termo) {
+        final AlunoService alunoService = new AlunoServiceImpl();
+
+        if (termo == null || termo.trim().isEmpty()) {
+            return buscarTodos();
+        }
+
+        Aluno aluno = alunoService.buscarPorCpf(termo);
+        if (aluno != null) {
+            return pagamentoDAO.buscarPorAluno(aluno);
+        }
+
+        try {
+            StatusPagamento status = StatusPagamento.valueOf(termo.toUpperCase());
+            return pagamentoDAO.buscarPorStatus(status);
+        } catch (IllegalArgumentException e) {
+            // Não é um status válido, continua a busca
+        }
+
+        if (termo.matches("\\d{1,2}/\\d{4}")) {
+            String[] partes = termo.split("/");
+            YearMonth mesRef = YearMonth.of(
+                    Integer.parseInt(partes[1]),
+                    Integer.parseInt(partes[0])
+            );
+            return pagamentoDAO.buscarPorMes(mesRef);
+        }
+
+        return Collections.emptyList();
+    }
+
+    @Override
     public List<Pagamento> buscarTodos() { return pagamentoDAO.buscarTodos(); }
 
     @Override
     public Pagamento buscarPorId(long id) { return pagamentoDAO.buscarPorId(id); }
 
     @Override
-    public List<Pagamento> buscarPorPagador(Pessoa pagador) {
-        if(pagador != null) return pagamentoDAO.buscarPorPagador(pagador);
-        else return null;
-    }
-
-    @Override
-    public List<Pagamento> buscarPorData(LocalDate dataPagamento) {
-        if(dataPagamento != null) return pagamentoDAO.buscarPorData(dataPagamento);
+    public List<Pagamento> buscarPorAluno(Aluno aluno) {
+        if(aluno != null) return pagamentoDAO.buscarPorAluno(aluno);
         else return null;
     }
 

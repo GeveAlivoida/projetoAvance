@@ -1,5 +1,6 @@
 package br.edu.ufersa.avance.model.dao;
 
+import br.edu.ufersa.avance.model.entities.Aluno;
 import br.edu.ufersa.avance.model.entities.Pagamento;
 import br.edu.ufersa.avance.model.entities.Pessoa;
 import br.edu.ufersa.avance.model.enums.StatusPagamento;
@@ -72,10 +73,10 @@ public class PagamentoDAOImpl implements PagamentoDAO{
     }
 
     @Override
-    public List<Pagamento> buscarPorPagador(Pessoa pagador) {
+    public List<Pagamento> buscarPorAluno(Aluno aluno) {
         try (EntityManager em = emf.createEntityManager()) {
-            return em.createQuery("SELECT p FROM Pagamento p WHERE p.pagador = :pagador", Pagamento.class)
-                    .setParameter("pagador", pagador)
+            return em.createQuery("SELECT p FROM Pagamento p WHERE p.aluno = :aluno", Pagamento.class)
+                    .setParameter("pagador", aluno)
                     .getResultList();
         }catch (Throwable e){
             System.err.println("Falha ao criar EntityManager " + e);

@@ -98,10 +98,10 @@ public class ModalidadeServiceImpl implements ModalidadeService {
 
     @Override
     public void matricularAluno(Modalidade modalidade, Aluno aluno) {
-        if(modalidade.temVaga()){
+        if(modalidade != null){
             modalidade.adicionarAluno(aluno);
             modalidadeDAO.atualizar(modalidade);
         }
-        else throw new IllegalStateException("Todas as vagas já estão cheias!");
+        else throw new IllegalArgumentException("A modalidade ou aluno não podem estar vazios!");
     }
 }

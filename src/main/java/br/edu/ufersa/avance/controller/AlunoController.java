@@ -3,6 +3,7 @@ package br.edu.ufersa.avance.controller;
 import br.edu.ufersa.avance.exceptions.FullVacanciesException;
 import br.edu.ufersa.avance.model.entities.Aluno;
 import br.edu.ufersa.avance.model.entities.Modalidade;
+import br.edu.ufersa.avance.model.entities.Responsavel;
 import br.edu.ufersa.avance.model.services.*;
 import javafx.animation.PauseTransition;
 import javafx.beans.property.SimpleStringProperty;
@@ -51,11 +52,40 @@ public class AlunoController {
         label.setVisible(true);
     }
 
+    private void preencherCampos(){
+        final ResponsavelService responsavelService = new ResponsavelServiceImpl();
+
+        novoAluno.setNome(nomeField.getText());
+        novoAluno.setCpf(cpfAlunoField.getText());
+        novoAluno.setNascimento(nascimentoField.getValue());
+        novoAluno.setTelefone(telefoneField.getText());
+        novoAluno.setEmail(emailField.getText());
+        novoAluno.adicionarModalidade(modalidadeField.getValue());
+
+        Responsavel responsavel = responsavelService.buscarPorCpf(cpfRespField.getText());
+        novoAluno.setResponsavel(responsavel);
+    }
+    private void limparCampos(){
+        nomeField.clear();
+        cpfAlunoField.clear();
+        cpfRespField.clear();
+        nascimentoField.setValue(null);
+        telefoneField.clear();
+        emailField.clear();
+        modalidadeField.setValue(null);
+
+        novoAluno = new Aluno();
+    }
+
     private void configurarTabela() {
-        colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
-        colCpf.setCellValueFactory(new PropertyValueFactory<>("cpf"));
-        colTelefone.setCellValueFactory(new PropertyValueFactory<>("telefone"));
-        colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        colNome.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getNome()));
+        colCpf.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getCpf()));
+        colTelefone.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getTelefone()));
+        colEmail.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getEmail()));
 
         // exibição da coluna de modalidades
         colModalidade.setCellValueFactory(cellData -> {
@@ -73,7 +103,8 @@ public class AlunoController {
             List<Aluno> alunos = service.buscarTodos();
             alunoTable.getItems().setAll(alunos);
             alunoTable.setPlaceholder(new Label("Nenhum aluno cadastrado"));
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             mostrarMensagem(erroTabela, "Não foi possível carregar os alunos: " + e.getMessage(), Color.RED);
         }
     }
@@ -81,8 +112,7 @@ public class AlunoController {
     private void configurarModalidades(){
         final ModalidadeService modalidadeService = new ModalidadeServiceImpl();
 
-        //Configurando a forma como aparecem as modalidades no modalidadeField
-        modalidadeField.getItems().addAll(modalidadeService.buscarTodos());
+        modalidadeField.getItems().addAll(modalidadeService.buscarAbertas());
 
         modalidadeField.setCellFactory(param -> new ListCell<Modalidade>() {
             @Override
@@ -159,27 +189,8 @@ public class AlunoController {
 
     @FXML
     void cadastrarAluno(ActionEvent event) {
-        final ResponsavelService responsavelService = new ResponsavelServiceImpl();
-
         try {
-            novoAluno.setNome(nomeField.getText());
-            novoAluno.setCpf(cpfAlunoField.getText());
-            if (!cpfRespField.getText().isEmpty())
-                novoAluno.setResponsavel(responsavelService.buscarPorCpf(cpfRespField.getText()));
-            else
-                novoAluno.setResponsavel(null);
-            novoAluno.setNascimento(nascimentoField.getValue());
-            novoAluno.setTelefone(telefoneField.getText());
-            novoAluno.setEmail(emailField.getText());
-
-            Modalidade selecionada = modalidadeField.getValue();
-            if(selecionada != null) {
-                try {
-                    novoAluno.adicionarModalidade(selecionada);
-                } catch (FullVacanciesException e) {
-                    mostrarMensagem(erroCadastro, e.getMessage(), Color.WHITE);
-                }
-            }
+            preencherCampos();
 
             if(!modoEdicao) {
                 service.cadastrar(novoAluno);
@@ -189,15 +200,17 @@ public class AlunoController {
                 service.atualizar(novoAluno);
                 botaoCadastro.setText("Cadastrar");
                 modoEdicao = false;
+                mostrarMensagem(erroCadastro, "Aluno editado com sucesso!", Color.GREEN);
             }
 
             limparCampos();
             atualizarTabela();
-
-        } catch (IllegalArgumentException e) {
-            mostrarMensagem(erroCadastro, e.getMessage(), Color.WHITE);
-        } catch (Exception e){
-            mostrarMensagem(erroCadastro, "Erro ao salvar aluno: " + e.getMessage(), Color.WHITE);
+        }
+        catch (FullVacanciesException | IllegalArgumentException e) {
+            mostrarMensagem(erroCadastro, e.getMessage(), Color.YELLOW);
+        }
+        catch (Exception e){
+            mostrarMensagem(erroCadastro, "Erro ao salvar aluno: " + e.getMessage(), Color.YELLOW);
         }
     }
 
@@ -205,61 +218,59 @@ public class AlunoController {
     void excluirAluno(ActionEvent event) {
         Aluno selecionado = alunoTable.getSelectionModel().getSelectedItem();
 
-        if(selecionado == null) {
-            mostrarMensagem(erroTabela, "Escolha um aluno para remover!", Color.RED);
-        }
+        if(selecionado == null)
+            mostrarMensagem(erroTabela, "Escolha um aluno para excluir!", Color.RED);
         else {
-            try {
-                service.excluir(selecionado);
-                mostrarMensagem(erroTabela, "Aluno removido com sucesso!", Color.GREEN);
-                atualizarTabela();
-            } catch (Exception e) {
-                mostrarMensagem(erroTabela, "Erro ao excluir professor:" + e.getMessage(), Color.RED);
-            }
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmação");
+            alert.setHeaderText("Confirmar exclusão do aluno");
+            alert.setContentText("Tem certeza que deseja excluir " + selecionado.getNome() + "?");
+
+            alert.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    try {
+                        service.excluir(selecionado);
+                        mostrarMensagem(erroTabela, "Aluno removido com sucesso!", Color.GREEN);
+                        atualizarTabela();
+                    }
+                    catch (Exception e) {
+                        mostrarMensagem(erroTabela, "Erro ao excluir aluno: " + e.getMessage(), Color.RED);
+                    }
+                }
+            });
         }
     }
 
     @FXML
     void editarAluno(ActionEvent event) {
         Aluno selecionado = alunoTable.getSelectionModel().getSelectedItem();
-        if(selecionado == null) {
-            mostrarMensagem(erroTabela, "Escolha um aluno para editar!", Color.RED);
-        }
-        else {
-            modoEdicao = true;
 
+        if(selecionado == null)
+            mostrarMensagem(erroTabela, "Escolha um aluno para editar!", Color.RED);
+        else {
             try {
+                modoEdicao = true;
+                novoAluno = selecionado;
+
                 nomeField.setText(selecionado.getNome());
                 cpfAlunoField.setText(selecionado.getCpf());
-                if (selecionado.getResponsavel() != null) {
+                if (selecionado.getResponsavel() != null)
                     cpfRespField.setText(selecionado.getResponsavel().getCpf());
-                }
+                else
+                    cpfRespField.clear();
                 nascimentoField.setValue(selecionado.getNascimento());
                 telefoneField.setText(selecionado.getTelefone());
                 emailField.setText(selecionado.getEmail());
-                if (!selecionado.getModalidades().isEmpty()) {
+                if (!selecionado.getModalidades().isEmpty())
                     modalidadeField.setValue(selecionado.getModalidades().getLast());
-                } else {
+                else
                     modalidadeField.setValue(null);
-                }
 
-                novoAluno = selecionado;
                 botaoCadastro.setText("Salvar");
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 mostrarMensagem(erroTabela, "Erro ao carregar aluno: " + e.getMessage(), Color.RED);
             }
         }
-    }
-
-    private void limparCampos(){
-        nomeField.clear();
-        cpfAlunoField.clear();
-        cpfRespField.clear();
-        nascimentoField.setValue(null);
-        telefoneField.clear();
-        emailField.clear();
-        modalidadeField.setValue(null);
-
-        novoAluno = new Aluno();
     }
 }

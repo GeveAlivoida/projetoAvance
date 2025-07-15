@@ -34,6 +34,11 @@ public class ResponsavelServiceImpl implements ResponsavelService {
         else responsavelDAO.excluir(responsavel);
     }
 
+    @Override
+    public List<Responsavel> buscarPorTodosCampos(String termo) {
+        return List.of();
+    }
+
 
     @Override
     public Responsavel buscarPorId(long id) { return responsavelDAO.buscarPorId(id); }
@@ -69,5 +74,14 @@ public class ResponsavelServiceImpl implements ResponsavelService {
     public Responsavel buscarPorAluno(Aluno aluno) {
         if(aluno != null) return responsavelDAO.buscarPorAluno(aluno);
         else return null;
+    }
+
+    @Override
+    public void cadastrarAluno(Responsavel responsavel, Aluno aluno) {
+        if(responsavel != null && aluno != null) {
+            responsavel.adicionarDependente(aluno);
+            responsavelDAO.atualizar(responsavel);
+        }
+        else throw new IllegalArgumentException("O responsavel ou aluno não podem estar vazios!");
     }
 }

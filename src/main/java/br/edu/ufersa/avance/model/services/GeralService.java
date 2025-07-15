@@ -1,5 +1,7 @@
 package br.edu.ufersa.avance.model.services;
 
+import br.edu.ufersa.avance.model.entities.Aluno;
+
 import java.util.List;
 
 public interface GeralService<T> {
@@ -8,4 +10,5 @@ public interface GeralService<T> {
     public void cadastrar(T entity);
     public void atualizar(T entity);
     public void excluir(T entity);
+    public List<T> buscarPorTodosCampos(String termo);
 }

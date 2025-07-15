@@ -1,6 +1,8 @@
 package br.edu.ufersa.avance.model.entities;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,7 +15,8 @@ public class Responsavel extends Pessoa {
     @OneToMany(mappedBy = "responsavel",
             cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},
             fetch = FetchType.LAZY)
-    List<Aluno> dependentes = new ArrayList<>();
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    private List<Aluno> dependentes;
 
     //Getters
     public List<Aluno> getDependentes() { return dependentes; }

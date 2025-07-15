@@ -29,8 +29,7 @@
             <TextField fx:id="especialidadeField" promptText="Especialidade" />
          <TextField fx:id="salarioField" promptText="Salário" />
             <TextField fx:id="contaBancoField" promptText="Conta Bancária" />
-         <ComboBox fx:id="statusField" prefHeight="26.0" prefWidth="296.0" promptText="Status do Professor" />
-
+         <ComboBox fx:id="statusField" style="-fx-opacity: 1; -fx-background-color: #f4f4f4;" prefHeight="26.0" prefWidth="296.0" promptText="Status do Professor" />
             <HBox spacing="10">
                 <Button fx:id="botaoCadastro" onAction="#cadastrarProfessor" style="-fx-background-color: white; -fx-text-fill: #2c3e50; -fx-font-weight: bold;" text="Cadastrar" />
             </HBox>

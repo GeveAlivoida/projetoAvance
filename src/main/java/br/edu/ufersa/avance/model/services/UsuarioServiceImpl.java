@@ -36,6 +36,11 @@ public class UsuarioServiceImpl implements UsuarioService{
     }
 
     @Override
+    public List<Usuario> buscarPorTodosCampos(String termo) {
+        return List.of();
+    }
+
+    @Override
     public List<Usuario> buscarTodos() {
         return List.of();
     }

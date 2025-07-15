@@ -12,6 +12,5 @@ public interface ModalidadeService extends GeralService<Modalidade> {
     public List<Modalidade> buscarPorNome(String nome);
     public List<Modalidade> buscarPorTipo(TipoModalidade tipo);
     public List<Modalidade> buscarAbertas();
-    public List<Modalidade> buscarPorTodosCampos(String termo);
     public void matricularAluno(Modalidade modalidade, Aluno aluno);
 }

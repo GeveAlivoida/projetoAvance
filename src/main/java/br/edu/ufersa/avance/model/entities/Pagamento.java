@@ -14,15 +14,15 @@ public class Pagamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
-    @JoinColumn(nullable = false, name = "id_pagador")
-    private Aluno pagador;
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @JoinColumn(nullable = false, name = "id_aluno")
+    private Aluno aluno;
 
     @Column(nullable = false, name = "data_pagamento")
     private LocalDate dataPagamento;
 
     @Column(nullable = false, name = "data_vencimento")
-    private LocalDate dataVencimento;
+    private LocalDate dataValidade;
 
     @Column(nullable = false, name = "mes_referencia")
     private YearMonth mesRef;
@@ -33,23 +33,24 @@ public class Pagamento {
 
     //Getters
     public long getId() { return id; }
-    public Aluno getPagador() { return pagador; }
+    public Aluno getAluno() { return aluno; }
     public LocalDate getDataPagamento() { return dataPagamento; }
-    public LocalDate getDataVencimento() { return dataVencimento; }
+    public LocalDate getDataValidade() { return dataValidade; }
     public YearMonth getMesRef() { return mesRef; }
     public StatusPagamento getStatus() { return status; }
 
     //Setters
-    public void setPagador(Aluno pagador) {
-        if (pagador != null) this.pagador = pagador;
+    public void setAluno(Aluno aluno) {
+        if (aluno != null) this.aluno = aluno;
         else throw new IllegalArgumentException("A pessoa a pagar não pode ser vazia!");
     }
     public void setDataPagamento(LocalDate dataPagamento) {
-        if (dataPagamento != null) this.dataPagamento = dataPagamento;
-        else throw new IllegalArgumentException("A data de pagamento não pode estar vazia!");
+        if ((status == StatusPagamento.PAGO || status == StatusPagamento.ATRASADO) && dataPagamento == null)
+            throw new IllegalArgumentException("Pagamentos confirmados devem ter data de pagamento!");
+        else this.dataPagamento = dataPagamento;
     }
-    public void setDataVencimento(LocalDate dataVencimento) {
-        if (dataVencimento != null) this.dataVencimento = dataVencimento;
+    public void setDataValidade(LocalDate dataValidade) {
+        if (dataValidade != null) this.dataValidade = dataValidade;
         else throw new IllegalArgumentException("A data de vencimento não pode estar vazia!");
     }
     public void setMesRef(YearMonth mesRef) {
@@ -63,11 +64,11 @@ public class Pagamento {
 
     //Construtores
     public Pagamento(){}
-    public Pagamento(Aluno pagador, LocalDate dataPagamento, LocalDate dataVencimento, YearMonth mesRef,
+    public Pagamento(Aluno aluno, LocalDate dataPagamento, LocalDate dataValidade, YearMonth mesRef,
                      StatusPagamento status){
-        setPagador(pagador);
+        setAluno(aluno);
         setDataPagamento(dataPagamento);
-        setDataVencimento(dataVencimento);
+        setDataValidade(dataValidade);
         setMesRef(mesRef);
         setStatus(status);
     }

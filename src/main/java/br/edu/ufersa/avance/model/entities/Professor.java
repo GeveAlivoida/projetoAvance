@@ -23,11 +23,15 @@ public class Professor extends Pessoa{
     @Column(nullable = false, length = 8)
     private StatusProfessor status;
 
-    @OneToMany(mappedBy = "professor")
-    List<Modalidade> modalidades;
+    @OneToMany(mappedBy = "professor",
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},
+            fetch = FetchType.LAZY)
+    private List<Modalidade> modalidades;
 
-    @OneToMany(mappedBy = "professor")
-    List<Aula> aulas;
+    @OneToMany(mappedBy = "professor",
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},
+            fetch = FetchType.LAZY)
+    private List<Aula> aulas;
 
     //Getters
     public double getSalario() { return salario; }

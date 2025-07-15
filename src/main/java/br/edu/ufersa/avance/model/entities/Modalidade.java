@@ -1,5 +1,6 @@
 package br.edu.ufersa.avance.model.entities;
 
+import br.edu.ufersa.avance.exceptions.FullVacanciesException;
 import br.edu.ufersa.avance.model.enums.TipoModalidade;
 import jakarta.persistence.*;
 
@@ -13,11 +14,11 @@ public class Modalidade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(nullable = false, name = "id_professor")
     private Professor professor;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinTable(
             name = "modalidade_aluno",
             joinColumns = @JoinColumn(name = "id_modalidade"),
@@ -66,7 +67,10 @@ public class Modalidade {
         else throw new IllegalArgumentException("O valor da aula não pode ser negativo!");
     }
     public void setVagas(int vagas) {
-        if (vagas >= 0) this.vagas = vagas;
+        if (vagas >= 1) {
+            if(tipo == TipoModalidade.INDIVIDUAL) this.vagas = 1;
+            if(tipo == TipoModalidade.EM_GRUPO || tipo == TipoModalidade.WORKSHOP) this.vagas = vagas;
+        }
         else throw new IllegalArgumentException("O número de vagas não pode ser negativo!");
     }
 
@@ -88,8 +92,11 @@ public class Modalidade {
     public void adicionarAluno(Aluno aluno){
         if(aluno != null) {
             if(alunos.contains(aluno)) {
-                alunos.add(aluno);
-                aluno.getModalidades().add(this);
+                if(temVaga()) {
+                    alunos.add(aluno);
+                    aluno.getModalidades().add(this);
+                }
+                else throw new FullVacanciesException();
             }
             else throw new IllegalArgumentException("Esse aluno já foi cadastrado nesta modalidade!");
         }
