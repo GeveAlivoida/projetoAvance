@@ -199,12 +199,12 @@ public class PagamentoController {
                 novoPagamento.setStatus(StatusPagamento.PENDENTE);
                 novoPagamento.setDataPagamento(null);
                 service.cadastrar(novoPagamento);
-                mostrarMensagem(erroCadastro, "Pagamento cadastrado com sucesso!", Color.GREEN);
+                mostrarMensagem(erroCadastro, "Pagamento cadastrado com sucesso!", Color.WHITE);
             } else {
                 //obs: Data de pagamento já foi atualizada pelo listener do statusField
                 novoPagamento.setStatus(statusField.getValue());
                 service.atualizar(novoPagamento);
-                mostrarMensagem(erroCadastro, "Pagamento editado com sucesso!", Color.GREEN);
+                mostrarMensagem(erroCadastro, "Pagamento editado com sucesso!", Color.WHITE);
                 botaoCadastro.setText("Cadastrar");
                 modoEdicao = false;
 

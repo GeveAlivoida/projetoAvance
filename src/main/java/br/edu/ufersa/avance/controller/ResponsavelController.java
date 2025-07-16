@@ -134,13 +134,13 @@ public class ResponsavelController {
 
             if(!modoEdicao) {
                 service.cadastrar(novoResponsavel);
-                mostrarMensagem(erroCadastro, "Responsável cadastrado com sucesso!", Color.GREEN);
+                mostrarMensagem(erroCadastro, "Responsável cadastrado com sucesso!", Color.WHITE);
             }
             else {
                 service.atualizar(novoResponsavel);
                 botaoCadastro.setText("Cadastrar");
                 modoEdicao = false;
-                mostrarMensagem(erroCadastro, "Responsável editado com sucesso!", Color.GREEN);
+                mostrarMensagem(erroCadastro, "Responsável editado com sucesso!", Color.WHITE);
             }
 
             limparCampos();
@@ -186,7 +186,7 @@ public class ResponsavelController {
         Responsavel selecionado = responsavelTable.getSelectionModel().getSelectedItem();
 
         if (selecionado == null)
-            mostrarMensagem(erroTabela, "Selecione um responsavel para editar", Color.RED);
+            mostrarMensagem(erroTabela, "Escolha um responsável para editar!", Color.RED);
         else {
             try {
                 modoEdicao = true;

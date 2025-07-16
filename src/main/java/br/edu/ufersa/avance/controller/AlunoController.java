@@ -11,7 +11,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
@@ -195,13 +194,13 @@ public class AlunoController {
 
             if(!modoEdicao) {
                 service.cadastrar(novoAluno);
-                mostrarMensagem(erroCadastro, "Aluno cadastrado com sucesso!", Color.GREEN);
+                mostrarMensagem(erroCadastro, "Aluno cadastrado com sucesso!", Color.WHITE);
             }
             else {
                 service.atualizar(novoAluno);
                 botaoCadastro.setText("Cadastrar");
                 modoEdicao = false;
-                mostrarMensagem(erroCadastro, "Aluno editado com sucesso!", Color.GREEN);
+                mostrarMensagem(erroCadastro, "Aluno editado com sucesso!", Color.WHITE);
             }
 
             limparCampos();

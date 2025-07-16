@@ -36,7 +36,7 @@
             <HBox spacing="10">
                 <Button fx:id="botaoCadastro" onAction="#cadastrarModalidade" style="-fx-background-color: white; -fx-text-fill: #2c3e50; -fx-font-weight: bold;" text="Cadastrar" />
             </HBox>
-         <Label fx:id="erroCadastro" text="Label" visible="false" />
+         <Label fx:id="erroCadastro" prefHeight="254.0" prefWidth="307.0" text="ErroCadastro" visible="false" />
         </VBox>
     </left>
 
@@ -69,7 +69,7 @@
 
             <!-- Botão deletar -->
             <Button maxWidth="Infinity" onAction="#excluirModalidade" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold;" text="Excluir" />
-         <Label fx:id="erroTabela" text="Label" visible="false" />
+         <Label fx:id="erroTabela" prefHeight="18.0" prefWidth="686.0" text="ErroTabela" visible="false" />
         </VBox>
     </right>
 

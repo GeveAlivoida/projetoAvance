@@ -39,7 +39,7 @@
             <HBox spacing="10">
                 <Button fx:id="botaoCadastro" onAction="#cadastrarAluno" style="-fx-background-color: white; -fx-text-fill: #2c3e50; -fx-font-weight: bold;" text="Cadastrar" />
             </HBox>
-         <Label fx:id="erroCadastro" text="Label" visible="false" />
+         <Label fx:id="erroCadastro" prefHeight="186.0" prefWidth="332.0" text="ErroCadastro" visible="false" />
         </VBox>
     </left>
    <right>
@@ -50,7 +50,7 @@
 
             <!-- Linha com campo de busca e botão Editar -->
             <HBox alignment="CENTER" spacing="10">
-                <TextField fx:id="consultaField" prefHeight="26.0" prefWidth="400.0" promptText="Buscar " style="-fx-background-color: white;" />
+                <TextField fx:id="consultaField" prefHeight="26.0" prefWidth="400.0" promptText="Buscar aluno..." style="-fx-background-color: white;" />
                 <Button onAction="#editarAluno" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold;" text="Editar" />
             </HBox>
 
@@ -70,7 +70,7 @@
 
             <!-- Botão Deletar -->
             <Button maxWidth="Infinity" onAction="#excluirAluno" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold;" text="Excluir" />
-         <Label fx:id="erroTabela" text="Label" visible="false" />
+         <Label fx:id="erroTabela" prefHeight="18.0" prefWidth="705.0" text="ErroTabela" visible="false" />
         </VBox>
    </right>
 

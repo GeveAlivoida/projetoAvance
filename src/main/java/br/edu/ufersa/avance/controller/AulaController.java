@@ -254,13 +254,13 @@ public class AulaController {
 
             if(!modoEdicao){
                 service.cadastrar(novaAula);
-                mostrarMensagem(erroCadastro, "Aula cadastrada com sucesso!", Color.GREEN);
+                mostrarMensagem(erroCadastro, "Aula cadastrada com sucesso!", Color.WHITE);
             }
             else {
                 service.atualizar(novaAula);
                 botaoCadastro.setText("Cadastrar");
                 modoEdicao = false;
-                mostrarMensagem(erroCadastro, "Aula editada com sucesso!", Color.GREEN);
+                mostrarMensagem(erroCadastro, "Aula editada com sucesso!", Color.WHITE);
             }
 
             limparCampos();

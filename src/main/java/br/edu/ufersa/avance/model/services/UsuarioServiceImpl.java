@@ -5,7 +5,6 @@ import br.edu.ufersa.avance.model.dao.UsuarioDAO;
 import br.edu.ufersa.avance.model.dao.UsuarioDAOImpl;
 import br.edu.ufersa.avance.model.entities.Usuario;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class UsuarioServiceImpl implements UsuarioService{
@@ -37,7 +36,8 @@ public class UsuarioServiceImpl implements UsuarioService{
 
     @Override
     public List<Usuario> buscarPorTodosCampos(String termo) {
-        return List.of();
+        //não tem utilidade para Usuário
+        return null;
     }
 
     @Override
@@ -55,12 +55,6 @@ public class UsuarioServiceImpl implements UsuarioService{
     }
 
     @Override
-    public Usuario buscarPorSenha(String senha) {
-        if(senha != null && !senha.isEmpty()) return usuarioDAO.buscarPorEmail(senha);
-        else return null;
-    }
-
-    @Override
     public Usuario autenticar(Usuario usuario) throws AuthenticationException {
         try {
             Usuario usuarioEncontrado = usuarioDAO.buscarPorEmail(usuario.getEmail());
@@ -69,7 +63,8 @@ public class UsuarioServiceImpl implements UsuarioService{
                 return usuario;
             }
             else throw new AuthenticationException();
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new AuthenticationException();
         }
     }

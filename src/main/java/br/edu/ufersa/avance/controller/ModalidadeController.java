@@ -226,12 +226,12 @@ public class ModalidadeController {
 
             if (!modoEdicao) {
                 service.cadastrar(novaModalidade);
-                mostrarMensagem(erroCadastro, "Modalidade cadastrada com sucesso!", Color.GREEN);
+                mostrarMensagem(erroCadastro, "Modalidade cadastrada com sucesso!", Color.WHITE);
             } else {
                 service.atualizar(novaModalidade);
                 botaoCadastro.setText("Cadastrar");
                 modoEdicao = false;
-                mostrarMensagem(erroCadastro, "Modalidade editada com sucesso!", Color.GREEN);
+                mostrarMensagem(erroCadastro, "Modalidade editada com sucesso!", Color.WHITE);
             }
 
             limparCampos();

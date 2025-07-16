@@ -33,6 +33,7 @@ public class ProfessorController {
 
     @FXML private TextField nomeField;
     @FXML private TextField cpfField;
+    @FXML private DatePicker nascimentoField;
     @FXML private TextField emailField;
     @FXML private TextField telefoneField;
     @FXML private TextField especialidadeField;
@@ -58,6 +59,7 @@ public class ProfessorController {
     private void preencherCampos(){
         novoProfessor.setNome(nomeField.getText());
         novoProfessor.setCpf(cpfField.getText());
+        novoProfessor.setNascimento(nascimentoField.getValue());
         novoProfessor.setEmail(emailField.getText());
         novoProfessor.setTelefone(telefoneField.getText());
         novoProfessor.setEspecialidade(especialidadeField.getText());
@@ -75,6 +77,7 @@ public class ProfessorController {
     private void limparCampos(){
         nomeField.clear();
         cpfField.clear();
+        nascimentoField.setValue(null);
         emailField.clear();
         telefoneField.clear();
         especialidadeField.clear();
@@ -230,13 +233,13 @@ public class ProfessorController {
 
             if(!modoEdicao) {
                 service.cadastrar(novoProfessor);
-                mostrarMensagem(erroCadastro, "Professor cadastrado com sucesso!", Color.GREEN);
+                mostrarMensagem(erroCadastro, "Professor cadastrado com sucesso!", Color.WHITE);
             }
             else {
                 service.atualizar(novoProfessor);
                 botaoCadastro.setText("Cadastrar");
                 modoEdicao = false;
-                mostrarMensagem(erroCadastro, "Professor editado com sucesso!", Color.GREEN);
+                mostrarMensagem(erroCadastro, "Professor editado com sucesso!", Color.WHITE);
             }
 
             limparCampos();
@@ -285,7 +288,7 @@ public class ProfessorController {
         Professor selecionado = professorTable.getSelectionModel().getSelectedItem();
 
         if (selecionado == null)
-            mostrarMensagem(erroTabela, "Selecione um professor para editar", Color.RED);
+            mostrarMensagem(erroTabela, "Escolha um professor para editar!", Color.RED);
         else {
             try {
                 modoEdicao = true;
@@ -293,12 +296,11 @@ public class ProfessorController {
 
                 nomeField.setText(selecionado.getNome());
                 cpfField.setText(selecionado.getCpf());
+                nascimentoField.setValue(selecionado.getNascimento());
                 emailField.setText(selecionado.getEmail());
                 telefoneField.setText(selecionado.getTelefone());
                 especialidadeField.setText(selecionado.getEspecialidade());
-                salarioField.setText(String.format("%.2f", selecionado.getSalario())
-                        .replace(".", "X").replace(",", ".")
-                        .replace("X", ","));
+                salarioField.setText(String.format("%.2f", selecionado.getSalario()).replace(".", ","));
                 contaBancoField.setText(selecionado.getContaBanco());
                 statusField.setValue(selecionado.getStatus());
                 statusField.setDisable(false);

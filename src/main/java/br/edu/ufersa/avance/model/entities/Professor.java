@@ -41,7 +41,10 @@ public class Professor extends Pessoa{
 
     //Setters
     public void setSalario(double salario) {
-        if (salario >= 0.0) this.salario = salario;
+        if (salario >= 0.0) {
+            if(salario >= 1518.0) this.salario = salario;
+            else throw new IllegalArgumentException("O salário não pode ser menor que o atual salário mínimo!");
+        }
         else throw new IllegalArgumentException("O salário não pode ser negativo!");
     }
     public void setEspecialidade(String especialidade) {
