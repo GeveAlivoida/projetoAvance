@@ -40,6 +40,10 @@ public class Pagamento {
     public StatusPagamento getStatus() { return status; }
 
     //Setters
+    public void setId(long id) {
+        if(id>0) this.id = id;
+        else throw new IllegalArgumentException("Id inválida!");
+    }
     public void setAluno(Aluno aluno) {
         if (aluno != null) this.aluno = aluno;
         else throw new IllegalArgumentException("A pessoa a pagar não pode ser vazia!");

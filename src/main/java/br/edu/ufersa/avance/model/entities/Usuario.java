@@ -23,6 +23,10 @@ public class Usuario {
     public String getEmail() { return email; }
     public String getSenha() { return senha; }
 
+    public void setId(long id) {
+        if(id>0) this.id = id;
+        else throw new IllegalArgumentException("Id inválida!");
+    }
     public void setNome(String nome) {
         if(nome != null) this.nome = nome;
         else throw new IllegalArgumentException("O nome não pode estar vazio!");

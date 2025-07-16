@@ -51,6 +51,10 @@ public class Aula {
     public StatusAula getStatus() { return status; }
 
     //Setters
+    public void setId(long id) {
+        if(id>0) this.id = id;
+        else throw new IllegalArgumentException("Id inválida!");
+    }
     public void setModalidade(Modalidade modalidade) {
         if (modalidade != null) this.modalidade = modalidade;
         else throw new IllegalArgumentException("A modalidade não pode estar vazia!");

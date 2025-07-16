@@ -49,6 +49,10 @@ public class Modalidade {
     public int getVagas() { return vagas; }
 
     //Setters
+    public void setId(long id) {
+        if(id>0) this.id = id;
+        else throw new IllegalArgumentException("Id inválida!");
+    }
     public void setProfessor(Professor professor) {
         if (professor != null) this.professor = professor;
         else throw new IllegalArgumentException("O campo professor não pode estar vazio!");
