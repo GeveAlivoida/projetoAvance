@@ -54,6 +54,7 @@ public class ModalidadeController {
     private void preencherCampos(){
         ProfessorService professorService = new ProfessorServiceImpl();
 
+
         novaModalidade.setNome(nomeField.getText());
         novaModalidade.setTipo(tipoField.getValue());
         novaModalidade.setVagas(Integer.parseInt(vagasField.getText()));
@@ -284,8 +285,9 @@ public class ModalidadeController {
         else {
             try {
                 modoEdicao = true;
-                novaModalidade = selecionada;
+                novaModalidade = new Modalidade();
 
+                novaModalidade.setId(selecionada.getId());
                 nomeField.setText(selecionada.getNome());
                 tipoField.setValue(selecionada.getTipo());
                 vagasField.setText(String.valueOf(selecionada.getVagas()));

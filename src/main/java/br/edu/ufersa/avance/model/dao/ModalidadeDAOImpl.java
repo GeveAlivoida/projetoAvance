@@ -14,28 +14,50 @@ public class ModalidadeDAOImpl implements ModalidadeDAO{
 
     @Override
     public void cadastrar(Modalidade modalidade) {
-        try(EntityManager em = emf.createEntityManager()){
+        try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
+
+            // Reanexar o professor ao contexto do EntityManager
+            Professor professor = modalidade.getProfessor();
+            if (professor != null && professor.getId() != 0) {
+                Professor gerenciado = em.find(Professor.class, professor.getId());
+                modalidade.setProfessor(gerenciado);
+            }
+
             em.persist(modalidade);
             em.getTransaction().commit();
-        }catch(Throwable e){
+            if (professor == null) {
+                throw new IllegalArgumentException("Professor não encontrado");
+            }
+
+        } catch (Throwable e) {
             System.err.println("Falha ao criar EntityManager " + e);
             throw new RuntimeException(e);
         }
     }
 
+
     @Override
     public void atualizar(Modalidade modalidade) {
-        try(EntityManager em = emf.createEntityManager()){
-            EntityTransaction ts = em.getTransaction();
-            ts.begin();
-            em.merge(modalidade);
-            ts.commit();
-        }catch(Throwable e){
-            System.err.println("Falha ao criar EntityManager " + e);
+        try (EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+
+            // Reanexar professor
+            Professor professor = modalidade.getProfessor();
+            if (professor != null && professor.getId() != 0) {
+                professor = em.find(Professor.class, professor.getId());
+                modalidade.setProfessor(professor);
+            }
+
+            em.merge(modalidade); // <- só merge, sem persist
+            em.getTransaction().commit();
+        } catch (Throwable e) {
+            System.err.println("Erro ao atualizar Modalidade: " + e);
             throw new RuntimeException(e);
         }
     }
+
+
 
     @Override
     public void excluir(Modalidade modalidade) {
