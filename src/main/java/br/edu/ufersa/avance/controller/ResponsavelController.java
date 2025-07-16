@@ -41,6 +41,9 @@ public class ResponsavelController {
     private boolean modoEdicao = false;
 
     private void mostrarMensagem(Label label, String mensagem, Color cor){
+        erroCadastro.setVisible(false);
+        erroTabela.setVisible(false);
+
         label.setText(mensagem);
         label.setTextFill(cor);
         label.setVisible(true);
@@ -78,10 +81,10 @@ public class ResponsavelController {
         try {
             List<Responsavel> responsaveis = service.buscarTodos();
             responsavelTable.getItems().setAll(responsaveis);
-            responsavelTable.setPlaceholder(new Label("Nenhum professor cadastrado"));
+            responsavelTable.setPlaceholder(new Label("Nenhum responsável cadastrado"));
         }
         catch (Exception e) {
-            mostrarMensagem(erroTabela, "Não foi possível carregar os professores: " + e.getMessage(), Color.RED);
+            mostrarMensagem(erroTabela, "Não foi possível carregar os responsáveis: " + e.getMessage(), Color.RED);
         }
     }
 
@@ -174,7 +177,7 @@ public class ResponsavelController {
                         atualizarTabela();
                     }
                     catch (Exception e) {
-                        mostrarMensagem(erroTabela, "Erro ao excluir professor: " + e.getMessage(), Color.RED);
+                        mostrarMensagem(erroTabela, "Erro ao excluir responsável: " + e.getMessage(), Color.RED);
                     }
                 }
             });
@@ -201,7 +204,7 @@ public class ResponsavelController {
                 botaoCadastro.setText("Salvar");
             }
             catch (Exception e) {
-                mostrarMensagem(erroTabela, "Erro ao carregar professor: " + e.getMessage(), Color.RED);
+                mostrarMensagem(erroTabela, "Erro ao carregar responsável: " + e.getMessage(), Color.RED);
             }
         }
     }

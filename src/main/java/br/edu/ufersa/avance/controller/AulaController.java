@@ -17,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,8 +37,8 @@ public class AulaController {
     @FXML private TextField horarioField;
     @FXML private ComboBox<StatusAula> statusField;
     @FXML private ComboBox<Modalidade> modalidadeField;
-    @FXML private TextField professorCpfField;
-    @FXML private TextArea alunosCpfField;
+    @FXML private TextField professorNomeField;
+    @FXML private TextArea alunosNomeField;
 
     @FXML private Button botaoCadastro;
     
@@ -49,6 +50,9 @@ public class AulaController {
     private boolean modoEdicao = false;
 
     private void mostrarMensagem(Label label, String mensagem, Color cor){
+        erroCadastro.setVisible(false);
+        erroTabela.setVisible(false);
+
         label.setText(mensagem);
         label.setTextFill(cor);
         label.setVisible(true);
@@ -59,28 +63,26 @@ public class AulaController {
         final AlunoService alunoService = new AlunoServiceImpl();
 
         novaAula.setData(dataField.getValue());
-        // novaAula.setHorario();
+        novaAula.setHorario(LocalTime.parse(horarioField.getText()));
         novaAula.setStatus(statusField.getValue());
         novaAula.setModalidade(modalidadeField.getValue());
 
-        Professor professor = professorService.buscarPorCpf(professorCpfField.getText());
-        novaAula.setProfessor(professor);
+        List<Professor> professores = professorService.buscarPorNome(professorNomeField.getText());
+        if (professores == null || professores.isEmpty()) {
+            throw new IllegalArgumentException("Professor não encontrado!");
+        }
+        novaAula.setProfessor(professores.getFirst());
 
         List<Aluno> alunos = new ArrayList<>();
-        for(String cpf : alunosCpfField.getText().split(",")){
-            cpf = cpf.trim();
-            if(!cpf.isEmpty()){
-                try {
-                    Aluno aluno = alunoService.buscarPorCpf(cpf);
-                    if (aluno != null) alunos.add(aluno);
-                    else {
-                        mostrarMensagem(erroCadastro, "Aluno com CPF " + cpf + " não encontrado", Color.YELLOW);
-                        return;
+        if (alunosNomeField.getText() != null && !alunosNomeField.getText().isEmpty()) {
+            for (String nome : alunosNomeField.getText().split(",")) {
+                nome = nome.trim();
+                if (!nome.isEmpty()) {
+                    List<Aluno> alunosEncontrados = alunoService.buscarPorNome(nome);
+                    if (alunosEncontrados == null || alunosEncontrados.isEmpty()) {
+                        throw new IllegalArgumentException("Aluno '" + nome + "' não encontrado!");
                     }
-                }
-                catch (Exception e) {
-                    mostrarMensagem(erroCadastro, "Erro ao buscar aluno com CPF " + cpf + ": " + e.getMessage(), Color.YELLOW);
-                    return;
+                    alunos.add(alunosEncontrados.getFirst());
                 }
             }
         }
@@ -91,8 +93,8 @@ public class AulaController {
         horarioField.clear();
         statusField.setValue(null);
         modalidadeField.setValue(null);
-        professorCpfField.clear();
-        alunosCpfField.clear();
+        professorNomeField.clear();
+        alunosNomeField.clear();
 
         novaAula = new Aula();
         botaoCadastro.setText("Cadastrar");
@@ -135,14 +137,14 @@ public class AulaController {
         }
     }
 
-    private void configurarCpf(){
-        alunosCpfField.textProperty().addListener((observable, oldValue, newValue) -> {
+    private void configurarNomes(){
+        alunosNomeField.textProperty().addListener((observable, oldValue, newValue) -> {
             // Remove espaços desnecessários após vírgulas
             String formatted = newValue.replaceAll(",\\s+", ",")
                     .replaceAll("\\s+,", ",");
 
             if (!newValue.equals(formatted)) {
-                alunosCpfField.setText(formatted);
+                alunosNomeField.setText(formatted);
             }
         });
     }
@@ -181,7 +183,7 @@ public class AulaController {
                 if (empty || modalidade == null)
                     setText(null);
                 else
-                    setText(modalidade.getNome() + " (" + modalidade.getTipo() + ")");
+                    setText(modalidade.getNome() + " (" + modalidade.getTipo().getDescricao() + ")");
             }
         });
 
@@ -190,7 +192,7 @@ public class AulaController {
             public String toString(Modalidade modalidade) {
                 if (modalidade == null)
                     return null;
-                return modalidade.getNome() + " (" + modalidade.getTipo() + ")";
+                return modalidade.getNome() + " (" + modalidade.getTipo().getDescricao() + ")";
             }
 
             @Override
@@ -239,7 +241,7 @@ public class AulaController {
 
     @FXML
     void initialize(){
-        configurarCpf();
+        configurarNomes();
         configurarStatus();
         configurarModalidades();
 
@@ -317,11 +319,11 @@ public class AulaController {
                 modalidadeField.setValue(selecionada.getModalidade());
 
                 Professor professor = selecionada.getProfessor();
-                professorCpfField.setText(professor != null ? professor.getCpf() : "");
+                professorNomeField.setText(professor != null ? professor.getNome() : "");
 
-                alunosCpfField.setText(
+                alunosNomeField.setText(
                         selecionada.getAlunos().stream()
-                                .map(Aluno::getCpf)
+                                .map(Aluno::getNome)
                                 .collect(Collectors.joining(", "))
                 );
 

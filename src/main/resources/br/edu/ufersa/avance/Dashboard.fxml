@@ -127,9 +127,9 @@
                </effect>
             </HBox>
             <Pane layoutX="30.0" layoutY="174.0" prefHeight="7.0" prefWidth="210.0" />
-            <HBox alignment="CENTER" onMouseClicked="#abrirPagamentos" prefHeight="50.0" prefWidth="222.0" style="-fx-background-color: #f6f1de;">
+            <HBox alignment="CENTER" onMouseClicked="#abrirResponsaveis" prefHeight="50.0" prefWidth="222.0" style="-fx-background-color: #f6f1de;">
                <children>
-                  <Label onMouseClicked="#abrirResponsaveis" text="Responsáveis" textFill="#9e2db2">
+                  <Label text="Responsáveis" textFill="#9e2db2">
                      <font>
                         <Font name="Tahoma" size="22.0" />
                      </font>

@@ -5,6 +5,7 @@ import br.edu.ufersa.avance.model.dao.AlunoDAOImpl;
 import br.edu.ufersa.avance.model.entities.Aluno;
 import br.edu.ufersa.avance.model.entities.Aula;
 import br.edu.ufersa.avance.model.entities.Responsavel;
+import jakarta.persistence.NoResultException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,13 @@ public class AlunoServiceImpl implements AlunoService {
 
     @Override
     public Aluno buscarPorCpf(String cpf) {
-        if(cpf != null && !cpf.isEmpty()) return alunoDAO.buscarPorCpf(cpf);
+        if(cpf != null && !cpf.isEmpty()) {
+            try {
+                return alunoDAO.buscarPorCpf(cpf);
+            } catch (NoResultException e) {
+                return null;
+            }
+        }
         else return null;
     }
 

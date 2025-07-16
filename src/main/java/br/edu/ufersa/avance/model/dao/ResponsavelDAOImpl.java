@@ -12,39 +12,67 @@ public class ResponsavelDAOImpl implements ResponsavelDAO{
 
     @Override
     public void cadastrar(Responsavel responsavel) {
-        try(EntityManager em = emf.createEntityManager()){
-            em.getTransaction().begin();
+        EntityManager em = null;
+        EntityTransaction ts = null;
+        try {
+            em = emf.createEntityManager();
+            ts = em.getTransaction();
+            ts.begin();
             em.persist(responsavel);
-            em.getTransaction().commit();
-        }catch(Throwable e){
-            System.err.println("Falha ao criar EntityManager " + e);
-            throw new RuntimeException(e);
+            ts.commit();
+        }
+        catch (Throwable e) {
+            if (ts != null && ts.isActive())
+                ts.rollback();
+            throw new RuntimeException("Falha ao criar EntityManager " + e);
+        }
+        finally {
+            if (em != null && em.isOpen())
+                em.close();
         }
     }
 
     @Override
     public void atualizar(Responsavel responsavel) {
-        try(EntityManager em = emf.createEntityManager()){
-            EntityTransaction ts = em.getTransaction();
+        EntityManager em = null;
+        EntityTransaction ts = null;
+        try {
+            em = emf.createEntityManager();
+            ts = em.getTransaction();
             ts.begin();
             em.merge(responsavel);
             ts.commit();
-        }catch(Throwable e){
-            System.err.println("Falha ao criar EntityManager " + e);
-            throw new RuntimeException(e);
+        }
+        catch (Throwable e) {
+            if (ts != null && ts.isActive())
+                ts.rollback();
+            throw new RuntimeException("Falha ao criar EntityManager " + e);
+        }
+        finally {
+            if (em != null && em.isOpen())
+                em.close();
         }
     }
 
     @Override
     public void excluir(Responsavel responsavel) {
-        try(EntityManager em = emf.createEntityManager()){
-            EntityTransaction ts = em.getTransaction();
+        EntityManager em = null;
+        EntityTransaction ts = null;
+        try {
+            em = emf.createEntityManager();
+            ts = em.getTransaction();
             ts.begin();
             em.remove(em.contains(responsavel) ? responsavel : em.merge(responsavel));
             ts.commit();
-        }catch(Throwable e){
-            System.err.println("Falha ao criar EntityManager " + e);
-            throw new RuntimeException(e);
+        }
+        catch (Throwable e) {
+            if (ts != null && ts.isActive())
+                ts.rollback();
+            throw new RuntimeException("Falha ao criar EntityManager " + e);
+        }
+        finally {
+            if (em != null && em.isOpen())
+                em.close();
         }
     }
 

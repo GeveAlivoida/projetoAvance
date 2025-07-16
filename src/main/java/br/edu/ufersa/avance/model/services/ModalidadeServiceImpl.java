@@ -27,7 +27,7 @@ public class ModalidadeServiceImpl implements ModalidadeService {
         Modalidade modalidadeEncontrada = modalidadeDAO.buscarPorId(modalidade.getId());
         if(modalidadeEncontrada == null)
             throw new IllegalArgumentException("Modalidade inexistente!");
-        else modalidadeDAO.cadastrar(modalidade);
+        else modalidadeDAO.atualizar(modalidade);
     }
 
     @Override

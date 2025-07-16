@@ -25,7 +25,7 @@ public class AulaServiceImpl implements AulaService{
         Aula aulaEncontrada = aulaDAO.buscarPorId(aula.getId());
         if(aulaEncontrada == null)
             throw new IllegalArgumentException("Aula inexistente!");
-        else aulaDAO.cadastrar(aula);
+        else aulaDAO.atualizar(aula);
     }
 
     @Override

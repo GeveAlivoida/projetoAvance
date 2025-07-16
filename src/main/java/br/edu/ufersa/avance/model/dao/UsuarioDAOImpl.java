@@ -11,39 +11,67 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 
     @Override
     public void cadastrar(Usuario usuario) {
-        try(EntityManager em = emf.createEntityManager()){
-            em.getTransaction().begin();
+        EntityManager em = null;
+        EntityTransaction ts = null;
+        try {
+            em = emf.createEntityManager();
+            ts = em.getTransaction();
+            ts.begin();
             em.persist(usuario);
-            em.getTransaction().commit();
-        }catch(Throwable e){
-            System.err.println("Falha ao criar EntityManager " + e);
-            throw new RuntimeException(e);
+            ts.commit();
+        }
+        catch (Throwable e) {
+            if (ts != null && ts.isActive())
+                ts.rollback();
+            throw new RuntimeException("Falha ao criar EntityManager " + e);
+        }
+        finally {
+            if (em != null && em.isOpen())
+                em.close();
         }
     }
 
     @Override
     public void atualizar(Usuario usuario) {
-        try(EntityManager em = emf.createEntityManager()){
-            EntityTransaction ts = em.getTransaction();
+        EntityManager em = null;
+        EntityTransaction ts = null;
+        try {
+            em = emf.createEntityManager();
+            ts = em.getTransaction();
             ts.begin();
             em.merge(usuario);
             ts.commit();
-        }catch(Throwable e){
-            System.err.println("Falha ao criar EntityManager " + e);
-            throw new RuntimeException(e);
+        }
+        catch (Throwable e) {
+            if (ts != null && ts.isActive())
+                ts.rollback();
+            throw new RuntimeException("Falha ao criar EntityManager " + e);
+        }
+        finally {
+            if (em != null && em.isOpen())
+                em.close();
         }
     }
 
     @Override
     public void excluir(Usuario usuario) {
-        try(EntityManager em = emf.createEntityManager()){
-            EntityTransaction ts = em.getTransaction();
+        EntityManager em = null;
+        EntityTransaction ts = null;
+        try {
+            em = emf.createEntityManager();
+            ts = em.getTransaction();
             ts.begin();
             em.remove(em.contains(usuario) ? usuario : em.merge(usuario));
             ts.commit();
-        }catch(Throwable e){
-            System.err.println("Falha ao criar EntityManager " + e);
-            throw new RuntimeException(e);
+        }
+        catch (Throwable e) {
+            if (ts != null && ts.isActive())
+                ts.rollback();
+            throw new RuntimeException("Falha ao criar EntityManager " + e);
+        }
+        finally {
+            if (em != null && em.isOpen())
+                em.close();
         }
     }
 

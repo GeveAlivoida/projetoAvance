@@ -18,7 +18,7 @@ public class Pagamento {
     @JoinColumn(nullable = false, name = "id_aluno")
     private Aluno aluno;
 
-    @Column(nullable = false, name = "data_pagamento")
+    @Column(nullable = true, name = "data_pagamento")
     private LocalDate dataPagamento;
 
     @Column(nullable = false, name = "data_vencimento")

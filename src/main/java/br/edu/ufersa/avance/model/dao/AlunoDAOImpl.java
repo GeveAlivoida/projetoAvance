@@ -2,10 +2,12 @@ package br.edu.ufersa.avance.model.dao;
 
 import br.edu.ufersa.avance.model.entities.Aluno;
 import br.edu.ufersa.avance.model.entities.Aula;
+import br.edu.ufersa.avance.model.entities.Modalidade;
 import br.edu.ufersa.avance.model.entities.Responsavel;
 import br.edu.ufersa.avance.util.JPAUtil;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AlunoDAOImpl implements AlunoDAO{
@@ -13,39 +15,99 @@ public class AlunoDAOImpl implements AlunoDAO{
 
     @Override
     public void cadastrar(Aluno aluno) {
-        try(EntityManager em = emf.createEntityManager()){
-            em.getTransaction().begin();
+        EntityManager em = null;
+        EntityTransaction ts = null;
+        try {
+            em = emf.createEntityManager();
+            ts = em.getTransaction();
+
+            if (aluno.getResponsavel() != null) {
+                Responsavel responsavel = em.merge(aluno.getResponsavel());
+                aluno.setResponsavel(responsavel);
+            }
+
+            if (aluno.getModalidades() != null) {
+                List<Modalidade> modalidadesGerenciadas = new ArrayList<>();
+                for (Modalidade modalidade : aluno.getModalidades()) {
+                    if (modalidade.getId() > 0) {
+                        modalidadesGerenciadas.add(em.merge(modalidade));
+                    } else {
+                        throw new IllegalArgumentException("Modalidade não persistida: " + modalidade.getNome());
+                    }
+                }
+                aluno.setModalidades(modalidadesGerenciadas);
+            }
+
             em.persist(aluno);
             em.getTransaction().commit();
-        }catch(Throwable e){
-            System.err.println("Falha ao criar EntityManager " + e);
-            throw new RuntimeException(e);
         }
+        catch (Throwable e) {
+            if (ts != null && ts.isActive())
+                ts.rollback();
+            throw new RuntimeException("Falha ao criar EntityManager " + e);
+        }
+        finally {
+            if (em != null && em.isOpen())
+                em.close();
+        }
+
     }
 
     @Override
     public void atualizar(Aluno aluno) {
-        try(EntityManager em = emf.createEntityManager()){
-            EntityTransaction ts = em.getTransaction();
+        EntityManager em = null;
+        EntityTransaction ts = null;
+        try {
+            em = emf.createEntityManager();
+            ts = em.getTransaction();
             ts.begin();
+
+            Aluno alunoExistente = em.find(Aluno.class, aluno.getId());
+            if (alunoExistente == null) {
+                throw new IllegalArgumentException("Esse aluno não existe!");
+            }
+
             em.merge(aluno);
             ts.commit();
-        }catch(Throwable e){
-            System.err.println("Falha ao criar EntityManager " + e);
-            throw new RuntimeException(e);
+        }
+        catch (Throwable e) {
+            if (ts != null && ts.isActive())
+                ts.rollback();
+            throw new RuntimeException("Falha ao criar EntityManager " + e);
+        }
+        finally {
+            if (em != null && em.isOpen())
+                em.close();
         }
     }
 
     @Override
     public void excluir(Aluno aluno) {
-        try(EntityManager em = emf.createEntityManager()){
-            EntityTransaction ts = em.getTransaction();
-            ts.begin();
-            em.remove(em.contains(aluno) ? aluno : em.merge(aluno));
+        EntityManager em = null;
+        EntityTransaction ts = null;
+        try {
+            em = emf.createEntityManager();
+            ts = em.getTransaction();
+
+            Aluno alunoGerenciado = em.find(Aluno.class, aluno.getId());
+            if (alunoGerenciado != null) {
+                for (Modalidade m : new ArrayList<>(alunoGerenciado.getModalidades()))
+                    alunoGerenciado.removerModalidade(m);
+                for (Aula a : new ArrayList<>(alunoGerenciado.getAulas()))
+                    alunoGerenciado.removerAula(a);
+                em.remove(alunoGerenciado);
+            }
+
             ts.commit();
-        }catch(Throwable e){
-            System.err.println("Falha ao criar EntityManager " + e);
-            throw new RuntimeException(e);
+        }
+        catch (Throwable e) {
+            if (ts != null && ts.isActive())
+                ts.rollback();
+            throw new RuntimeException("Falha ao criar EntityManager " + e);
+        }
+        finally {
+            if (em != null && em.isOpen())
+                em.close();
         }
     }
 
@@ -84,11 +146,12 @@ public class AlunoDAOImpl implements AlunoDAO{
     @Override
     public Aluno buscarPorCpf(String cpf) {
         try (EntityManager em = emf.createEntityManager()){
-            return em.createQuery("SELECT a FROM Aluno a WHERE a.cpf = :cpf", Aluno.class)
+            List<Aluno> resultados = em.createQuery("SELECT a FROM Aluno a WHERE a.cpf = :cpf", Aluno.class)
                     .setParameter("cpf", cpf)
-                    .getSingleResult();
-        }catch (Throwable e){
-            System.err.println("Falha ao criar EntityManager " + e);
+                    .getResultList();
+            return resultados.isEmpty() ? null : resultados.getFirst();
+        } catch (Throwable e){
+            System.err.println("Falha ao criar EntityManager: " + e);
             throw new RuntimeException(e);
         }
     }

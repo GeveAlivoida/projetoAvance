@@ -2,7 +2,6 @@ package br.edu.ufersa.avance.model.dao;
 
 import br.edu.ufersa.avance.model.entities.Aluno;
 import br.edu.ufersa.avance.model.entities.Pagamento;
-import br.edu.ufersa.avance.model.entities.Pessoa;
 import br.edu.ufersa.avance.model.enums.StatusPagamento;
 import br.edu.ufersa.avance.util.JPAUtil;
 import jakarta.persistence.*;
@@ -16,39 +15,81 @@ public class PagamentoDAOImpl implements PagamentoDAO{
 
     @Override
     public void cadastrar(Pagamento pagamento) {
-        try(EntityManager em = emf.createEntityManager()){
-            em.getTransaction().begin();
+        EntityManager em = null;
+        EntityTransaction ts = null;
+        try {
+            em = emf.createEntityManager();
+            ts = em.getTransaction();
+            ts.begin();
+
+            if (pagamento.getAluno() != null) {
+                Aluno aluno = em.find(Aluno.class, pagamento.getAluno().getId());
+                if (aluno == null)
+                    throw new IllegalArgumentException("Aluno não encontrado!");
+                pagamento.setAluno(aluno);
+            }
+
             em.persist(pagamento);
-            em.getTransaction().commit();
-        }catch(Throwable e){
-            System.err.println("Falha ao criar EntityManager " + e);
-            throw new RuntimeException(e);
+            ts.commit();
+        }
+        catch (Throwable e) {
+            if (ts != null && ts.isActive())
+                ts.rollback();
+            throw new RuntimeException("Falha ao criar EntityManager " + e);
+        }
+        finally {
+            if (em != null && em.isOpen())
+                em.close();
         }
     }
 
     @Override
     public void atualizar(Pagamento pagamento) {
-        try(EntityManager em = emf.createEntityManager()){
-            EntityTransaction ts = em.getTransaction();
+        EntityManager em = null;
+        EntityTransaction ts = null;
+        try {
+            em = emf.createEntityManager();
+            ts = em.getTransaction();
             ts.begin();
             em.merge(pagamento);
             ts.commit();
-        }catch(Throwable e){
-            System.err.println("Falha ao criar EntityManager " + e);
-            throw new RuntimeException(e);
+        }
+        catch (Throwable e) {
+            if (ts != null && ts.isActive())
+                ts.rollback();
+            throw new RuntimeException("Falha ao criar EntityManager " + e);
+        }
+        finally {
+            if (em != null && em.isOpen())
+                em.close();
         }
     }
 
     @Override
     public void excluir(Pagamento pagamento) {
-        try(EntityManager em = emf.createEntityManager()){
-            EntityTransaction ts = em.getTransaction();
+        EntityManager em = null;
+        EntityTransaction ts = null;
+        try {
+            em = emf.createEntityManager();
+            ts = em.getTransaction();
             ts.begin();
-            em.remove(em.contains(pagamento) ? pagamento : em.merge(pagamento));
+
+            Pagamento pagamentoGerenciado = em.find(Pagamento.class, pagamento.getId());
+            if (pagamentoGerenciado == null) {
+                throw new IllegalArgumentException("Pagamento não encontrado!");
+            }
+
+            em.remove(pagamentoGerenciado);
             ts.commit();
-        }catch(Throwable e){
-            System.err.println("Falha ao criar EntityManager " + e);
-            throw new RuntimeException(e);
+        }
+        catch (Throwable e) {
+            if (ts != null && ts.isActive())
+                ts.rollback();
+            throw new RuntimeException("Falha ao criar EntityManager " + e);
+        }
+        finally {
+            if (em != null && em.isOpen())
+                em.close();
         }
     }
 

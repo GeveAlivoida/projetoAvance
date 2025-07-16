@@ -8,45 +8,92 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AulaDAOImpl implements AulaDAO{
     protected final EntityManagerFactory emf = JPAUtil.getEntityManagerFactory();
 
     @Override
     public void cadastrar(Aula aula) {
-        try(EntityManager em = emf.createEntityManager()){
-            em.getTransaction().begin();
+        EntityManager em = null;
+        EntityTransaction ts = null;
+        try {
+            em = emf.createEntityManager();
+            ts = em.getTransaction();
+
+            ts.begin();
+
+            if (aula.getModalidade() != null && aula.getModalidade().getId() > 0) {
+                aula.setModalidade(em.merge(aula.getModalidade()));
+            }
+            if (aula.getProfessor() != null && aula.getProfessor().getId() > 0) {
+                aula.setProfessor(em.merge(aula.getProfessor()));
+            }
+            if (aula.getAlunos() != null) {
+                aula.setAlunos(aula.getAlunos().stream()
+                        .map(em::merge)
+                        .collect(Collectors.toList()));
+            }
+
             em.persist(aula);
             em.getTransaction().commit();
-        }catch(Throwable e){
-            System.err.println("Falha ao criar EntityManager " + e);
-            throw new RuntimeException(e);
+        }
+        catch (Throwable e) {
+            if (ts != null && ts.isActive())
+                ts.rollback();
+            throw new RuntimeException("Falha ao criar EntityManager " + e);
+        }
+        finally {
+            if (em != null && em.isOpen())
+                em.close();
         }
     }
 
     @Override
     public void atualizar(Aula aula) {
-        try(EntityManager em = emf.createEntityManager()){
-            EntityTransaction ts = em.getTransaction();
+        EntityManager em = null;
+        EntityTransaction ts = null;
+        try {
+            em = emf.createEntityManager();
+            ts = em.getTransaction();
+
             ts.begin();
             em.merge(aula);
             ts.commit();
-        }catch(Throwable e){
-            System.err.println("Falha ao criar EntityManager " + e);
-            throw new RuntimeException(e);
+        }
+        catch (Throwable e) {
+            if (ts != null && ts.isActive())
+                ts.rollback();
+            throw new RuntimeException("Falha ao criar EntityManager " + e);
+        }
+        finally {
+            if (em != null && em.isOpen())
+                em.close();
         }
     }
 
     @Override
     public void excluir(Aula aula) {
-        try(EntityManager em = emf.createEntityManager()){
-            EntityTransaction ts = em.getTransaction();
+        EntityManager em = null;
+        EntityTransaction ts = null;
+        try {
+            em = emf.createEntityManager();
+            ts = em.getTransaction();
+
+            Aula aulaGerenciada = em.merge(aula);
+            em.remove(aulaGerenciada);
+
             ts.begin();
-            em.remove(em.contains(aula) ? aula : em.merge(aula));
             ts.commit();
-        }catch(Throwable e){
-            System.err.println("Falha ao criar EntityManager " + e);
-            throw new RuntimeException(e);
+        }
+        catch (Throwable e) {
+            if (ts != null && ts.isActive())
+                ts.rollback();
+            throw new RuntimeException("Falha ao criar EntityManager " + e);
+        }
+        finally {
+            if (em != null && em.isOpen())
+                em.close();
         }
     }
 

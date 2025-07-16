@@ -16,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,6 +48,9 @@ public class AlunoController {
     private boolean modoEdicao = false;
 
     private void mostrarMensagem(Label label, String mensagem, Color cor){
+        erroCadastro.setVisible(false);
+        erroTabela.setVisible(false);
+
         label.setText(mensagem);
         label.setTextFill(cor);
         label.setVisible(true);
@@ -60,10 +64,17 @@ public class AlunoController {
         novoAluno.setNascimento(nascimentoField.getValue());
         novoAluno.setTelefone(telefoneField.getText());
         novoAluno.setEmail(emailField.getText());
-        novoAluno.adicionarModalidade(modalidadeField.getValue());
 
-        Responsavel responsavel = responsavelService.buscarPorCpf(cpfRespField.getText());
-        novoAluno.setResponsavel(responsavel);
+        if (!cpfRespField.getText().isEmpty()) {
+            Responsavel responsavel = responsavelService.buscarPorCpf(cpfRespField.getText());
+            novoAluno.setResponsavel(responsavel);
+        }
+        else novoAluno.setResponsavel(null);
+
+        if (modalidadeField.getValue() != null)
+            novoAluno.adicionarModalidade(modalidadeField.getValue());
+        else
+            novoAluno.setModalidades(new ArrayList<>());
     }
     private void limparCampos(){
         nomeField.clear();
@@ -121,7 +132,7 @@ public class AlunoController {
                 if (empty || modalidade == null) {
                     setText(null);
                 } else {
-                    setText(modalidade.getNome() + " (" + modalidade.getTipo() + ")");
+                    setText(modalidade.getNome() + " (" + modalidade.getTipo().getDescricao() + ")");
                 }
             }
         });
@@ -132,7 +143,7 @@ public class AlunoController {
                 if (modalidade == null) {
                     return null;
                 }
-                return modalidade.getNome() + " (" + modalidade.getTipo() + ")";
+                return modalidade.getNome() + " (" + modalidade.getTipo().getDescricao() + ")";
             }
 
             @Override
@@ -193,10 +204,17 @@ public class AlunoController {
             preencherCampos();
 
             if(!modoEdicao) {
+                if (service.buscarPorCpf(novoAluno.getCpf()) != null) {
+                    throw new IllegalArgumentException("Aluno já cadastrado!");
+                }
                 service.cadastrar(novoAluno);
                 mostrarMensagem(erroCadastro, "Aluno cadastrado com sucesso!", Color.WHITE);
             }
             else {
+                Aluno alunoAtual = service.buscarPorId(novoAluno.getId());
+                if (alunoAtual == null) {
+                    throw new IllegalArgumentException("Aluno não existe!");
+                }
                 service.atualizar(novoAluno);
                 botaoCadastro.setText("Cadastrar");
                 modoEdicao = false;

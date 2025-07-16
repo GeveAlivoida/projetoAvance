@@ -7,6 +7,7 @@ import br.edu.ufersa.avance.model.enums.TipoModalidade;
 import br.edu.ufersa.avance.util.JPAUtil;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ModalidadeDAOImpl implements ModalidadeDAO{
@@ -14,61 +15,86 @@ public class ModalidadeDAOImpl implements ModalidadeDAO{
 
     @Override
     public void cadastrar(Modalidade modalidade) {
-        try (EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
+        if (modalidade.getId() > 0)
+            throw new IllegalArgumentException("Esta modalidade já existe!");
+        else {
+            EntityManager em = null;
+            EntityTransaction ts = null;
+            try {
+                em = emf.createEntityManager();
+                ts = em.getTransaction();
+                ts.begin();
 
-            // Reanexar o professor ao contexto do EntityManager
-            Professor professor = modalidade.getProfessor();
-            if (professor != null && professor.getId() != 0) {
-                Professor gerenciado = em.find(Professor.class, professor.getId());
-                modalidade.setProfessor(gerenciado);
+                if (modalidade.getProfessor() == null || modalidade.getProfessor().getId() == 0)
+                    throw new IllegalArgumentException("Professor não encontrado!");
+                else {
+                    Professor professor = em.find(Professor.class, modalidade.getProfessor().getId());
+                    modalidade.setProfessor(professor);
+                }
+
+                em.persist(modalidade);
+                ts.commit();
+            }catch (Throwable e) {
+                if (ts != null && ts.isActive())
+                    ts.rollback();
+                throw new RuntimeException("Falha ao criar EntityManager " + e);
             }
-
-            em.persist(modalidade);
-            em.getTransaction().commit();
-            if (professor == null) {
-                throw new IllegalArgumentException("Professor não encontrado");
+            finally {
+                if (em != null && em.isOpen())
+                    em.close();
             }
-
-        } catch (Throwable e) {
-            System.err.println("Falha ao criar EntityManager " + e);
-            throw new RuntimeException(e);
         }
     }
-
 
     @Override
     public void atualizar(Modalidade modalidade) {
-        try (EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
+        EntityManager em = null;
+        EntityTransaction ts = null;
+        try {
+            em = emf.createEntityManager();
+            ts = em.getTransaction();
 
-            // Reanexar professor
-            Professor professor = modalidade.getProfessor();
-            if (professor != null && professor.getId() != 0) {
-                professor = em.find(Professor.class, professor.getId());
-                modalidade.setProfessor(professor);
-            }
-
-            em.merge(modalidade); // <- só merge, sem persist
-            em.getTransaction().commit();
-        } catch (Throwable e) {
-            System.err.println("Erro ao atualizar Modalidade: " + e);
-            throw new RuntimeException(e);
+            ts.begin();
+            em.merge(modalidade);
+            ts.commit();
+        }
+        catch (Throwable e) {
+            if (ts != null && ts.isActive())
+                ts.rollback();
+            throw new RuntimeException("Falha ao criar EntityManager " + e);
+        }
+        finally {
+            if (em != null && em.isOpen())
+                em.close();
         }
     }
 
-
-
     @Override
     public void excluir(Modalidade modalidade) {
-        try(EntityManager em = emf.createEntityManager()){
-            EntityTransaction ts = em.getTransaction();
+        EntityManager em = null;
+        EntityTransaction ts = null;
+        try {
+            em = emf.createEntityManager();
+            ts = em.getTransaction();
             ts.begin();
+
+            Modalidade modalidadeGerenciada = em.find(Modalidade.class, modalidade.getId());
+
+            for(Aluno aluno : new ArrayList<>(modalidadeGerenciada.getAlunos())) {
+                modalidadeGerenciada.removerAluno(aluno);
+            }
+
             em.remove(em.contains(modalidade) ? modalidade : em.merge(modalidade));
             ts.commit();
-        }catch(Throwable e){
-            System.err.println("Falha ao criar EntityManager " + e);
-            throw new RuntimeException(e);
+        }
+        catch (Throwable e) {
+            if (ts != null && ts.isActive())
+                ts.rollback();
+            throw new RuntimeException("Falha ao criar EntityManager " + e);
+        }
+        finally {
+            if (em != null && em.isOpen())
+                em.close();
         }
     }
 

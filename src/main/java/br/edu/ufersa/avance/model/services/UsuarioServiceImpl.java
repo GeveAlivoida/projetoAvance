@@ -42,6 +42,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 
     @Override
     public List<Usuario> buscarTodos() {
+        //não tem utilidade para Usuário
         return List.of();
     }
 

@@ -18,7 +18,7 @@ public class Modalidade {
     @JoinColumn(nullable = false, name = "id_professor")
     private Professor professor;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "modalidade_aluno",
             joinColumns = @JoinColumn(name = "id_modalidade"),
@@ -47,6 +47,10 @@ public class Modalidade {
     public TipoModalidade getTipo() { return tipo; }
     public double getValor() { return valor; }
     public int getVagas() { return vagas; }
+    public int getVagasOcupadas(){
+        if(alunos != null && !alunos.isEmpty()) return alunos.size();
+        else return 0;
+    }
 
     //Setters
     public void setId(long id) {
@@ -91,7 +95,7 @@ public class Modalidade {
     }
 
     //Métodos
-    public boolean temVaga(){ return alunos.size() < vagas; }
+    public boolean temVaga(){ return getVagasOcupadas() < vagas; }
 
     public void adicionarAluno(Aluno aluno){
         if(aluno != null) {

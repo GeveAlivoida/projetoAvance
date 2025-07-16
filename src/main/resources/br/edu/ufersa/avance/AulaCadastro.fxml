@@ -33,13 +33,13 @@
             <TextField fx:id="horarioField" promptText="Horário (ex: 14:00)" />
          <ComboBox fx:id="statusField" prefHeight="26.0" prefWidth="298.0" promptText="Status" />
          <ComboBox fx:id="modalidadeField" prefHeight="26.0" prefWidth="279.0" promptText="Modalidade" />
-         <TextField fx:id="professorCpfField" promptText="CPF do Professor" />
-         <TextArea fx:id="alunosCpfField" prefHeight="200.0" prefWidth="200.0" promptText="CPF dos Alunos" />
+         <TextField fx:id="professorNomeField" promptText="Nome do Professor" />
+         <TextArea fx:id="alunosNomeField" prefHeight="200.0" prefWidth="200.0" promptText="Nomes dos Alunos" />
 
             <HBox spacing="10">
                 <Button fx:id="botaoCadastro" onAction="#cadastrarAula" style="-fx-background-color: white; -fx-text-fill: #2c3e50; -fx-font-weight: bold;" text="Cadastrar" />
             </HBox>
-         <Label fx:id="erroCadastro" prefHeight="170.0" prefWidth="606.0" text="ErroCadastro" visible="false" />
+         <Label fx:id="erroCadastro" alignment="CENTER" prefHeight="170.0" prefWidth="606.0" text="ErroCadastro" visible="false" wrapText="true" />
         </VBox>
     </left>
 

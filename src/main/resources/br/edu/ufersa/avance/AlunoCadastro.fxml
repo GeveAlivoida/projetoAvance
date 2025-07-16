@@ -30,7 +30,7 @@
 
             <TextField fx:id="nomeField" promptText="Nome" />
             <TextField fx:id="cpfAlunoField" promptText="CPF do Aluno" />
-         <TextField fx:id="cpfAlunoField1" promptText="CPF do Responsável" />
+         <TextField fx:id="cpfRespField" promptText="CPF do Responsável" />
             <DatePicker fx:id="nascimentoField" prefHeight="26.0" prefWidth="248.0" promptText="Data de Nascimento" />
             <TextField fx:id="telefoneField" promptText="Telefone" />
             <TextField fx:id="emailField" promptText="Email" />
@@ -39,7 +39,7 @@
             <HBox spacing="10">
                 <Button fx:id="botaoCadastro" onAction="#cadastrarAluno" style="-fx-background-color: white; -fx-text-fill: #2c3e50; -fx-font-weight: bold;" text="Cadastrar" />
             </HBox>
-         <Label fx:id="erroCadastro" prefHeight="186.0" prefWidth="332.0" text="ErroCadastro" visible="false" />
+         <Label fx:id="erroCadastro" alignment="CENTER" prefHeight="186.0" prefWidth="332.0" text="ErroCadastro" visible="false" wrapText="true" />
         </VBox>
     </left>
    <right>

@@ -6,6 +6,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,7 +19,8 @@ public class Aluno extends Pessoa {
     private Responsavel responsavel;
 
     @ManyToMany(mappedBy = "alunos",
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},
+            fetch = FetchType.EAGER)
     private List<Modalidade> modalidades;
 
     @ManyToMany(mappedBy = "alunos",
@@ -39,12 +41,19 @@ public class Aluno extends Pessoa {
     //Setters
     //Não há verificação se o responsável é null ou não pois um aluno pode não ter responsável
     public void setResponsavel(Responsavel responsavel) { this.responsavel = responsavel; }
-    public void setModalidades(List<Modalidade> modalidades) { this.modalidades = modalidades; }
-    public void setAulas(List<Aula> aulas) { this.aulas = aulas; }
+    public void setModalidades(List<Modalidade> modalidades) {
+        this.modalidades = modalidades != null ? modalidades : new ArrayList<>();;
+    }
+    public void setAulas(List<Aula> aulas) {
+        this.aulas = aulas != null ? aulas : new ArrayList<>();
+    }
     public void setPagamentos(List<Pagamento> pagamentos) { this.pagamentos = pagamentos; }
 
     //Construtores
-    public Aluno(){}
+    public Aluno(){
+        this.modalidades = new ArrayList<>();
+        this.aulas = new ArrayList<>();
+    }
     public Aluno(String cpf, String nome, String email, String telefone, LocalDate nascimento,
                  Responsavel responsavel, List<Modalidade> modalidades, List<Aula> aulas){
         super(cpf, nome, email, telefone, nascimento);

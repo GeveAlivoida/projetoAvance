@@ -31,7 +31,7 @@
          <TextField fx:id="professorField" promptText="Nome do Professor" />
          <ComboBox fx:id="tipoField" prefHeight="26.0" prefWidth="268.0" promptText="Escolha o tipo da modalidade" />
             <TextField fx:id="valorField" promptText="Valor (R$)" />
-         <TextField fx:id="vagasField" promptText="Vagas" />
+         <TextField fx:id="vagasField" promptText="Vagas" style="-fx-background-color: #f4f4f4; -fx-opacity: 1;" />
 
             <HBox spacing="10">
                 <Button fx:id="botaoCadastro" onAction="#cadastrarModalidade" style="-fx-background-color: white; -fx-text-fill: #2c3e50; -fx-font-weight: bold;" text="Cadastrar" />

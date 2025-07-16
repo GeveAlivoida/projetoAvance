@@ -46,6 +46,9 @@ public class ModalidadeController {
     private boolean modoEdicao = false;
 
     private void mostrarMensagem(Label label, String mensagem, Color cor){
+        erroCadastro.setVisible(false);
+        erroTabela.setVisible(false);
+
         label.setText(mensagem);
         label.setTextFill(cor);
         label.setVisible(true);
@@ -87,8 +90,11 @@ public class ModalidadeController {
                 new SimpleStringProperty(cellData.getValue().getNome()));
         colTipo.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getTipo().getDescricao()));
-        colVagas.setCellValueFactory(cellData ->
-                new SimpleStringProperty(String.valueOf(cellData.getValue().getVagas())));
+        colVagas.setCellValueFactory(cellData -> {
+            Modalidade modalidade = cellData.getValue();
+            int vagasOcupadas = modalidade.getVagasOcupadas();
+            return new SimpleStringProperty(vagasOcupadas + "/" + modalidade.getVagas());
+        });
         colValor.setCellValueFactory(cellData ->
                 new SimpleStringProperty(String.format("R$ %.2f", cellData.getValue().getValor())));
 
@@ -114,6 +120,16 @@ public class ModalidadeController {
         vagasField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) { // Aceita apenas dígitos
                 vagasField.setText(oldValue);
+            }
+        });
+
+        // Adiciona listener para desabilitar vagasField quando tipo é INDIVIDUAL
+        tipoField.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal == TipoModalidade.INDIVIDUAL) {
+                vagasField.setDisable(true);
+                vagasField.setText("1"); // Força 1 vaga para modalidade individual
+            } else {
+                vagasField.setDisable(false);
             }
         });
     }
@@ -281,19 +297,25 @@ public class ModalidadeController {
         Modalidade selecionada = modalidadeTable.getSelectionModel().getSelectedItem();
 
         if (selecionada == null)
-            mostrarMensagem(erroTabela, "Selecione uma modalidade para editar", Color.RED);
+            mostrarMensagem(erroTabela, "Selecione uma modalidade para editar!", Color.RED);
         else {
             try {
                 modoEdicao = true;
-                novaModalidade = new Modalidade();
+                novaModalidade = selecionada;
 
-                novaModalidade.setId(selecionada.getId());
                 nomeField.setText(selecionada.getNome());
                 tipoField.setValue(selecionada.getTipo());
+
+                if (selecionada.getTipo() == TipoModalidade.INDIVIDUAL) {
+                    vagasField.setDisable(true);
+                    vagasField.setText("1");
+                } else {
+                    vagasField.setDisable(false);
+                    vagasField.setText(String.valueOf(selecionada.getVagas()));
+                }
+
                 vagasField.setText(String.valueOf(selecionada.getVagas()));
-                valorField.setText(String.format("%.2f", selecionada.getValor())
-                        .replace(".", "X").replace(",", ".")
-                        .replace("X", ","));
+                valorField.setText(String.format("%.2f", selecionada.getValor()).replace(".", ","));
                 professorField.setText(selecionada.getProfessor().getNome());
 
                 botaoCadastro.setText("Salvar");

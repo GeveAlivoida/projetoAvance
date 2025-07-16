@@ -15,11 +15,13 @@ public class Aula {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},
+            fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "id_modalidade")
     private Modalidade modalidade;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},
+            fetch = FetchType.EAGER)
     @JoinTable(
             name = "aula_aluno",
             joinColumns = @JoinColumn(name = "id_aula"),
@@ -27,7 +29,8 @@ public class Aula {
     )
     private List<Aluno> alunos;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},
+            fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "id_professor")
     private Professor professor;
 

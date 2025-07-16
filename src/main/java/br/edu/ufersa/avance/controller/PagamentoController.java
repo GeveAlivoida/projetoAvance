@@ -28,7 +28,7 @@ public class PagamentoController {
 
     @FXML private TextField consultaField;
 
-    @FXML private TextField alunoCpfField;
+    @FXML private TextField alunoNomeField;
     @FXML private TextField mesRefField;
     @FXML private ComboBox<StatusPagamento> statusField;
     @FXML private DatePicker dataValidadeField;
@@ -43,6 +43,9 @@ public class PagamentoController {
     private boolean modoEdicao = false;
 
     private void mostrarMensagem(Label label, String mensagem, Color cor){
+        erroCadastro.setVisible(false);
+        erroTabela.setVisible(false);
+
         label.setText(mensagem);
         label.setTextFill(cor);
         label.setVisible(true);
@@ -51,9 +54,16 @@ public class PagamentoController {
     private void preencherCampos(){
         AlunoService alunoService = new AlunoServiceImpl();
 
-        Aluno aluno = alunoService.buscarPorCpf(alunoCpfField.getText());
-        novoPagamento.setAluno(aluno);
-        novoPagamento.setStatus(statusField.getValue());
+        List<Aluno> alunos = alunoService.buscarPorNome(alunoNomeField.getText());
+        if (alunos == null || alunos.isEmpty())
+            throw new IllegalArgumentException("Aluno não encontrado!");
+        else
+            novoPagamento.setAluno(alunos.getFirst());
+
+        if(modoEdicao)
+            novoPagamento.setStatus(statusField.getValue());
+        else
+            novoPagamento.setStatus(StatusPagamento.PENDENTE);
         novoPagamento.setDataValidade(dataValidadeField.getValue());
 
         // Parse do mês de referência (formato MM/yyyy)
@@ -65,7 +75,7 @@ public class PagamentoController {
         novoPagamento.setMesRef(mesRef);
     }
     private void limparCampos(){
-        alunoCpfField.clear();
+        alunoNomeField.clear();
         mesRefField.clear();
         statusField.setValue(null);
         dataValidadeField.setValue(null);
@@ -88,6 +98,8 @@ public class PagamentoController {
             Aluno aluno = cellData.getValue().getAluno();
             return new SimpleStringProperty(aluno.getNome());
         });
+        colStatus.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getStatus().getDescricao()));
         
         atualizarTabela();
     }
@@ -260,7 +272,7 @@ public class PagamentoController {
                 modoEdicao = true;
                 novoPagamento = selecionado;
 
-                alunoCpfField.setText(selecionado.getAluno().getCpf());
+                alunoNomeField.setText(selecionado.getAluno().getNome());
                 mesRefField.setText(selecionado.getMesRef().getMonthValue() + "/" +
                         selecionado.getMesRef().getYear());
                 statusField.setValue(selecionado.getStatus());
