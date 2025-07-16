@@ -6,6 +6,7 @@ import br.edu.ufersa.avance.model.entities.Modalidade;
 import br.edu.ufersa.avance.model.entities.Professor;
 import br.edu.ufersa.avance.model.enums.StatusAula;
 import br.edu.ufersa.avance.model.services.*;
+import br.edu.ufersa.avance.view.View;
 import javafx.animation.PauseTransition;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -330,5 +331,10 @@ public class AulaController {
                 mostrarMensagem(erroTabela, "Erro ao carregar aula: " + e.getMessage(), Color.RED);
             }
         }
+    }
+
+    @FXML
+    private void voltarDashboard(){
+        View.dashboard();
     }
 }

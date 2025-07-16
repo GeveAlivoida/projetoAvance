@@ -5,6 +5,7 @@ import br.edu.ufersa.avance.model.entities.Aluno;
 import br.edu.ufersa.avance.model.entities.Modalidade;
 import br.edu.ufersa.avance.model.entities.Responsavel;
 import br.edu.ufersa.avance.model.services.*;
+import br.edu.ufersa.avance.view.View;
 import javafx.animation.PauseTransition;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -272,5 +273,10 @@ public class AlunoController {
                 mostrarMensagem(erroTabela, "Erro ao carregar aluno: " + e.getMessage(), Color.RED);
             }
         }
+    }
+
+    @FXML
+    private void voltarDashboard(){
+        View.dashboard();
     }
 }

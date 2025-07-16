@@ -7,6 +7,7 @@ import br.edu.ufersa.avance.model.services.ModalidadeService;
 import br.edu.ufersa.avance.model.services.ModalidadeServiceImpl;
 import br.edu.ufersa.avance.model.services.ProfessorService;
 import br.edu.ufersa.avance.model.services.ProfessorServiceImpl;
+import br.edu.ufersa.avance.view.View;
 import javafx.animation.PauseTransition;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -299,5 +300,10 @@ public class ModalidadeController {
                 mostrarMensagem(erroTabela, "Erro ao carregar modalidade: " + e.getMessage(), Color.RED);
             }
         }
+    }
+
+    @FXML
+    private void voltarDashboard(){
+        View.dashboard();
     }
 }

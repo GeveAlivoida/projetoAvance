@@ -16,7 +16,7 @@ public class View extends Application {
         telaLogin();
     }
 
-    public static void loadTela(String arquivo){
+    private static void loadTela(String arquivo){
         FXMLLoader fxmlLoader = new FXMLLoader(View.class.getResource("/br/edu/ufersa/avance/" + arquivo));
         Scene scene;
         try {
@@ -32,6 +32,10 @@ public class View extends Application {
         stage.setTitle("Login");
         loadTela("TelaLogin.fxml");
     }
+    public static void usuarioCadastro(){
+        stage.setTitle("Cadastre-se");
+        loadTela("UsuarioCadastro.fxml");
+    }
     public static void dashboard(){
         stage.setTitle("Dashboard");
         loadTela("Dashboard.fxml");
@@ -41,7 +45,8 @@ public class View extends Application {
         loadTela("AlunoCadastro.fxml");
     }
     public static void aulaCadastro(){
-
+        stage.setTitle("Cadastro de Aulas");
+        loadTela("AulaCadastro.fxml");
     }
     public static void modalidadeCadastro(){
         stage.setTitle("Cadastro de Modalidades");
@@ -52,10 +57,12 @@ public class View extends Application {
         loadTela("ProfessorCadastro.fxml");
     }
     public static void pagamentoCadastro(){
-
+        stage.setTitle("Cadastro de Pagamentos");
+        loadTela("PagamentoCadastro.fxml");
     }
     public static void responsavelCadastro(){
-
+        stage.setTitle("Cadastro de Responsáveis");
+        loadTela("ResponsavelCadastro.fxml");
     }
 
     public static void main(String[] args) {

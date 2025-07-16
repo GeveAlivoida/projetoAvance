@@ -22,6 +22,4 @@ module br.edu.ufersa.avance.projetoavance {
 
     exports br.edu.ufersa.avance.view;
     opens br.edu.ufersa.avance.view to javafx.fxml;
-    exports br.edu.ufersa.avance.controller.noimpl;
-    opens br.edu.ufersa.avance.controller.noimpl to javafx.fxml;
 }

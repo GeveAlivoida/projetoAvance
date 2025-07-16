@@ -25,7 +25,7 @@ public class Aluno extends Pessoa {
             cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private List<Aula> aulas;
 
-    @OneToMany(mappedBy = "pagador",
+    @OneToMany(mappedBy = "aluno",
             cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},
             fetch = FetchType.LAZY)
     private List<Pagamento> pagamentos;

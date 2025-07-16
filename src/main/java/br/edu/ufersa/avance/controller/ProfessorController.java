@@ -4,6 +4,7 @@ import br.edu.ufersa.avance.model.entities.Professor;
 import br.edu.ufersa.avance.model.enums.StatusProfessor;
 import br.edu.ufersa.avance.model.services.ProfessorService;
 import br.edu.ufersa.avance.model.services.ProfessorServiceImpl;
+import br.edu.ufersa.avance.view.View;
 import javafx.animation.PauseTransition;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -308,5 +309,10 @@ public class ProfessorController {
                 mostrarMensagem(erroTabela, "Erro ao carregar professor: " + e.getMessage(), Color.RED);
             }
         }
+    }
+
+    @FXML
+    private void voltarDashboard(){
+        View.dashboard();
     }
 }

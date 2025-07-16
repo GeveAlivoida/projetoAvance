@@ -3,6 +3,7 @@ package br.edu.ufersa.avance.controller;
 import br.edu.ufersa.avance.model.entities.*;
 import br.edu.ufersa.avance.model.enums.StatusPagamento;
 import br.edu.ufersa.avance.model.services.*;
+import br.edu.ufersa.avance.view.View;
 import javafx.animation.PauseTransition;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -273,5 +274,10 @@ public class PagamentoController {
                 mostrarMensagem(erroTabela, "Erro ao carregar pagamento: " + e.getMessage(), Color.RED);
             }
         }
+    }
+
+    @FXML
+    private void voltarDashboard(){
+        View.dashboard();
     }
 }

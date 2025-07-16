@@ -53,4 +53,9 @@ public class LoginController {
             mostrarErro("Não foi possível fazer login: " + e.getMessage());
         }
     }
+
+    @FXML
+    private void abrirCadastroUsuarios(){
+        View.usuarioCadastro();
+    }
 }

@@ -3,6 +3,7 @@ package br.edu.ufersa.avance.controller;
 import br.edu.ufersa.avance.model.entities.Responsavel;
 import br.edu.ufersa.avance.model.services.ResponsavelService;
 import br.edu.ufersa.avance.model.services.ResponsavelServiceImpl;
+import br.edu.ufersa.avance.view.View;
 import javafx.animation.PauseTransition;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -127,7 +128,7 @@ public class ResponsavelController {
     }
 
     @FXML
-    void cadastrar(ActionEvent event) {
+    void cadastrarResponsavel(ActionEvent event) {
         try {
             preencherCampos();
 
@@ -205,4 +206,8 @@ public class ResponsavelController {
         }
     }
 
+    @FXML
+    private void voltarDashboard(){
+        View.dashboard();
+    }
 }
