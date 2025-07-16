@@ -1,0 +1,5 @@
+db.url=jdbc:postgresql://localhost:5432/NOME_DO_BANCO
+db.user=SEU_USUARIO
+db.password=SUA_SENHA
+
+# crie o arquivo "config.properties", copie o código acima e troque as variáveis pelass suas próprias!
