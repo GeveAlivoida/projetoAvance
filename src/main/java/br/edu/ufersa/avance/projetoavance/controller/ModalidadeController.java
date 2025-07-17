@@ -1,14 +1,14 @@
-package br.edu.ufersa.avance.projetoAvance.controller;
+package br.edu.ufersa.avance.projetoavance.controller;
 
-import br.edu.ufersa.avance.projetoAvance.model.entities.Modalidade;
-import br.edu.ufersa.avance.projetoAvance.model.entities.Professor;
-import br.edu.ufersa.avance.projetoAvance.model.enums.TipoModalidade;
-import br.edu.ufersa.avance.projetoAvance.model.services.ModalidadeService;
-import br.edu.ufersa.avance.projetoAvance.model.services.ModalidadeServiceImpl;
-import br.edu.ufersa.avance.projetoAvance.model.services.ProfessorService;
-import br.edu.ufersa.avance.projetoAvance.model.services.ProfessorServiceImpl;
-import br.edu.ufersa.avance.projetoAvance.util.PDFGenerator;
-import br.edu.ufersa.avance.projetoAvance.view.View;
+import br.edu.ufersa.avance.projetoavance.model.entities.Modalidade;
+import br.edu.ufersa.avance.projetoavance.model.entities.Professor;
+import br.edu.ufersa.avance.projetoavance.model.enums.TipoModalidade;
+import br.edu.ufersa.avance.projetoavance.model.services.ModalidadeService;
+import br.edu.ufersa.avance.projetoavance.model.services.ModalidadeServiceImpl;
+import br.edu.ufersa.avance.projetoavance.model.services.ProfessorService;
+import br.edu.ufersa.avance.projetoavance.model.services.ProfessorServiceImpl;
+import br.edu.ufersa.avance.projetoavance.util.PDFGenerator;
+import br.edu.ufersa.avance.projetoavance.view.View;
 import javafx.animation.PauseTransition;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -19,11 +19,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
 
 import java.awt.*;
 import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -356,16 +359,39 @@ public class ModalidadeController {
                 return;
             }
 
-            // Gerar PDF
-            String caminhoArquivo = PDFGenerator.getCaminhoRelatorio("modalidades");
-            PDFGenerator.gerarRelatorio(titulo, cabecalhos, dados, caminhoArquivo);
+            // Criar FileChooser para selecionar onde salvar
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Salvar Relatório de Modalidades");
 
-            // Feedback ao usuário
-            mostrarMensagem(erroTabela, "PDF gerado com sucesso em: " + caminhoArquivo, Color.GREEN);
+            // Definir filtro para arquivos PDF
+            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Arquivos PDF (*.pdf)", "*.pdf");
+            fileChooser.getExtensionFilters().add(extFilter);
 
-            // Abrir o arquivo (opcional)
-            if (Desktop.isDesktopSupported()) {
-                Desktop.getDesktop().open(new File(caminhoArquivo));
+            // Sugerir nome do arquivo
+            String nomePadrao = "relatorio_modalidades_" +
+                    LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+            fileChooser.setInitialFileName(nomePadrao);
+
+            // Mostrar diálogo de salvamento
+            File arquivo = fileChooser.showSaveDialog(modalidadeTable.getScene().getWindow());
+
+            if (arquivo != null) {
+                // Garantir a extensão .pdf
+                String caminhoArquivo = arquivo.getAbsolutePath();
+                if (!caminhoArquivo.toLowerCase().endsWith(".pdf")) {
+                    caminhoArquivo += ".pdf";
+                }
+
+                // Gerar PDF
+                PDFGenerator.gerarRelatorio(titulo, cabecalhos, dados, caminhoArquivo);
+
+                // Feedback ao usuário
+                mostrarMensagem(erroTabela, "PDF gerado com sucesso em: " + caminhoArquivo, Color.GREEN);
+
+                // Abrir o arquivo (opcional)
+                if (Desktop.isDesktopSupported()) {
+                    Desktop.getDesktop().open(new File(caminhoArquivo));
+                }
             }
         } catch (Exception e) {
             mostrarMensagem(erroTabela, "Erro ao gerar PDF: " + e.getMessage(), Color.RED);

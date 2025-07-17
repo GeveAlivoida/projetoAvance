@@ -1,10 +1,10 @@
-package br.edu.ufersa.avance.projetoAvance.model.services;
+package br.edu.ufersa.avance.projetoavance.model.services;
 
-import br.edu.ufersa.avance.projetoAvance.model.dao.*;
-import br.edu.ufersa.avance.projetoAvance.model.entities.Aluno;
-import br.edu.ufersa.avance.projetoAvance.model.entities.Aula;
-import br.edu.ufersa.avance.projetoAvance.model.entities.Modalidade;
-import br.edu.ufersa.avance.projetoAvance.model.enums.StatusAula;
+import br.edu.ufersa.avance.projetoavance.model.dao.*;
+import br.edu.ufersa.avance.projetoavance.model.entities.Aluno;
+import br.edu.ufersa.avance.projetoavance.model.entities.Aula;
+import br.edu.ufersa.avance.projetoavance.model.entities.Modalidade;
+import br.edu.ufersa.avance.projetoavance.model.enums.StatusAula;
 
 import java.time.LocalDate;
 import java.util.List;

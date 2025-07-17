@@ -1,9 +1,9 @@
-package br.edu.ufersa.avance.projetoAvance.controller;
+package br.edu.ufersa.avance.projetoavance.controller;
 
-import br.edu.ufersa.avance.projetoAvance.model.entities.Usuario;
-import br.edu.ufersa.avance.projetoAvance.model.services.UsuarioService;
-import br.edu.ufersa.avance.projetoAvance.model.services.UsuarioServiceImpl;
-import br.edu.ufersa.avance.projetoAvance.view.View;
+import br.edu.ufersa.avance.projetoavance.model.entities.Usuario;
+import br.edu.ufersa.avance.projetoavance.model.services.UsuarioService;
+import br.edu.ufersa.avance.projetoavance.model.services.UsuarioServiceImpl;
+import br.edu.ufersa.avance.projetoavance.view.View;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;

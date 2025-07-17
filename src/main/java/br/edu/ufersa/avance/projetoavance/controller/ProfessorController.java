@@ -1,21 +1,31 @@
-package br.edu.ufersa.avance.projetoAvance.controller;
+package br.edu.ufersa.avance.projetoavance.controller;
 
-import br.edu.ufersa.avance.projetoAvance.model.entities.Professor;
-import br.edu.ufersa.avance.projetoAvance.model.enums.StatusProfessor;
-import br.edu.ufersa.avance.projetoAvance.model.services.ProfessorService;
-import br.edu.ufersa.avance.projetoAvance.model.services.ProfessorServiceImpl;
-import br.edu.ufersa.avance.projetoAvance.view.View;
+import br.edu.ufersa.avance.projetoavance.model.entities.Professor;
+import br.edu.ufersa.avance.projetoavance.model.enums.StatusProfessor;
+import br.edu.ufersa.avance.projetoavance.model.services.ProfessorService;
+import br.edu.ufersa.avance.projetoavance.model.services.ProfessorServiceImpl;
+import br.edu.ufersa.avance.projetoavance.util.PDFGenerator;
+import br.edu.ufersa.avance.projetoavance.view.View;
 import javafx.animation.PauseTransition;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
 
+import java.awt.*;
+import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 public class ProfessorController {
     @FXML private TableView<Professor> professorTable;
@@ -316,8 +326,62 @@ public class ProfessorController {
     }
 
     @FXML
-    private void imprimirPDF(){
+    private void imprimirPDF() {
+        try {
+            // Preparar dados para o PDF
+            String titulo = "Relatório de Professores";
+            List<String> cabecalhos = List.of("Nome", "CPF", "Email", "Telefone", "Especialidade", "Salário", "Conta Bancária", "Status");
 
+            List<Map<String, String>> dados = professorTable.getItems().stream()
+                    .map(professor -> Map.of(
+                            "Nome", professor.getNome(),
+                            "CPF", professor.getCpf(),
+                            "Email", professor.getEmail(),
+                            "Telefone", professor.getTelefone(),
+                            "Especialidade", professor.getEspecialidade(),
+                            "Salário", String.format("R$ %.2f", professor.getSalario()),
+                            "Conta Bancária", professor.getContaBanco(),
+                            "Status", professor.getStatus().getDescricao()
+                    ))
+                    .toList();
+
+            if (dados.isEmpty()) {
+                mostrarMensagem(erroTabela, "Não há dados para gerar o PDF!", Color.YELLOW);
+                return;
+            }
+
+            // Criar FileChooser para selecionar onde salvar
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Salvar Relatório de Professores");
+            fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("Arquivos PDF (*.pdf)", "*.pdf"));
+
+            String nomePadrao = "relatorio_professores_" +
+                    LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+            fileChooser.setInitialFileName(nomePadrao);
+
+            File arquivo = fileChooser.showSaveDialog(professorTable.getScene().getWindow());
+
+            if (arquivo != null) {
+                String caminhoArquivo = arquivo.getAbsolutePath();
+                if (!caminhoArquivo.toLowerCase().endsWith(".pdf")) {
+                    caminhoArquivo += ".pdf";
+                }
+
+                // Gerar PDF
+                PDFGenerator.gerarRelatorio(titulo, cabecalhos, dados, caminhoArquivo);
+
+                mostrarMensagem(erroTabela, "PDF gerado com sucesso em: " + caminhoArquivo, Color.GREEN);
+
+                // Abrir o arquivo (opcional)
+                if (Desktop.isDesktopSupported()) {
+                    Desktop.getDesktop().open(new File(caminhoArquivo));
+                }
+            }
+        } catch (Exception e) {
+            mostrarMensagem(erroTabela, "Erro ao gerar PDF: " + e.getMessage(), Color.RED);
+            e.printStackTrace();
+        }
     }
 
     @FXML

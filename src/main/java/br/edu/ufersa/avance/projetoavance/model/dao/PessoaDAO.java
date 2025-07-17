@@ -1,6 +1,6 @@
-package br.edu.ufersa.avance.projetoAvance.model.dao;
+package br.edu.ufersa.avance.projetoavance.model.dao;
 
-import br.edu.ufersa.avance.projetoAvance.model.entities.Pessoa;
+import br.edu.ufersa.avance.projetoavance.model.entities.Pessoa;
 
 import java.util.List;
 

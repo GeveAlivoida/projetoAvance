@@ -1,8 +1,8 @@
-package br.edu.ufersa.avance.projetoAvance.model.dao;
+package br.edu.ufersa.avance.projetoavance.model.dao;
 
-import br.edu.ufersa.avance.projetoAvance.model.entities.Professor;
-import br.edu.ufersa.avance.projetoAvance.model.enums.StatusProfessor;
-import br.edu.ufersa.avance.projetoAvance.util.JPAUtil;
+import br.edu.ufersa.avance.projetoavance.model.entities.Professor;
+import br.edu.ufersa.avance.projetoavance.model.enums.StatusProfessor;
+import br.edu.ufersa.avance.projetoavance.util.JPAUtil;
 import jakarta.persistence.*;
 
 import java.util.List;

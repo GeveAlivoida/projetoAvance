@@ -1,10 +1,10 @@
-package br.edu.ufersa.avance.projetoAvance.model.dao;
+package br.edu.ufersa.avance.projetoavance.model.dao;
 
-import br.edu.ufersa.avance.projetoAvance.model.entities.Aluno;
-import br.edu.ufersa.avance.projetoAvance.model.entities.Aula;
-import br.edu.ufersa.avance.projetoAvance.model.entities.Modalidade;
-import br.edu.ufersa.avance.projetoAvance.model.entities.Responsavel;
-import br.edu.ufersa.avance.projetoAvance.util.JPAUtil;
+import br.edu.ufersa.avance.projetoavance.model.entities.Aluno;
+import br.edu.ufersa.avance.projetoavance.model.entities.Aula;
+import br.edu.ufersa.avance.projetoavance.model.entities.Modalidade;
+import br.edu.ufersa.avance.projetoavance.model.entities.Responsavel;
+import br.edu.ufersa.avance.projetoavance.util.JPAUtil;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;

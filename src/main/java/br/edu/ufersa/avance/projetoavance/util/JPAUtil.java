@@ -1,4 +1,4 @@
-package br.edu.ufersa.avance.projetoAvance.util;
+package br.edu.ufersa.avance.projetoavance.util;
 
 import jakarta.persistence.*;
 

@@ -1,9 +1,9 @@
-package br.edu.ufersa.avance.projetoAvance.model.services;
+package br.edu.ufersa.avance.projetoavance.model.services;
 
-import br.edu.ufersa.avance.projetoAvance.exceptions.AuthenticationException;
-import br.edu.ufersa.avance.projetoAvance.model.dao.UsuarioDAO;
-import br.edu.ufersa.avance.projetoAvance.model.dao.UsuarioDAOImpl;
-import br.edu.ufersa.avance.projetoAvance.model.entities.Usuario;
+import br.edu.ufersa.avance.projetoavance.exceptions.AuthenticationException;
+import br.edu.ufersa.avance.projetoavance.model.dao.UsuarioDAO;
+import br.edu.ufersa.avance.projetoavance.model.dao.UsuarioDAOImpl;
+import br.edu.ufersa.avance.projetoavance.model.entities.Usuario;
 
 import java.util.List;
 

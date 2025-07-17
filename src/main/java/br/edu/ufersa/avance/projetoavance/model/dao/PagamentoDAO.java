@@ -1,8 +1,8 @@
-package br.edu.ufersa.avance.projetoAvance.model.dao;
+package br.edu.ufersa.avance.projetoavance.model.dao;
 
-import br.edu.ufersa.avance.projetoAvance.model.entities.Aluno;
-import br.edu.ufersa.avance.projetoAvance.model.enums.StatusPagamento;
-import br.edu.ufersa.avance.projetoAvance.model.entities.Pagamento;
+import br.edu.ufersa.avance.projetoavance.model.entities.Aluno;
+import br.edu.ufersa.avance.projetoavance.model.enums.StatusPagamento;
+import br.edu.ufersa.avance.projetoavance.model.entities.Pagamento;
 
 import java.time.LocalDate;
 import java.time.YearMonth;

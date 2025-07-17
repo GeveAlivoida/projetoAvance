@@ -1,6 +1,6 @@
-package br.edu.ufersa.avance.projetoAvance.model.entities;
+package br.edu.ufersa.avance.projetoavance.model.entities;
 
-import br.edu.ufersa.avance.projetoAvance.model.enums.StatusProfessor;
+import br.edu.ufersa.avance.projetoavance.model.enums.StatusProfessor;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;

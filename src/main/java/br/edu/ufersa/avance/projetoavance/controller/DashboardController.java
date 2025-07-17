@@ -1,6 +1,6 @@
-package br.edu.ufersa.avance.projetoAvance.controller;
+package br.edu.ufersa.avance.projetoavance.controller;
 
-import br.edu.ufersa.avance.projetoAvance.view.View;
+import br.edu.ufersa.avance.projetoavance.view.View;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 

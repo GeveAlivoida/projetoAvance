@@ -1,4 +1,4 @@
-package br.edu.ufersa.avance.projetoAvance.model.enums;
+package br.edu.ufersa.avance.projetoavance.model.enums;
 
 public enum TipoModalidade {
     INDIVIDUAL("Individual"),

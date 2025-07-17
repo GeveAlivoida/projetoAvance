@@ -1,23 +1,33 @@
-package br.edu.ufersa.avance.projetoAvance.controller;
+package br.edu.ufersa.avance.projetoavance.controller;
 
-import br.edu.ufersa.avance.projetoAvance.exceptions.FullVacanciesException;
-import br.edu.ufersa.avance.projetoAvance.model.entities.Aluno;
-import br.edu.ufersa.avance.projetoAvance.model.entities.Modalidade;
-import br.edu.ufersa.avance.projetoAvance.model.entities.Responsavel;
-import br.edu.ufersa.avance.projetoAvance.model.services.*;
-import br.edu.ufersa.avance.projetoAvance.view.View;
+import br.edu.ufersa.avance.projetoavance.exceptions.FullVacanciesException;
+import br.edu.ufersa.avance.projetoavance.model.entities.Aluno;
+import br.edu.ufersa.avance.projetoavance.model.entities.Modalidade;
+import br.edu.ufersa.avance.projetoavance.model.entities.Responsavel;
+import br.edu.ufersa.avance.projetoavance.model.services.*;
+import br.edu.ufersa.avance.projetoavance.util.PDFGenerator;
+import br.edu.ufersa.avance.projetoavance.view.View;
 import javafx.animation.PauseTransition;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
 
+import java.awt.*;
+import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class AlunoController {
@@ -293,8 +303,63 @@ public class AlunoController {
     }
 
     @FXML
-    private void imprimirPDF(){
+    private void imprimirPDF() {
+        try {
+            // Preparar dados para o PDF
+            String titulo = "Relatório de Alunos";
+            List<String> cabecalhos = List.of("Nome", "CPF", "Telefone", "Email", "Modalidades", "Responsável");
 
+            List<Map<String, String>> dados = alunoTable.getItems().stream()
+                    .map(aluno -> Map.of(
+                            "Nome", aluno.getNome(),
+                            "CPF", aluno.getCpf(),
+                            "Telefone", aluno.getTelefone(),
+                            "Email", aluno.getEmail(),
+                            "Modalidades", aluno.getModalidades().stream()
+                                    .map(Modalidade::getNome)
+                                    .collect(Collectors.joining(", ")),
+                            "Responsável", aluno.getResponsavel() != null ?
+                                    aluno.getResponsavel().getNome() : "N/A"
+                    ))
+                    .toList();
+
+            if (dados.isEmpty()) {
+                mostrarMensagem(erroTabela, "Não há dados para gerar o PDF!", Color.YELLOW);
+                return;
+            }
+
+            // Criar FileChooser para selecionar onde salvar
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Salvar Relatório de Alunos");
+            fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("Arquivos PDF (*.pdf)", "*.pdf"));
+
+            String nomePadrao = "relatorio_alunos_" +
+                    LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+            fileChooser.setInitialFileName(nomePadrao);
+
+            File arquivo = fileChooser.showSaveDialog(alunoTable.getScene().getWindow());
+
+            if (arquivo != null) {
+                String caminhoArquivo = arquivo.getAbsolutePath();
+                if (!caminhoArquivo.toLowerCase().endsWith(".pdf")) {
+                    caminhoArquivo += ".pdf";
+                }
+
+                // Gerar PDF
+                PDFGenerator.gerarRelatorio(titulo, cabecalhos, dados, caminhoArquivo);
+
+                mostrarMensagem(erroTabela, "PDF gerado com sucesso em: " + caminhoArquivo, Color.GREEN);
+
+                // Abrir o arquivo (opcional)
+                if (Desktop.isDesktopSupported()) {
+                    Desktop.getDesktop().open(new File(caminhoArquivo));
+                }
+            }
+        } catch (Exception e) {
+            mostrarMensagem(erroTabela, "Erro ao gerar PDF: " + e.getMessage(), Color.RED);
+            e.printStackTrace();
+        }
     }
 
     @FXML

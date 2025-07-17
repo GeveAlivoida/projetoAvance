@@ -1,7 +1,7 @@
-package br.edu.ufersa.avance.projetoAvance.model.dao;
+package br.edu.ufersa.avance.projetoavance.model.dao;
 
-import br.edu.ufersa.avance.projetoAvance.model.entities.Aluno;
-import br.edu.ufersa.avance.projetoAvance.model.entities.Responsavel;
+import br.edu.ufersa.avance.projetoavance.model.entities.Aluno;
+import br.edu.ufersa.avance.projetoavance.model.entities.Responsavel;
 
 public interface ResponsavelDAO extends PessoaDAO<Responsavel> {
     public Responsavel buscarPorAluno(Aluno aluno);

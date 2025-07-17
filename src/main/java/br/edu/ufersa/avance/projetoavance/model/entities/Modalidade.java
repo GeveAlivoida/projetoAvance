@@ -1,7 +1,7 @@
-package br.edu.ufersa.avance.projetoAvance.model.entities;
+package br.edu.ufersa.avance.projetoavance.model.entities;
 
-import br.edu.ufersa.avance.projetoAvance.exceptions.FullVacanciesException;
-import br.edu.ufersa.avance.projetoAvance.model.enums.TipoModalidade;
+import br.edu.ufersa.avance.projetoavance.exceptions.FullVacanciesException;
+import br.edu.ufersa.avance.projetoavance.model.enums.TipoModalidade;
 import jakarta.persistence.*;
 
 import java.util.List;

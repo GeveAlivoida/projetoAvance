@@ -150,7 +150,7 @@
             <!-- Default configuration for running with: mvn clean javafx:run -->
             <id>default-cli</id>
             <configuration>
-              <mainClass>br.edu.ufersa.avance.projetoavance/br.edu.ufersa.avance.projetoAvance.view.View</mainClass>
+              <mainClass>br.edu.ufersa.avance.projetoavance/br.edu.ufersa.avance.projetoavance.view.View</mainClass>
               <launcher>app</launcher>
               <jlinkZipName>app</jlinkZipName>
               <jlinkImageName>app</jlinkImageName>

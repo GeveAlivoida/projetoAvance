@@ -1,9 +1,9 @@
-package br.edu.ufersa.avance.projetoAvance.model.services;
+package br.edu.ufersa.avance.projetoavance.model.services;
 
-import br.edu.ufersa.avance.projetoAvance.model.dao.ProfessorDAO;
-import br.edu.ufersa.avance.projetoAvance.model.dao.ProfessorDAOImpl;
-import br.edu.ufersa.avance.projetoAvance.model.entities.Professor;
-import br.edu.ufersa.avance.projetoAvance.model.enums.StatusProfessor;
+import br.edu.ufersa.avance.projetoavance.model.dao.ProfessorDAO;
+import br.edu.ufersa.avance.projetoavance.model.dao.ProfessorDAOImpl;
+import br.edu.ufersa.avance.projetoavance.model.entities.Professor;
+import br.edu.ufersa.avance.projetoavance.model.enums.StatusProfessor;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package br.edu.ufersa.avance.projetoAvance.model.entities;
+package br.edu.ufersa.avance.projetoavance.model.entities;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;

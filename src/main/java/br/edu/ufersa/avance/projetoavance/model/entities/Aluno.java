@@ -1,6 +1,6 @@
-package br.edu.ufersa.avance.projetoAvance.model.entities;
+package br.edu.ufersa.avance.projetoavance.model.entities;
 
-import br.edu.ufersa.avance.projetoAvance.exceptions.FullVacanciesException;
+import br.edu.ufersa.avance.projetoavance.exceptions.FullVacanciesException;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;

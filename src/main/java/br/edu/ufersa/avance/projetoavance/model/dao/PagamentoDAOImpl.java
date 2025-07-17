@@ -1,9 +1,9 @@
-package br.edu.ufersa.avance.projetoAvance.model.dao;
+package br.edu.ufersa.avance.projetoavance.model.dao;
 
-import br.edu.ufersa.avance.projetoAvance.model.entities.Aluno;
-import br.edu.ufersa.avance.projetoAvance.model.entities.Pagamento;
-import br.edu.ufersa.avance.projetoAvance.model.enums.StatusPagamento;
-import br.edu.ufersa.avance.projetoAvance.util.JPAUtil;
+import br.edu.ufersa.avance.projetoavance.model.entities.Aluno;
+import br.edu.ufersa.avance.projetoavance.model.entities.Pagamento;
+import br.edu.ufersa.avance.projetoavance.model.enums.StatusPagamento;
+import br.edu.ufersa.avance.projetoavance.util.JPAUtil;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;

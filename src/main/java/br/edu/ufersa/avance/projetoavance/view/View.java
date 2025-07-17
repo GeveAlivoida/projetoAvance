@@ -1,4 +1,4 @@
-package br.edu.ufersa.avance.projetoAvance.view;
+package br.edu.ufersa.avance.projetoavance.view;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

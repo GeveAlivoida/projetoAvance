@@ -1,9 +1,9 @@
-package br.edu.ufersa.avance.projetoAvance.model.services;
+package br.edu.ufersa.avance.projetoavance.model.services;
 
-import br.edu.ufersa.avance.projetoAvance.model.dao.ResponsavelDAO;
-import br.edu.ufersa.avance.projetoAvance.model.dao.ResponsavelDAOImpl;
-import br.edu.ufersa.avance.projetoAvance.model.entities.Aluno;
-import br.edu.ufersa.avance.projetoAvance.model.entities.Responsavel;
+import br.edu.ufersa.avance.projetoavance.model.dao.ResponsavelDAO;
+import br.edu.ufersa.avance.projetoavance.model.dao.ResponsavelDAOImpl;
+import br.edu.ufersa.avance.projetoavance.model.entities.Aluno;
+import br.edu.ufersa.avance.projetoavance.model.entities.Responsavel;
 
 import java.util.List;
 

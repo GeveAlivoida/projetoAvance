@@ -1,10 +1,10 @@
-package br.edu.ufersa.avance.projetoAvance.model.services;
+package br.edu.ufersa.avance.projetoavance.model.services;
 
-import br.edu.ufersa.avance.projetoAvance.model.dao.PagamentoDAO;
-import br.edu.ufersa.avance.projetoAvance.model.dao.PagamentoDAOImpl;
-import br.edu.ufersa.avance.projetoAvance.model.entities.Aluno;
-import br.edu.ufersa.avance.projetoAvance.model.entities.Pagamento;
-import br.edu.ufersa.avance.projetoAvance.model.enums.StatusPagamento;
+import br.edu.ufersa.avance.projetoavance.model.dao.PagamentoDAO;
+import br.edu.ufersa.avance.projetoavance.model.dao.PagamentoDAOImpl;
+import br.edu.ufersa.avance.projetoavance.model.entities.Aluno;
+import br.edu.ufersa.avance.projetoavance.model.entities.Pagamento;
+import br.edu.ufersa.avance.projetoavance.model.enums.StatusPagamento;
 
 import java.time.YearMonth;
 import java.util.Collections;

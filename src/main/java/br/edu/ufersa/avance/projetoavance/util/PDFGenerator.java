@@ -1,8 +1,7 @@
-package br.edu.ufersa.avance.projetoAvance.util;
+package br.edu.ufersa.avance.projetoavance.util;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.time.LocalDateTime;
@@ -11,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 public class PDFGenerator {
-
     public static void gerarRelatorio(
             String tituloRelatorio,
             List<String> cabecalhos,
@@ -65,13 +63,5 @@ public class PDFGenerator {
 
         document.add(table);
         document.close();
-    }
-
-    public static String getCaminhoRelatorio(String nomeRelatorio) {
-        String diretorio = System.getProperty("user.home") + File.separator + "relatorios_escola_musica";
-        new File(diretorio).mkdirs(); // Cria o diretório se não existir
-
-        String dataHora = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
-        return diretorio + File.separator + nomeRelatorio + "_" + dataHora + ".pdf";
     }
 }

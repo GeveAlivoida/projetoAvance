@@ -1,11 +1,11 @@
-package br.edu.ufersa.avance.projetoAvance.model.services;
+package br.edu.ufersa.avance.projetoavance.model.services;
 
-import br.edu.ufersa.avance.projetoAvance.model.dao.ModalidadeDAO;
-import br.edu.ufersa.avance.projetoAvance.model.dao.ModalidadeDAOImpl;
-import br.edu.ufersa.avance.projetoAvance.model.entities.Aluno;
-import br.edu.ufersa.avance.projetoAvance.model.entities.Modalidade;
-import br.edu.ufersa.avance.projetoAvance.model.entities.Professor;
-import br.edu.ufersa.avance.projetoAvance.model.enums.TipoModalidade;
+import br.edu.ufersa.avance.projetoavance.model.dao.ModalidadeDAO;
+import br.edu.ufersa.avance.projetoavance.model.dao.ModalidadeDAOImpl;
+import br.edu.ufersa.avance.projetoavance.model.entities.Aluno;
+import br.edu.ufersa.avance.projetoavance.model.entities.Modalidade;
+import br.edu.ufersa.avance.projetoavance.model.entities.Professor;
+import br.edu.ufersa.avance.projetoavance.model.enums.TipoModalidade;
 
 import java.util.ArrayList;
 import java.util.List;

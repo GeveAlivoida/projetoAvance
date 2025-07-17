@@ -1,10 +1,10 @@
-package br.edu.ufersa.avance.projetoAvance.model.services;
+package br.edu.ufersa.avance.projetoavance.model.services;
 
-import br.edu.ufersa.avance.projetoAvance.model.dao.AlunoDAO;
-import br.edu.ufersa.avance.projetoAvance.model.dao.AlunoDAOImpl;
-import br.edu.ufersa.avance.projetoAvance.model.entities.Aluno;
-import br.edu.ufersa.avance.projetoAvance.model.entities.Aula;
-import br.edu.ufersa.avance.projetoAvance.model.entities.Responsavel;
+import br.edu.ufersa.avance.projetoavance.model.dao.AlunoDAO;
+import br.edu.ufersa.avance.projetoavance.model.dao.AlunoDAOImpl;
+import br.edu.ufersa.avance.projetoavance.model.entities.Aluno;
+import br.edu.ufersa.avance.projetoavance.model.entities.Aula;
+import br.edu.ufersa.avance.projetoavance.model.entities.Responsavel;
 import jakarta.persistence.NoResultException;
 
 import java.util.ArrayList;

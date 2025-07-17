@@ -1,4 +1,4 @@
-module br.edu.ufersa.avance.projetoAvance {
+module br.edu.ufersa.avance.projetoavance {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
@@ -16,11 +16,11 @@ module br.edu.ufersa.avance.projetoAvance {
     requires java.desktop;
     requires itextpdf;
 
-    opens br.edu.ufersa.avance.projetoAvance.model.entities to org.hibernate.orm.core;
+    opens br.edu.ufersa.avance.projetoavance.model.entities to org.hibernate.orm.core;
 
-    exports br.edu.ufersa.avance.projetoAvance.controller;
-    opens br.edu.ufersa.avance.projetoAvance.controller to javafx.fxml;
+    exports br.edu.ufersa.avance.projetoavance.controller;
+    opens br.edu.ufersa.avance.projetoavance.controller to javafx.fxml;
 
-    exports br.edu.ufersa.avance.projetoAvance.view;
-    opens br.edu.ufersa.avance.projetoAvance.view to javafx.fxml;
+    exports br.edu.ufersa.avance.projetoavance.view;
+    opens br.edu.ufersa.avance.projetoavance.view to javafx.fxml;
 }

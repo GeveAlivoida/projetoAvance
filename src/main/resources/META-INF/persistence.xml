@@ -7,14 +7,14 @@
     <persistence-unit name="Avance" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-        <class>br.edu.ufersa.avance.projetoAvance.model.entities.Aluno</class>
-        <class>br.edu.ufersa.avance.projetoAvance.model.entities.Aula</class>
-        <class>br.edu.ufersa.avance.projetoAvance.model.entities.Modalidade</class>
-        <class>br.edu.ufersa.avance.projetoAvance.model.entities.Pagamento</class>
-        <class>br.edu.ufersa.avance.projetoAvance.model.entities.Pessoa</class>
-        <class>br.edu.ufersa.avance.projetoAvance.model.entities.Professor</class>
-        <class>br.edu.ufersa.avance.projetoAvance.model.entities.Responsavel</class>
-        <class>br.edu.ufersa.avance.projetoAvance.model.entities.Usuario</class>
+        <class>br.edu.ufersa.avance.projetoavance.model.entities.Aluno</class>
+        <class>br.edu.ufersa.avance.projetoavance.model.entities.Aula</class>
+        <class>br.edu.ufersa.avance.projetoavance.model.entities.Modalidade</class>
+        <class>br.edu.ufersa.avance.projetoavance.model.entities.Pagamento</class>
+        <class>br.edu.ufersa.avance.projetoavance.model.entities.Pessoa</class>
+        <class>br.edu.ufersa.avance.projetoavance.model.entities.Professor</class>
+        <class>br.edu.ufersa.avance.projetoavance.model.entities.Responsavel</class>
+        <class>br.edu.ufersa.avance.projetoavance.model.entities.Usuario</class>
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver" />
