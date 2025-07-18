@@ -1,10 +1,11 @@
 package br.edu.ufersa.avance.projetoavance.util;
 
 import jakarta.persistence.*;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JPAUtil {
     private static final String PERSISTENCE_UNIT_NAME = "Avance";
@@ -22,7 +23,7 @@ public class JPAUtil {
             jpaProps.put("jakarta.persistence.jdbc.user", props.getProperty("db.user"));
             jpaProps.put("jakarta.persistence.jdbc.password", props.getProperty("db.password"));
 
-            // 3. Cria o EntityManagerFactory com as propriedades personalizadas
+            // 4. Cria o EntityManagerFactory com as propriedades personalizadas
             EMF = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME, jpaProps);
         } catch (IOException e) {
             throw new RuntimeException("Erro ao carregar config.properties", e);

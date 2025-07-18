@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 
 public class DashboardController {
+
     @FXML void abrirAlunos(MouseEvent event) { View.alunoCadastro(); }
     @FXML void abrirProfessores(MouseEvent event) { View.professorCadastro(); }
     @FXML void abrirResponsaveis(MouseEvent event) { View.responsavelCadastro();}

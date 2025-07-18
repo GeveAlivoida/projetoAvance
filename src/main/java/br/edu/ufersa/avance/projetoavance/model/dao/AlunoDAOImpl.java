@@ -19,7 +19,9 @@ public class AlunoDAOImpl implements AlunoDAO{
         EntityTransaction ts = null;
         try {
             em = emf.createEntityManager();
+            em.clear();
             ts = em.getTransaction();
+            ts.begin();
 
             if (aluno.getResponsavel() != null) {
                 Responsavel responsavel = em.merge(aluno.getResponsavel());
@@ -59,6 +61,7 @@ public class AlunoDAOImpl implements AlunoDAO{
         EntityTransaction ts = null;
         try {
             em = emf.createEntityManager();
+            em.clear();
             ts = em.getTransaction();
             ts.begin();
 
@@ -87,6 +90,7 @@ public class AlunoDAOImpl implements AlunoDAO{
         EntityTransaction ts = null;
         try {
             em = emf.createEntityManager();
+            em.clear();
             ts = em.getTransaction();
 
             Aluno alunoGerenciado = em.find(Aluno.class, aluno.getId());
